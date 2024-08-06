@@ -1,7 +1,6 @@
-import Image from "next/image";
-import SignInForm from "./_components/SignInForm";
+import SignInForm from "@/components/auth/SignInForm";
 
-export default function Home() {
+export default function SignIn() {
   return (
     <div className="w-full h-screen flex items-center justify-center bg-black">
       <SignInForm />
