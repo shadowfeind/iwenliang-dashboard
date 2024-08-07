@@ -7,4 +7,4 @@ type routeType = {
 
 const routes : routeType[] = [
     
-]
+]   
