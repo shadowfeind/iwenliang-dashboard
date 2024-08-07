@@ -3,34 +3,35 @@
 import { Switch } from "@/components/ui/switch";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 type Props = {};
 
 const ThemeToggle = (props: Props) => {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const handleSwitch = (state: string) => {
-    if (state === "checked") {
-      setTheme("light");
-    } else {
-      setTheme("dark");
-    }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleSwitch = (checked: boolean) => {
+    setTheme(checked ? "dark" : "light");
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="flex items-center space-x-2">
-      <Sun className="h-[1.2rem] w-[1.2rem]  transition-all" />
+      <Sun className="h-[1.2rem] w-[1.2rem] transition-all" />
       <Switch
-        id="airplane-mode"
-        // for typescript checking null
-        onClick={(e) => {
-          const state = e.currentTarget.getAttribute("data-state");
-          if (state !== null) {
-            handleSwitch(state);
-          }
-        }}
+        id="theme-toggle"
+        checked={theme === "dark"}
+        onCheckedChange={handleSwitch}
       />
-      <Moon className="h-[1.2rem] w-[1.2rem] transition-all " />
+      <Moon className="h-[1.2rem] w-[1.2rem] transition-all" />
     </div>
   );
 };
