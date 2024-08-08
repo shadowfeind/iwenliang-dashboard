@@ -44,14 +44,14 @@ const SideNav = () => {
   return (
     <nav
       className={cn(
-        `relative  h-[calc(100vh-3rem)] md:mt-12 flex-none md:border-r  md:block`,
+        `relative  h-[calc(100vh-3rem)] md:mt-12 flex-none md:border-r md:block`,
         status && "duration-300",
-        !isMinimized ? "w-60" : "w-[60px]"
+        !isMinimized ? "w-72" : "w-[64px]"
       )}
     >
       <ChevronLeft
         className={cn(
-          "absolute -right-3 top-12 cursor-pointer rounded-full border bg-background text-3xl text-foreground",
+          "absolute -right-3 top-0 cursor-pointer rounded-full border bg-background text-3xl text-foreground",
           "hidden md:block",
           isMinimized && "rotate-180"
         )}

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useMainStore } from "@/store/useMainStore";
 import { Menu } from "lucide-react";
