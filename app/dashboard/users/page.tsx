@@ -1,5 +1,6 @@
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
+import { DataTable } from "@/components/users/DataTable";
 import React from "react";
 
 type Props = {};
@@ -14,6 +15,7 @@ const UsersPage = (props: Props) => {
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
       <div>Users</div>
+      <DataTable />
     </MainContainer>
   );
 };
