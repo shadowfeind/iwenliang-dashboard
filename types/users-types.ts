@@ -1,9 +1,11 @@
+export type Roles = 'Admin' | 'User';
+
 export type UserTypes = {
     _id: string;
     fullName: string;
     email: string;
     userName: string;
-    role: "User" | "Admin";
+    role: Roles;
     createdAt?: string,
     updatedAt?: string,
 }
