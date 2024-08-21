@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -16,6 +15,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -25,16 +25,35 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Button } from "../ui/button";
+import { createUserSchema, updateUserSchema } from "@/schemas/userSchemas";
+import { useMemo, useState, useTransition } from "react";
+import { ErrorComponent } from "../ErrorComponent";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  mode: "create" | "edit";
+  mode: "create" | "update";
   userId?: string;
 };
 
 const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
-  const form = useForm();
+  const [error, setError] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const formValidationSchema = useMemo(() => {
+    switch (mode) {
+      case "create":
+        return createUserSchema;
+      case "update":
+        return updateUserSchema;
+      default:
+        return createUserSchema;
+    }
+  }, [mode]);
+
+  const form = useForm({
+    resolver: zodResolver(formValidationSchema),
+  });
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="p-8">
@@ -51,11 +70,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                   <FormItem>
                     <FormLabel>FullName</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="FullName"
-                        {...field}
-                        // disabled={mode === "view"}
-                      />
+                      <Input placeholder="FullName" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -73,7 +88,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                       <Input
                         placeholder="email@gmail.com"
                         {...field}
-                        // disabled={mode === "view"}
+                        disabled={mode === "update"}
                       />
                     </FormControl>
                     <FormMessage />
@@ -92,7 +107,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                       <Input
                         placeholder="username"
                         {...field}
-                        // disabled={mode === "view"}
+                        disabled={mode === "update"}
                       />
                     </FormControl>
                     <FormMessage />
@@ -100,21 +115,23 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                 )}
               />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="*****" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            {mode === "create" && (
+              <div className="flex flex-col space-y-1.5">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="*****" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
             <div className="flex flex-col space-y-1.5 mt-4">
               <FormField
                 control={form.control}
@@ -142,14 +159,13 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                 )}
               />
             </div>
-            {/* <Button disabled={isPending} className="mt-4" type="submit"> */}
-            <Button className="mt-4" type="submit">
-              {/* {isPending
-                  ? "Loading...."
-                  : mode === "edit"
-                  ? "Update User"
-                  : "Create User"} */}
-              Add User
+            <ErrorComponent message={error} />
+            <Button disabled={isPending} className="mt-8" type="submit">
+              {isPending
+                ? "Loading...."
+                : mode === "update"
+                ? "Update User"
+                : "Create User"}
             </Button>
           </form>
         </Form>
