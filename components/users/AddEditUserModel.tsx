@@ -25,15 +25,22 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Button } from "../ui/button";
-import { createUserSchema, updateUserSchema } from "@/schemas/userSchemas";
-import { useMemo, useState, useTransition } from "react";
+import {
+  createUserSchema,
+  CreateUserType,
+  updateUserSchema,
+} from "@/schemas/userSchemas";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
+import { createUser, getUserByIdAction } from "@/actions/userActions";
+import { z } from "zod";
+import { UserTypes } from "@/types/users-types";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mode: "create" | "update";
-  userId?: string;
+  userId?: string | null;
 };
 
 const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
@@ -50,9 +57,56 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
     }
   }, [mode]);
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof formValidationSchema>>({
     resolver: zodResolver(formValidationSchema),
   });
+
+  const handleSubmit = (values: z.infer<typeof formValidationSchema>) => {
+    setError("");
+    startTransition(() => {
+      if (mode === "create") {
+        const createValues = values as CreateUserType;
+        createUser(createValues).then((data) => {
+          if (data?.error) {
+            setError(data.error);
+          } else {
+            form.reset();
+            setIsOpen(false);
+          }
+        });
+      }
+      // if (mode === "update") {
+      //   const updateValues = values as z.infer<typeof updateUserSchema>;
+      //   updateUser(updateValues, userId ?? "").then((data) => {
+      //     if (data?.error) {
+      //       setError(data.error);
+      //     } else {
+      //       form.reset();
+      //       setIsOpen(false);
+      //     }
+      //   });
+      // }
+    });
+  };
+
+  useEffect(() => {
+    if (userId && mode === "update") {
+      const fetchUser = async () => {
+        try {
+          const user = await getUserByIdAction(userId);
+
+          form.setValue("fullName", user?.fullName ?? "");
+          form.setValue("email", user?.email ?? "");
+          form.setValue("userName", user?.userName ?? "");
+          form.setValue("role", user?.role ?? "User");
+        } catch (error) {
+          console.error("Error fetching user:", error);
+        }
+      };
+
+      fetchUser();
+    }
+  }, [mode, userId]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -61,7 +115,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           <DialogTitle>Add User</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className="flex flex-col space-y-1.5 pb-6">
               <FormField
                 control={form.control}

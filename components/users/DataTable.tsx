@@ -35,10 +35,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserTypes } from "@/types/users-types";
-import { dummyUsers as data } from "@/app/dashboard/users/dummy";
 import AddEditUserModel from "./AddEditUserModel";
 
-export function DataTable() {
+export function DataTable({ data }: { data: UserTypes[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -47,7 +46,14 @@ export function DataTable() {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [userModelOpen, setUserModelOpen] = React.useState(false);
-  const [mode, setMode] = React.useState<"create" | "edit">("create");
+  const [mode, setMode] = React.useState<"create" | "update">("create");
+  const [userId, setUserId] = React.useState<string | null>(null);
+
+  const handleEdit = (id: string, mode: "create" | "update") => {
+    setMode(mode);
+    setUserModelOpen(true);
+    setUserId(id);
+  };
 
   const columns: ColumnDef<UserTypes>[] = [
     {
@@ -135,7 +141,7 @@ export function DataTable() {
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
                 <DropdownMenuItem
-                // onClick={() => handleViewAndEdit(row.original.id, "edit")}
+                  onClick={() => handleEdit(row.original._id, "update")}
                 >
                   Edit
                 </DropdownMenuItem>
@@ -274,6 +280,7 @@ export function DataTable() {
         isOpen={userModelOpen}
         setIsOpen={setUserModelOpen}
         mode={mode}
+        userId={userId}
       />
     </div>
   );

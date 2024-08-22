@@ -8,9 +8,12 @@ export const createUserSchema = z.object({
   role: z.enum(["Admin", "User"]),
 });
 
-export const updateUserSchema = createUserSchema.pick({
-  fullName: true,
-  role: true,
+export const updateUserSchema = z.object({
+  fullName: string().min(4).max(50),
+  email: string().email().optional(),
+  userName: string().min(3).max(50).optional(),
+  password: string().min(5).max(50).optional(),
+  role: z.enum(["Admin", "User"]),
 });
 
 export type CreateUserType = z.infer<typeof createUserSchema>;
