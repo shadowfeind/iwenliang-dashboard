@@ -2,6 +2,7 @@ import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import React, { Suspense } from "react";
 import UserPage from "./userPage";
+import { TableLoading } from "@/components/loading/tableLoading";
 
 type Props = {};
 
@@ -15,7 +16,7 @@ const UsersPage = (props: Props) => {
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
       <div>Users</div>
-      <Suspense fallback="Loading">
+      <Suspense fallback={<TableLoading />}>
         <UserPage />
       </Suspense>
     </MainContainer>

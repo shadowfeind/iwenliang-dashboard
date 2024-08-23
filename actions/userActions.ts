@@ -2,22 +2,36 @@
 
 import connectDB from "@/db/connect";
 import bcrypt from "bcryptjs";
+import { getUserByEmail, getUserByUserName } from "@/queries/userQueries";
 import {
-  getUserByEmail,
-  getUserById,
-  getUserByUserName,
-} from "@/queries/userQueries";
-import { CreateUserType } from "@/schemas/userSchemas";
+  createUserSchema,
+  CreateUserType,
+  updateUserSchema,
+  UpdateUserType,
+} from "@/schemas/userSchemas";
 import User from "@/models/userModels";
 import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/types/users-types";
+
+export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
+  await connectDB();
+  const users = await User.find().sort({ createdAt: 1 }).lean();
+  if (!users) {
+    return { error: "Something went wrong" };
+  }
+
+  return JSON.parse(JSON.stringify(users));
+}
 
 export async function createUser(
   user: CreateUserType
 ): Promise<void | { error: string }> {
   await connectDB();
-  // only validate data will come here
-  const { fullName, userName, email, password, role } = user;
+  const validateFields = createUserSchema.safeParse(user);
+
+  if (!validateFields.success) return { error: "Invalid Fields" };
+
+  const { userName, fullName, email, password, role } = validateFields.data;
 
   const userEmailExists = await getUserByEmail(email);
 
@@ -44,17 +58,42 @@ export async function createUser(
   }
 }
 
-export async function getUserByIdAction(id: string): Promise<UserTypes | null> {
+export async function getUserByIdAction(
+  id: string
+): Promise<UserTypes | { error: string }> {
   await connectDB();
 
-  const user = await getUserById(id);
+  const user = await User.findById(id).exec();
 
   if (!user) {
-    return null;
+    return { error: "User not found" };
   }
-  // Convert the `_id` to a string and return the user object
-  return {
-    ...user,
-    _id: user._id.toString(),
-  };
+
+  return JSON.parse(JSON.stringify(user));
+}
+
+export async function updateUser(
+  user: UpdateUserType,
+  userId: string
+): Promise<void | { error: string }> {
+  await connectDB();
+
+  const validateFields = updateUserSchema.safeParse(user);
+
+  if (!validateFields.success) return { error: "Failed to update" };
+
+  const { fullName, role } = validateFields.data;
+
+  const userData = await User.findById(userId);
+
+  if (!userData) {
+    return { error: "User not found" };
+  }
+
+  userData.fullName = fullName;
+  userData.role = role;
+
+  await userData.save();
+
+  revalidatePath("/dashboard/users");
 }

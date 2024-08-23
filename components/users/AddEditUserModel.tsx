@@ -32,9 +32,12 @@ import {
 } from "@/schemas/userSchemas";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
-import { createUser, getUserByIdAction } from "@/actions/userActions";
+import {
+  createUser,
+  getUserByIdAction,
+  updateUser,
+} from "@/actions/userActions";
 import { z } from "zod";
-import { UserTypes } from "@/types/users-types";
 
 type Props = {
   isOpen: boolean;
@@ -75,36 +78,33 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           }
         });
       }
-      // if (mode === "update") {
-      //   const updateValues = values as z.infer<typeof updateUserSchema>;
-      //   updateUser(updateValues, userId ?? "").then((data) => {
-      //     if (data?.error) {
-      //       setError(data.error);
-      //     } else {
-      //       form.reset();
-      //       setIsOpen(false);
-      //     }
-      //   });
-      // }
+      if (mode === "update") {
+        const updateValues = values as z.infer<typeof updateUserSchema>;
+        console.log(updateValues);
+        updateUser(updateValues, userId ?? "").then((data) => {
+          if (data?.error) {
+            setError(data.error);
+          } else {
+            form.reset();
+            setIsOpen(false);
+          }
+        });
+      }
     });
   };
 
   useEffect(() => {
     if (userId && mode === "update") {
-      const fetchUser = async () => {
-        try {
-          const user = await getUserByIdAction(userId);
-
-          form.setValue("fullName", user?.fullName ?? "");
-          form.setValue("email", user?.email ?? "");
-          form.setValue("userName", user?.userName ?? "");
-          form.setValue("role", user?.role ?? "User");
-        } catch (error) {
-          console.error("Error fetching user:", error);
+      getUserByIdAction(userId).then((data) => {
+        if ("error" in data) {
+          setError(data.error);
+        } else {
+          form.setValue("fullName", data.fullName ?? "");
+          form.setValue("email", data.email ?? "");
+          form.setValue("userName", data.userName ?? "");
+          form.setValue("role", data.role ?? "User");
         }
-      };
-
-      fetchUser();
+      });
     }
   }, [mode, userId]);
 
@@ -112,7 +112,9 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="p-8">
         <DialogHeader>
-          <DialogTitle>Add User</DialogTitle>
+          <DialogTitle>
+            {mode === "create" ? "Add User" : "Update user"}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>

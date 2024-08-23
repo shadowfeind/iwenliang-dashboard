@@ -1,16 +1,14 @@
+import { getAllUsers } from "@/actions/userActions";
 import { DataTable } from "@/components/users/DataTable";
-import connectDB from "@/db/connect";
-import User from "@/models/userModels";
 
 const UserPage = async () => {
-  await connectDB();
+  const data = await getAllUsers();
 
-  const users = await User.find().sort({ createdAt: 1 }).lean();
+  if ("error" in data) {
+    return <h1 className="text-red-600">{data.error}</h1>;
+  }
 
-  // Serialize the users array because of _id
-  const serializedUsers = JSON.parse(JSON.stringify(users));
-
-  return <DataTable data={serializedUsers} />;
+  return <DataTable data={data} />;
 };
 
 export default UserPage;

@@ -55,6 +55,12 @@ export function DataTable({ data }: { data: UserTypes[] }) {
     setUserId(id);
   };
 
+  const handleAddUser = () => {
+    setMode("create");
+    setUserModelOpen(true);
+    setUserId(null);
+  };
+
   const columns: ColumnDef<UserTypes>[] = [
     {
       accessorKey: "fullName",
@@ -195,7 +201,7 @@ export function DataTable({ data }: { data: UserTypes[] }) {
           className="max-w-sm"
         />
         <div>
-          <Button className="mr-2" onClick={() => setUserModelOpen(true)}>
+          <Button className="mr-2" onClick={() => handleAddUser()}>
             Add User
           </Button>
           <DropdownMenu>
