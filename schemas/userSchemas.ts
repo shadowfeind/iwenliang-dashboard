@@ -24,7 +24,7 @@ export const changePasswordSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password do not match",
     // path is where we show error
-    path: ["confirmPassword", "password"],
+    path: ["confirmPassword"],
   });
 
 export type CreateUserType = z.infer<typeof createUserSchema>;

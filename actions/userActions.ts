@@ -97,3 +97,30 @@ export async function updateUser(
 
   revalidatePath("/dashboard/users");
 }
+
+export async function changePassword(
+  password: string,
+  id: string
+): Promise<void | { error: string }> {
+  const user = await User.findById(id);
+
+  if (!user) return { error: "User not found" };
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  user.password = hashedPassword;
+  user.save();
+
+  revalidatePath("/dashboard/users");
+}
+
+export async function deleteUser(
+  id: string
+): Promise<void | { error: string }> {
+  try {
+    await User.findByIdAndDelete(id);
+    revalidatePath("/dashboard/users");
+  } catch (error) {
+    return { error: "Failed to delete" };
+  }
+}

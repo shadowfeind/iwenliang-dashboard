@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/table";
 import { UserTypes } from "@/types/users-types";
 import AddEditUserModel from "./AddEditUserModel";
+import { ChangePassword } from "./ChangePassword";
 
 export function DataTable({ data }: { data: UserTypes[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -46,6 +47,8 @@ export function DataTable({ data }: { data: UserTypes[] }) {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [userModelOpen, setUserModelOpen] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
+  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false);
   const [mode, setMode] = React.useState<"create" | "update">("create");
   const [userId, setUserId] = React.useState<string | null>(null);
 
@@ -59,6 +62,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
     setMode("create");
     setUserModelOpen(true);
     setUserId(null);
+  };
+
+  const handleChangePassword = (id: string) => {
+    setChangePasswordOpen(true);
+    setUserId(id);
   };
 
   const columns: ColumnDef<UserTypes>[] = [
@@ -152,7 +160,7 @@ export function DataTable({ data }: { data: UserTypes[] }) {
                   Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                // onClick={() => handleChangePassword(row.original.id)}
+                  onClick={() => handleChangePassword(row.original._id)}
                 >
                   Change Password
                 </DropdownMenuItem>
@@ -286,6 +294,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
         isOpen={userModelOpen}
         setIsOpen={setUserModelOpen}
         mode={mode}
+        userId={userId}
+      />
+      <ChangePassword
+        isOpen={changePasswordOpen}
+        setIsOpen={setChangePasswordOpen}
         userId={userId}
       />
     </div>
