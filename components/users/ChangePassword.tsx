@@ -64,6 +64,7 @@ export const ChangePassword = ({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <ErrorComponent message={error} />
             <div className="flex flex-col space-y-1.5 pb-6">
               <FormField
                 control={form.control}
@@ -94,7 +95,7 @@ export const ChangePassword = ({
                 )}
               />
             </div>
-            <ErrorComponent message={error} />
+
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending ? "Updating Password..." : "Updage Password"}
             </Button>

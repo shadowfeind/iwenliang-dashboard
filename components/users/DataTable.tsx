@@ -37,6 +37,7 @@ import {
 import { UserTypes } from "@/types/users-types";
 import AddEditUserModel from "./AddEditUserModel";
 import { ChangePassword } from "./ChangePassword";
+import DeleteUser from "./DeleteUser";
 
 export function DataTable({ data }: { data: UserTypes[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -66,6 +67,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
 
   const handleChangePassword = (id: string) => {
     setChangePasswordOpen(true);
+    setUserId(id);
+  };
+
+  const handleDelete = (id: string) => {
+    setDeleteOpen(true);
     setUserId(id);
   };
 
@@ -165,7 +171,7 @@ export function DataTable({ data }: { data: UserTypes[] }) {
                   Change Password
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                // onClick={() => handleDelete(row.original.id)}
+                  onClick={() => handleDelete(row.original._id)}
                 >
                   Delete
                 </DropdownMenuItem>
@@ -299,6 +305,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
       <ChangePassword
         isOpen={changePasswordOpen}
         setIsOpen={setChangePasswordOpen}
+        userId={userId}
+      />
+      <DeleteUser
+        isOpen={deleteOpen}
+        setIsOpen={setDeleteOpen}
         userId={userId}
       />
     </div>
