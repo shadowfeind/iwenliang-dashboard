@@ -3,8 +3,8 @@ import SideNav from "@/components/layout/side-nav/SideNav";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Next Shadcn Dashboard Starter",
-  description: "Basic dashboard with Next.js and Shadcn",
+  title: "Iwenliang | Dashboard",
+  description: "Admin Panel",
 };
 
 export default function DashboardLayout({
