@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { useMainStore } from "@/store/useMainStore";
-import { SidebarRoutes } from "@/types/sidenav-types";
+import { useMainStore } from "@/config/store/useMainStore";
+import { SidebarRoutes } from "@/config/types/sidenav-types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";

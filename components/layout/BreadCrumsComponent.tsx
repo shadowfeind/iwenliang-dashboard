@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-import { BreadcrumbProps } from "@/types/breadCrum-types";
+import { BreadcrumbProps } from "@/config/types/breadCrum-types";
 
 type Props = {
   items: BreadcrumbProps[];

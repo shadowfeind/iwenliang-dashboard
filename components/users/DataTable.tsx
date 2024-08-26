@@ -34,7 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserTypes } from "@/types/users-types";
+import { UserTypes } from "@/config/types/users-types";
 import AddEditUserModel from "./AddEditUserModel";
 import { ChangePassword } from "./ChangePassword";
 import DeleteUser from "./DeleteUser";

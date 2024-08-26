@@ -2,16 +2,15 @@
 
 import connectDB from "@/db/connect";
 import bcrypt from "bcryptjs";
-import { getUserByEmail, getUserByUserName } from "@/queries/userQueries";
 import {
   createUserSchema,
   CreateUserType,
   updateUserSchema,
   UpdateUserType,
-} from "@/schemas/userSchemas";
+} from "@/config/schemas/userSchemas";
 import User from "@/models/userModels";
 import { revalidatePath } from "next/cache";
-import { UserTypes } from "@/types/users-types";
+import { UserTypes } from "@/config/types/users-types";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
@@ -33,11 +32,11 @@ export async function createUser(
 
   const { userName, fullName, email, password, role } = validateFields.data;
 
-  const userEmailExists = await getUserByEmail(email);
+  const userEmailExists = await User.findOne({ email }).lean();
 
   if (userEmailExists) return { error: "email already exists" };
 
-  const userNameExists = await getUserByUserName(userName);
+  const userNameExists = await User.findOne({ userName }).lean();
 
   if (userNameExists) return { error: "UserName already exists" };
 

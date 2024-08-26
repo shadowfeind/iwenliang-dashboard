@@ -29,7 +29,7 @@ import {
   createUserSchema,
   CreateUserType,
   updateUserSchema,
-} from "@/schemas/userSchemas";
+} from "@/config/schemas/userSchemas";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
 import {
@@ -105,6 +105,8 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           form.setValue("role", data.role ?? "User");
         }
       });
+    } else {
+      form.reset();
     }
   }, [mode, userId]);
 

@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   changePasswordSchema,
   ChangePasswordType,
-} from "@/schemas/userSchemas";
+} from "@/config/schemas/userSchemas";
 import { ErrorComponent } from "../ErrorComponent";
 import { Button } from "../ui/button";
 import {

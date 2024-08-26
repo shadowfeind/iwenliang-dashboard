@@ -1,7 +1,7 @@
 "use client";
 
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { useMainStore } from "@/store/useMainStore";
+import { useMainStore } from "@/config/store/useMainStore";
 import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
