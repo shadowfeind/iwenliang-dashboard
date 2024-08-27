@@ -1,6 +1,6 @@
 "use server";
 
-import connectDB from "@/db/connect";
+import connectDB from "@/config/db/connect";
 import bcrypt from "bcryptjs";
 import {
   createUserSchema,
@@ -8,9 +8,9 @@ import {
   updateUserSchema,
   UpdateUserType,
 } from "@/config/schemas/userSchemas";
-import User from "@/models/userModels";
 import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/config/types/users-types";
+import User from "@/models/user.model";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
@@ -18,7 +18,6 @@ export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   if (!users) {
     return { error: "Something went wrong" };
   }
-
   return JSON.parse(JSON.stringify(users));
 }
 
