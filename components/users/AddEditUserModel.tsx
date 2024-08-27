@@ -29,14 +29,14 @@ import {
   createUserSchema,
   CreateUserType,
   updateUserSchema,
-} from "@/config/schemas/userSchemas";
+} from "@/config/schemas/user.schema";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
 import {
   createUser,
   getUserByIdAction,
   updateUser,
-} from "@/actions/userActions";
+} from "@/actions/user.action";
 import { z } from "zod";
 
 type Props = {
@@ -119,6 +119,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
+          <ErrorComponent message={error} />
           <form onSubmit={form.handleSubmit(handleSubmit)}>
             <div className="flex flex-col space-y-1.5 pb-6">
               <FormField
@@ -217,7 +218,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                 )}
               />
             </div>
-            <ErrorComponent message={error} />
+
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending
                 ? "Loading...."

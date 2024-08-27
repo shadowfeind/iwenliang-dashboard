@@ -1,4 +1,4 @@
-import { getAllUsers } from "@/actions/userActions";
+import { getAllUsers } from "@/actions/user.action";
 import { DataTable } from "@/components/users/DataTable";
 
 const UserPage = async () => {

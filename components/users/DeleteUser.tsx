@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { useState, useTransition } from "react";
-import { deleteUser } from "@/actions/userActions";
+import { deleteUser } from "@/actions/user.action";
 import { ErrorComponent } from "../ErrorComponent";
 
 type Props = {

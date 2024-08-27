@@ -1,3 +1,4 @@
+import HeaderProfile from "./HeaderProfile";
 import { MobileNav } from "./side-nav/MobileNav";
 import ThemeToggle from "./theme-toggle/ThemeToggle";
 
@@ -9,7 +10,7 @@ export default function Header() {
         <div>iwenliang</div>
         <div className="flex gap-4">
           <ThemeToggle />
-          <h1>K</h1>
+          <HeaderProfile />
         </div>
       </nav>
     </div>

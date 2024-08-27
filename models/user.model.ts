@@ -5,7 +5,7 @@ interface IUser extends Document {
   userName: string;
   email: string;
   password: string;
-  role: "Admin" | "User";
+  role: "Admin" | "User" | "Customer";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["Admin", "User"],
+      enum: ["Admin", "User", "Customer"],
       default: "User",
       required: [true, "Role is required"],
     },
@@ -45,6 +45,6 @@ const userSchema = new mongoose.Schema<IUser>(
   }
 );
 
-const User = mongoose.models?.User || mongoose.model<IUser>("User", userSchema);
+const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;

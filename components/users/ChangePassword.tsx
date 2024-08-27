@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   changePasswordSchema,
   ChangePasswordType,
-} from "@/config/schemas/userSchemas";
+} from "@/config/schemas/user.schema";
 import { ErrorComponent } from "../ErrorComponent";
 import { Button } from "../ui/button";
 import {
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { changePassword } from "@/actions/userActions";
+import { changePassword } from "@/actions/user.action";
 
 type changePasswordType = {
   isOpen: boolean;
