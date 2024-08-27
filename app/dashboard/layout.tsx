@@ -1,5 +1,7 @@
 import Header from "@/components/layout/Header";
 import SideNav from "@/components/layout/side-nav/SideNav";
+import { AuthProvider } from "@/config/providers/AuthProvider";
+import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,11 +9,13 @@ export const metadata: Metadata = {
   description: "Admin Panel",
 };
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { user } = await auth();
+  const serealizedUser = user ? { ...user, id: user?.id.toString() } : null;
   return (
     <>
       <Header />
@@ -19,7 +23,11 @@ export default function DashboardLayout({
         <div className="hidden md:block">
           <SideNav />
         </div>
-        <main className="flex-1 overflow-hidden pt-16">{children}</main>
+        <main className="flex-1 overflow-hidden pt-16">
+          <AuthProvider session={{ user: serealizedUser }}>
+            {children}
+          </AuthProvider>
+        </main>
       </div>
     </>
   );

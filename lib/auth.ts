@@ -11,7 +11,14 @@ export const lucia = new Lucia(adapter, {
       secure: process.env.NODE_ENV === "production",
     },
   },
-  getUserAttributes: (attributes) => attributes,
+  getUserAttributes: (attributes: any) => {
+    return {
+      fullName: attributes.fullName,
+      userName: attributes.userName,
+      role: attributes.role,
+      id: attributes.id,
+    };
+  },
 });
 
 export const auth = cache(async () => {
