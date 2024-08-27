@@ -1,7 +1,7 @@
 "use server";
 
 import { authSchema, AuthType } from "@/config/schemas/auth.schema";
-import { lucia } from "@/lib/auth";
+import { auth, lucia } from "@/lib/auth";
 import User from "@/models/user.model";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
@@ -33,4 +33,22 @@ export async function singIn(
   );
 
   redirect("/dashboard");
+}
+
+export async function logout(): Promise<void> {
+  try {
+    const { session } = await auth();
+    if (!session) {
+      redirect("/");
+    }
+    await lucia.invalidateSession(session.id);
+    const sessionCookie = lucia.createBlankSessionCookie();
+    cookies().set(
+      sessionCookie.name,
+      sessionCookie.value,
+      sessionCookie.attributes
+    );
+  } catch (error: any) {
+    console.log(error);
+  }
 }
