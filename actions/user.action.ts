@@ -11,6 +11,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/config/types/users-types";
 import User from "@/models/user.model";
+import { auth } from "@/lib/auth";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
@@ -25,6 +26,11 @@ export async function createUser(
   user: CreateUserType
 ): Promise<void | { error: string }> {
   await connectDB();
+
+  const { session } = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+
   const validateFields = createUserSchema.safeParse(user);
 
   if (!validateFields.success) return { error: "Invalid Fields" };
@@ -61,6 +67,10 @@ export async function getUserByIdAction(
 ): Promise<UserTypes | { error: string }> {
   await connectDB();
 
+  const { session } = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+
   const user = await User.findById(id).exec();
 
   if (!user) {
@@ -75,6 +85,10 @@ export async function updateUser(
   userId: string
 ): Promise<void | { error: string }> {
   await connectDB();
+
+  const { session } = await auth();
+
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = updateUserSchema.safeParse(user);
 
@@ -100,6 +114,11 @@ export async function changePassword(
   password: string,
   id: string
 ): Promise<void | { error: string }> {
+  await connectDB();
+  const { session } = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+
   const user = await User.findById(id);
 
   if (!user) return { error: "User not found" };
@@ -115,6 +134,10 @@ export async function changePassword(
 export async function deleteUser(
   id: string
 ): Promise<void | { error: string }> {
+  await connectDB();
+  const { session } = await auth();
+
+  if (!session) return { error: "Unauthorized" };
   try {
     await User.findByIdAndDelete(id);
     revalidatePath("/dashboard/users");
