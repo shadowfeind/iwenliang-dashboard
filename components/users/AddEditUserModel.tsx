@@ -36,7 +36,7 @@ import {
   createUser,
   getUserByIdAction,
   updateUser,
-} from "@/actions/userActions";
+} from "@/actions/user.action";
 import { z } from "zod";
 
 type Props = {

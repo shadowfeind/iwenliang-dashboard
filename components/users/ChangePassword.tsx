@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { changePassword } from "@/actions/userActions";
+import { changePassword } from "@/actions/user.action";
 
 type changePasswordType = {
   isOpen: boolean;
