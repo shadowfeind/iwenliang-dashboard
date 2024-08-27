@@ -7,7 +7,7 @@ import {
   CreateUserType,
   updateUserSchema,
   UpdateUserType,
-} from "@/config/schemas/userSchemas";
+} from "@/config/schemas/user.schema";
 import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/config/types/users-types";
 import User from "@/models/user.model";
