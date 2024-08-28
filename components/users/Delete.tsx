@@ -8,21 +8,24 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { useState, useTransition } from "react";
-import { deleteUser } from "@/actions/user.action";
 import { ErrorComponent } from "../ErrorComponent";
+import { UserId } from "lucia";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
+  action: (userId: UserId) => Promise<void | {
+    error: string;
+  }>;
 };
 
-const DeleteUser = ({ isOpen, setIsOpen, userId }: Props) => {
+const DeleteUser = ({ isOpen, setIsOpen, userId, action }: Props) => {
   const [error, setError] = useState("");
   const [isDeleting, startDelete] = useTransition();
   const handleDelete = () => {
     startDelete(() => {
-      deleteUser(userId ?? "").then((data) => {
+      action(userId ?? "").then((data) => {
         if (data?.error) {
           setError(data.error);
         } else {

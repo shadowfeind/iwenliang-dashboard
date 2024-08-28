@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   ShoppingBasket,
   User,
+  ChartColumnStacked,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 
@@ -19,14 +20,19 @@ const routes: SidebarRoutes[] = [
     link: "/dashboard",
   },
   {
-    name: "Product",
-    icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
-    link: "/dashboard/products",
+    name: "Category",
+    icon: <ChartColumnStacked className="w-5 h-5 ml-2" />,
+    link: "/dashboard/category",
   },
   {
-    name: "Users",
+    name: "Product",
+    icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
+    link: "/dashboard/product",
+  },
+  {
+    name: "User",
     icon: <User className="w-5 h-5 ml-2" />,
-    link: "/dashboard/users",
+    link: "/dashboard/user",
   },
 ];
 
