@@ -4,14 +4,12 @@ import React, { Suspense } from "react";
 import UserPage from "./userPage";
 import { TableLoading } from "@/components/loading/tableLoading";
 
-type Props = {};
-
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
   { title: "Users" },
 ];
 
-const UsersPage = (props: Props) => {
+const Page = () => {
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
@@ -23,4 +21,4 @@ const UsersPage = (props: Props) => {
   );
 };
 
-export default UsersPage;
+export default Page;
