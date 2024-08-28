@@ -1,5 +1,6 @@
 import { DataTable } from "@/components/categories/DataTable";
-import { getAllCategories } from "@/dataAccess/frontendQuery/category.query";
+import { getAllCategories } from "@/query/category.query";
+
 import React from "react";
 
 const CategoryPage = async () => {
