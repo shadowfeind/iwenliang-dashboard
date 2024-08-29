@@ -37,6 +37,7 @@ import {
 import DeleteUser from "../users/Delete";
 import { deleteCategory } from "@/actions/category.action";
 import { CategoryType } from "@/config/types/category-types";
+import CreateOrUpdateCategory from "./CreateOrUpdateCategory";
 // import AddEditUserModel from "./AddEditUserModel";
 
 export function DataTable({ data }: { data: CategoryType[] }) {
@@ -122,7 +123,7 @@ export function DataTable({ data }: { data: CategoryType[] }) {
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
                 <DropdownMenuItem
-                //   onClick={() => handleEdit(row.original._id, "update")}
+                  onClick={() => handleEdit(row.original._id, "update")}
                 >
                   Edit
                 </DropdownMenuItem>
@@ -252,12 +253,12 @@ export function DataTable({ data }: { data: CategoryType[] }) {
           </TableBody>
         </Table>
       </div>
-      {/* <AddEditUserModel
+      <CreateOrUpdateCategory
         isOpen={modelOpen}
         setIsOpen={setModelOpen}
         mode={mode}
-        userId={userId}
-      /> */}
+        categoryId={userId}
+      />
       <DeleteUser
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
