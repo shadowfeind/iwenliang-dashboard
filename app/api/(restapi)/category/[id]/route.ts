@@ -1,5 +1,4 @@
 import connectDB from "@/config/db/connect";
-import { auth } from "@/lib/auth";
 import Category from "@/models/category.model";
 import { NextRequest, NextResponse } from "next/server";
 
