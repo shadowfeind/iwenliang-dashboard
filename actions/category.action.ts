@@ -84,7 +84,7 @@ export async function deleteCategory(
 
   try {
     await Category.findByIdAndDelete(id);
-    // will revalidate path
+    revalidatePath("/dashboard/category");
   } catch (error) {
     return { error: "Something went wrong" };
   }

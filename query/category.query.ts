@@ -4,23 +4,34 @@ import { CategoryType } from "@/config/types/category-types";
 export async function getAllCategories(): Promise<
   CategoryType[] | { error: any }
 > {
-  const category = await fetch(`${REST_URL}category`, {
+  const response = await fetch(`${REST_URL}category`, {
     method: "GET",
     credentials: "include",
   });
-  return JSON.parse(JSON.stringify(category));
+  if (!response.ok) {
+    return { error: response.statusText };
+  }
+  const { data } = await response.json();
+  return data;
 }
 
 export async function getCategoryById(
   id: string
 ): Promise<CategoryType | { error: string }> {
-  const category = await fetch(`${REST_URL}category/${id}`, {
-    method: "GET",
-    credentials: "include",
-  });
-  if (category) {
-    return JSON.parse(JSON.stringify(category));
-  } else {
-    return { error: "Something went wrong" };
+  try {
+    const response = await fetch(`${REST_URL}category/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      return { error: response.statusText };
+    }
+
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    return { error: "Failed to fetch category" };
   }
 }

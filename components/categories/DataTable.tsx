@@ -38,7 +38,6 @@ import DeleteUser from "../users/Delete";
 import { deleteCategory } from "@/actions/category.action";
 import { CategoryType } from "@/config/types/category-types";
 import CreateOrUpdateCategory from "./CreateOrUpdateCategory";
-// import AddEditUserModel from "./AddEditUserModel";
 
 export function DataTable({ data }: { data: CategoryType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);

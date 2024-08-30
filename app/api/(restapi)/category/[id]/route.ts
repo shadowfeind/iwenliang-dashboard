@@ -8,12 +8,6 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { session } = await auth();
-
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await connectDB();
 
     const category = await Category.findById(params.id).lean();
