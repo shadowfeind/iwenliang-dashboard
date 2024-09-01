@@ -19,6 +19,7 @@ const productSchema = new mongoose.Schema<IProduct>(
     name: {
       type: String,
       required: [true, "Name is required"],
+      unique: true,
     },
     slug: {
       type: String,
@@ -30,7 +31,10 @@ const productSchema = new mongoose.Schema<IProduct>(
       type: Number,
       required: [true, "Price is required"],
     },
-    salePrice: Number,
+    salePrice: {
+      type: Number,
+      default: 0,
+    },
     stock: {
       type: Number,
       default: 0,
