@@ -1,15 +1,20 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../../ui/dialog";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   changePasswordSchema,
   ChangePasswordType,
 } from "@/config/schemas/user.schema";
-import { ErrorComponent } from "../ErrorComponent";
-import { Button } from "../ui/button";
+import { ErrorComponent } from "../../ErrorComponent";
+import { Button } from "../../ui/button";
 import {
   Form,
   FormControl,
@@ -17,8 +22,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
 import { changePassword } from "@/actions/user.action";
 
 type changePasswordType = {

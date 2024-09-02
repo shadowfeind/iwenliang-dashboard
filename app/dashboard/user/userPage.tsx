@@ -1,5 +1,5 @@
 import { getAllUsers } from "@/actions/user.action";
-import { DataTable } from "@/components/users/DataTable";
+import { DataTable } from "@/components/pages/users/DataTable";
 
 const UserPage = async () => {
   const data = await getAllUsers();

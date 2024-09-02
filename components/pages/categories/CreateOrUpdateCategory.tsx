@@ -13,13 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { ErrorComponent } from "../ErrorComponent";
+import { ErrorComponent } from "../../ErrorComponent";
 import { z } from "zod";
 import { categorySchema, CategoryType } from "@/config/schemas/category.schema";
 import { createCategory, updateCategory } from "@/actions/category.action";

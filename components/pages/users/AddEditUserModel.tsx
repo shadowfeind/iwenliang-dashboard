@@ -13,25 +13,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Button } from "../ui/button";
+} from "../../ui/select";
+import { Button } from "../../ui/button";
 import {
   createUserSchema,
   CreateUserType,
   updateUserSchema,
 } from "@/config/schemas/user.schema";
 import { useEffect, useMemo, useState, useTransition } from "react";
-import { ErrorComponent } from "../ErrorComponent";
+import { ErrorComponent } from "../../ErrorComponent";
 import {
   createUser,
   getUserByIdAction,

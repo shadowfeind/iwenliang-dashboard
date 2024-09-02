@@ -1,9 +1,24 @@
-import React from "react";
+import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
+import MainContainer from "@/components/layout/MainContainer";
+import { TableLoading } from "@/components/loading/tableLoading";
+import React, { Suspense } from "react";
+import ProductPage from "./productPage";
 
-type Props = {};
+const breadcrumbs = [
+  { title: "Dashboard", link: "/dashboard" },
+  { title: "Products" },
+];
 
-const ProductPage = (props: Props) => {
-  return <div>ProductPage</div>;
+const Page = () => {
+  return (
+    <MainContainer>
+      <BreadCrumbsComponent items={breadcrumbs} />
+      <div>Users</div>
+      <Suspense fallback={<TableLoading />}>
+        <ProductPage />
+      </Suspense>
+    </MainContainer>
+  );
 };
 
-export default ProductPage;
+export default Page;

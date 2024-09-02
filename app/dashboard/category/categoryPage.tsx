@@ -1,4 +1,4 @@
-import { DataTable } from "@/components/categories/DataTable";
+import { DataTable } from "@/components/pages/categories/DataTable";
 import { getAllCategories } from "@/query/category.query";
 
 import React from "react";

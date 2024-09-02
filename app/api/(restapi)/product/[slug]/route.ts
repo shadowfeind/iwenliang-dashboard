@@ -4,12 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { slug: string } }
 ) {
   try {
     await connectDB();
 
-    const product = await Product.findById(params.id).lean();
+    const product = await Product.findOne({ slug: params.slug });
 
     if (!product) {
       return NextResponse.json(

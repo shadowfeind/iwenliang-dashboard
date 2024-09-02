@@ -6,9 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useState, useTransition } from "react";
-import { ErrorComponent } from "../ErrorComponent";
+import { ErrorComponent } from "../../ErrorComponent";
 import { UserId } from "lucia";
 
 type Props = {
