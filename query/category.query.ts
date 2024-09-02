@@ -1,5 +1,6 @@
 import { REST_URL } from "@/config/db/constant";
 import { CategoryType } from "@/config/types/category-types";
+import { cookies } from "next/headers";
 
 export async function getAllCategories(): Promise<
   CategoryType[] | { error: any }
