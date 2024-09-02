@@ -13,7 +13,7 @@ const Page = () => {
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
-      <div>Users</div>
+      <div>Products</div>
       <Suspense fallback={<TableLoading />}>
         <ProductPage />
       </Suspense>
