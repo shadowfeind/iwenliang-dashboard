@@ -1,9 +1,21 @@
+import ImageUpload from "@/components/ImageUpload";
+import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
+import MainContainer from "@/components/layout/MainContainer";
 import React from "react";
 
-type Props = {};
+const breadcrumbs = [
+  { title: "Dashboard", link: "/dashboard" },
+  { title: "Products", link: "/dashboard/product" },
+  { title: "Add" },
+];
 
-const Page = (props: Props) => {
-  return <div>Page</div>;
+const Page = () => {
+  return (
+    <MainContainer>
+      <BreadCrumbsComponent items={breadcrumbs} />
+      <ImageUpload />
+    </MainContainer>
+  );
 };
 
 export default Page;
