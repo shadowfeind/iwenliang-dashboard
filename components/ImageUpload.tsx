@@ -51,7 +51,7 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
 
   return (
     <div className="w-full">
-      <label className="w-full h-32 bg-slate-300 flex items-center justify-center flex-col rounded-sm cursor-pointer">
+      <label className="w-full h-40 bg-slate-300 flex items-center justify-center flex-col rounded-sm cursor-pointer">
         <input
           type="file"
           accept=".jpg,.jpeg,.png"
