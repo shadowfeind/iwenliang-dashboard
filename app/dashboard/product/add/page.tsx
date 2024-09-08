@@ -13,7 +13,7 @@ const Page = () => {
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
-      <ImageUpload />
+      <ImageUpload size={2} maxFiles={4} />
     </MainContainer>
   );
 };
