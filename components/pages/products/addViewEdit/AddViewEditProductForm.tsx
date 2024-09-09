@@ -2,6 +2,7 @@
 
 import ImageUpload from "@/components/ImageUpload";
 import { MultiSelect } from "@/components/MultiSelect";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { productSchema, ProductType } from "@/config/schemas/product.schema";
 import { CategoryType } from "@/config/types/category-types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +26,29 @@ type Props = {
   categoriesName: string[];
 };
 
+const frameworksList = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+  {
+    value: "nuxt.js",
+    label: "Nuxt.js",
+  },
+  {
+    value: "remix",
+    label: "Remix",
+  },
+  {
+    value: "astro",
+    label: "Astro",
+  },
+];
+
 const AddViewEditProductForm = ({
   mode,
   categories,
@@ -35,6 +60,8 @@ const AddViewEditProductForm = ({
       price: 0,
       salePrice: 0,
       stock: 0,
+      category: [],
+      description: "",
     },
   });
 
@@ -49,7 +76,10 @@ const AddViewEditProductForm = ({
         </div>
       )}
       <Form {...form}>
-        <form className="w-full" onSubmit={form.handleSubmit(handleSubmit)}>
+        <form
+          className="w-full space-y-4"
+          onSubmit={form.handleSubmit(handleSubmit)}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
             <FormField
               control={form.control}
@@ -91,7 +121,7 @@ const AddViewEditProductForm = ({
               )}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
             <FormField
               control={form.control}
               name="stock"
@@ -105,30 +135,45 @@ const AddViewEditProductForm = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
+            <FormField
               control={form.control}
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Frameworks</FormLabel>
+                  <FormLabel>Category</FormLabel>
                   <FormControl>
                     <MultiSelect
-                      options={categoriesName}
+                      options={frameworksList}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      placeholder="Select categories"
+                      placeholder="Select options"
                       variant="inverted"
                       animation={2}
                       maxCount={3}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Choose the categories this produt will be included in.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
+          </div>
+          <div className="grid grid-cols-1">
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Product description" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="pt-4">
+            <Button type="submit">Submit</Button>
           </div>
         </form>
       </Form>
