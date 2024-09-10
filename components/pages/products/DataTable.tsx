@@ -38,6 +38,7 @@ import DeleteUser from "../users/Delete";
 import { ProductType } from "@/config/types/product-types";
 import { deleteProduct } from "@/actions/product.action";
 import { useRouter } from "next/navigation";
+import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
 
 export function DataTable({ data }: { data: ProductType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -127,14 +128,14 @@ export function DataTable({ data }: { data: ProductType[] }) {
               <>
                 <DropdownMenuItem
                   onClick={() =>
-                    router.push(`/dashboard/product/${row.original.slug}`)
+                    router.push(`${PRODUCT_ROUTE}/${row.original.slug}`)
                   }
                 >
                   View
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    router.push(`/dashboard/product/${row.original.slug}/edit`)
+                    router.push(`${PRODUCT_ROUTE}/${row.original.slug}/edit`)
                   }
                 >
                   Edit
@@ -186,7 +187,7 @@ export function DataTable({ data }: { data: ProductType[] }) {
         <div>
           <Button
             className="mr-2"
-            onClick={() => router.push(`/dashboard/product/add`)}
+            onClick={() => router.push(PRODUCT_ADD_ROUTE)}
           >
             Add Product
           </Button>

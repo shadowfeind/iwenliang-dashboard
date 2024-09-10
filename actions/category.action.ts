@@ -1,5 +1,6 @@
 "use server";
 
+import { CATEGORY_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import { categorySchema, CategoryType } from "@/config/schemas/category.schema";
 import { auth } from "@/lib/auth";
@@ -29,7 +30,7 @@ export async function createCategory(
       slug,
     });
 
-    revalidatePath("/dashboard/category");
+    revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong" };
@@ -70,7 +71,7 @@ export async function updateCategory(
     return { error: "Databse error" };
   }
 
-  revalidatePath("/dashboard/category");
+  revalidatePath(CATEGORY_ROUTE);
 }
 
 export async function deleteCategory(
@@ -84,7 +85,7 @@ export async function deleteCategory(
 
   try {
     await Category.findByIdAndDelete(id);
-    revalidatePath("/dashboard/category");
+    revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
     return { error: "Something went wrong" };
   }

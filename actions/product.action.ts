@@ -7,10 +7,11 @@ import { slugify } from "@/lib/slugify";
 import Product from "@/models/product.model";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { PRODUCT_ROUTE } from "@/config/constant/routes";
 
 export async function createProduct(
   values: ProductType
-): Promise<void | { error: string }> {
+): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
   const { session } = await auth();
 
@@ -40,8 +41,8 @@ export async function createProduct(
       stock,
       category,
     });
-    revalidatePath("/dashboard/product");
-    redirect("/dashboard/product");
+    revalidatePath(PRODUCT_ROUTE);
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong" };
@@ -87,8 +88,8 @@ export async function updateProduct(
 
     await product.save();
 
-    revalidatePath("/dashboard/product");
-    redirect("/dashboard/product");
+    revalidatePath(PRODUCT_ROUTE);
+    redirect(PRODUCT_ROUTE);
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong" };
@@ -106,7 +107,7 @@ export async function deleteProduct(
 
   try {
     await Product.findByIdAndDelete(id);
-    revalidatePath("/dashboard/product");
+    revalidatePath(PRODUCT_ROUTE);
   } catch (error) {
     return { error: "Something went wrong" };
   }

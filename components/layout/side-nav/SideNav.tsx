@@ -12,6 +12,7 @@ import {
   ChartColumnStacked,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
+import { CATEGORY_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
 
 const routes: SidebarRoutes[] = [
   {
@@ -22,12 +23,12 @@ const routes: SidebarRoutes[] = [
   {
     name: "Category",
     icon: <ChartColumnStacked className="w-5 h-5 ml-2" />,
-    link: "/dashboard/category",
+    link: CATEGORY_ROUTE,
   },
   {
     name: "Product",
     icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
-    link: "/dashboard/product",
+    link: PRODUCT_ROUTE,
   },
   {
     name: "User",

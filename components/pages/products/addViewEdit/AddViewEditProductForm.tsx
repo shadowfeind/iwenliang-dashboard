@@ -1,12 +1,13 @@
 "use client";
 
+import { createProduct } from "@/actions/product.action";
+import { ErrorComponent } from "@/components/ErrorComponent";
 import ImageUpload from "@/components/ImageUpload";
 import { MultiSelect } from "@/components/MultiSelect";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,46 +15,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { PRODUCT_ROUTE } from "@/config/constant/routes";
 import { productSchema, ProductType } from "@/config/schemas/product.schema";
-import { CategoryType } from "@/config/types/category-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
-  mode: "view" | "edit" | "add";
-  categories: CategoryType[];
-  categoriesName: string[];
+  mode: "view" | "edit" | "create";
+  categoriesName: any[];
 };
 
-const frameworksList = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
-
-const AddViewEditProductForm = ({
-  mode,
-  categories,
-  categoriesName,
-}: Props) => {
+const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
   const form = useForm<ProductType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -66,8 +43,22 @@ const AddViewEditProductForm = ({
   });
 
   const handleSubmit = (values: ProductType) => {
-    console.log(values);
+    if (mode === "create") {
+      const createvalues = values as ProductType;
+      startTransition(() => {
+        createProduct(createvalues).then((data) => {
+          if ("error" in data) {
+            setError(data.error);
+          }
+          if ("success" in data) {
+            form.reset();
+            router.push(PRODUCT_ROUTE);
+          }
+        });
+      });
+    }
   };
+
   return (
     <>
       {mode === "view" ? null : (
@@ -80,6 +71,7 @@ const AddViewEditProductForm = ({
           className="w-full space-y-4"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
+          <ErrorComponent message={error} />
           <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
             <FormField
               control={form.control}
@@ -101,7 +93,7 @@ const AddViewEditProductForm = ({
                 <FormItem>
                   <FormLabel>Product Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="60" {...field} />
+                    <Input placeholder="product price" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,7 +106,7 @@ const AddViewEditProductForm = ({
                 <FormItem>
                   <FormLabel>Sale Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="80" {...field} />
+                    <Input placeholder="sale price" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,7 +135,7 @@ const AddViewEditProductForm = ({
                   <FormLabel>Category</FormLabel>
                   <FormControl>
                     <MultiSelect
-                      options={frameworksList}
+                      options={categoriesName}
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       placeholder="Select options"
@@ -172,13 +164,17 @@ const AddViewEditProductForm = ({
               )}
             />
           </div>
-          <div className="pt-4">
-            <Button type="submit">Submit</Button>
-          </div>
+          {mode !== "view" ? (
+            <div className="pt-4">
+              <Button disabled={isPending} type="submit">
+                {mode === "create" ? "Create Product" : "Update Product"}
+              </Button>
+            </div>
+          ) : null}
         </form>
       </Form>
     </>
   );
 };
 
-export default AddViewEditProductForm;
+export default CreateViewEditProductForm;
