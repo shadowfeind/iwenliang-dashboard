@@ -111,6 +111,25 @@ export function DataTable({ data }: { data: ProductType[] }) {
       ),
     },
     {
+      accessorKey: "createdAt",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Created At
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">
+          {row.getValue("createdAt")?.toString()?.slice(0, 10)}
+        </div>
+      ),
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         return (
