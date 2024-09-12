@@ -20,7 +20,7 @@ export async function createCategory(
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
 
-  const { name } = validateFields.data;
+  const { name, image } = validateFields.data;
 
   const slug = slugify(name);
 
@@ -28,6 +28,7 @@ export async function createCategory(
     await Category.create({
       name,
       slug,
+      image,
     });
 
     revalidatePath(CATEGORY_ROUTE);
@@ -50,7 +51,7 @@ export async function updateCategory(
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
 
-  const { name } = validateFields.data;
+  const { name, image } = validateFields.data;
 
   const category = await Category.findById(id);
 
@@ -63,6 +64,7 @@ export async function updateCategory(
 
   category.name = name;
   category.slug = slug;
+  category.image = image;
 
   try {
     await category.save();
