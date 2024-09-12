@@ -21,8 +21,17 @@ export async function createProduct(
 
   if (!validateFields.success) return { error: "Validation error" };
 
-  const { name, images, description, price, salePrice, stock, category } =
-    validateFields.data;
+  const {
+    name,
+    images,
+    description,
+    price,
+    salePrice,
+    stock,
+    category,
+    featured,
+    isActive,
+  } = validateFields.data;
 
   const productNameExists = await Product.findOne({ name }).lean();
 
@@ -40,6 +49,8 @@ export async function createProduct(
       salePrice,
       stock,
       category,
+      featured,
+      isActive,
     });
     revalidatePath(PRODUCT_ROUTE);
     return { success: true };
@@ -66,8 +77,17 @@ export async function updateProduct(
 
   if (!validateFields.success) return { error: "Validation error" };
 
-  const { name, images, description, price, salePrice, stock, category } =
-    validateFields.data;
+  const {
+    name,
+    images,
+    description,
+    price,
+    salePrice,
+    stock,
+    category,
+    featured,
+    isActive,
+  } = validateFields.data;
 
   // checking if the name has been changed
   if (name !== product.name) {
@@ -85,6 +105,8 @@ export async function updateProduct(
     product.salePrice = salePrice;
     product.stock = stock;
     product.category = category;
+    product.featured = featured;
+    product.isActive = isActive;
 
     await product.save();
 

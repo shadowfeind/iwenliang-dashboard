@@ -8,6 +8,8 @@ export const productSchema = z.object({
   salePrice: z.coerce.number(),
   stock: z.coerce.number(),
   category: z.array(z.string()),
+  featured: z.boolean(),
+  isActive: z.boolean(),
 });
 
 export type ProductType = z.infer<typeof productSchema>;

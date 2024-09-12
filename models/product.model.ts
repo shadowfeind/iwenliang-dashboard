@@ -10,6 +10,8 @@ interface IProduct extends Document {
   salePrice: number;
   stock: number;
   category: ICategory["_id"][];
+  featured: boolean;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -40,6 +42,14 @@ const productSchema = new mongoose.Schema<IProduct>(
       default: 0,
     },
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

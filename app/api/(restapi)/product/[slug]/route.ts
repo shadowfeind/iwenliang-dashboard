@@ -9,7 +9,10 @@ export async function GET(
   try {
     await connectDB();
 
-    const product = await Product.findOne({ slug: params.slug });
+    const product = await Product.findOne({
+      slug: params.slug,
+      isActive: true,
+    });
 
     if (!product) {
       return NextResponse.json(
