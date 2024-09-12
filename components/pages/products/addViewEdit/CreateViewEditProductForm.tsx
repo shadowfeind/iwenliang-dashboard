@@ -21,15 +21,20 @@ import { PRODUCT_ROUTE } from "@/config/constant/routes";
 import { productSchema, ProductType } from "@/config/schemas/product.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
   mode: "view" | "edit" | "create";
   categoriesName: any[];
+  productData?: ProductType;
 };
 
-const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
+const CreateViewEditProductForm = ({
+  mode,
+  categoriesName,
+  productData,
+}: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
@@ -45,6 +50,12 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
       featured: false,
     },
   });
+
+  useEffect(() => {
+    if (mode === "view" && productData) {
+      form.reset(productData);
+    }
+  }, [mode, productData, form]);
 
   const handleSubmit = (values: ProductType) => {
     if (mode === "create") {
@@ -84,7 +95,11 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Product Name" {...field} />
+                    <Input
+                      placeholder="Product Name"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,7 +115,11 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                     Price <small>(Price that is crossed)</small>
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="sale price" {...field} />
+                    <Input
+                      placeholder="sale price"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,7 +132,11 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                 <FormItem>
                   <FormLabel>Final Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="product price" {...field} />
+                    <Input
+                      placeholder="product price"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -128,7 +151,11 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                 <FormItem>
                   <FormLabel>Inventory</FormLabel>
                   <FormControl>
-                    <Input placeholder="2" {...field} />
+                    <Input
+                      placeholder="2"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,6 +176,7 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                       variant="inverted"
                       animation={2}
                       maxCount={3}
+                      disabled={mode === "view"}
                     />
                   </FormControl>
                   <FormMessage />
@@ -164,7 +192,11 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                 <FormItem>
                   <FormLabel>Product Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Product description" {...field} />
+                    <Textarea
+                      placeholder="Product description"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -188,6 +220,7 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       aria-readonly
+                      disabled={mode === "view"}
                     />
                   </FormControl>
                 </FormItem>
@@ -209,6 +242,7 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                       checked={field.value}
                       onCheckedChange={field.onChange}
                       aria-readonly
+                      disabled={mode === "view"}
                     />
                   </FormControl>
                 </FormItem>

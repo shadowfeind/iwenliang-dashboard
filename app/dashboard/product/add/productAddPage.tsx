@@ -1,6 +1,6 @@
 import { CategoryType } from "@/config/types/category-types";
 import { getAllCategories } from "@/query/category.query";
-import AddViewEditProductForm from "@/components/pages/products/addViewEdit/AddViewEditProductForm";
+import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/CreateViewEditProductForm";
 import { ErrorComponent } from "@/components/ErrorComponent";
 
 type Props = {};
@@ -20,10 +20,14 @@ const ProductAddPage = async (props: Props) => {
       });
     }
   }
+
   return (
     <>
       <ErrorComponent message={error} />
-      <AddViewEditProductForm mode="create" categoriesName={categoriesName} />
+      <CreateViewEditProductForm
+        mode="create"
+        categoriesName={categoriesName}
+      />
     </>
   );
 };
