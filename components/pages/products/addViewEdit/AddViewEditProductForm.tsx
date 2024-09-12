@@ -8,12 +8,14 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
 import { productSchema, ProductType } from "@/config/schemas/product.schema";
@@ -39,6 +41,8 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
       stock: 0,
       category: [],
       description: "",
+      isActive: true,
+      featured: false,
     },
   });
 
@@ -86,14 +90,17 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="price"
+              name="salePrice"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Product Price</FormLabel>
+                  <FormLabel>
+                    Price <small>(Price that is crossed)</small>
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="product price" {...field} />
+                    <Input placeholder="sale price" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -101,12 +108,12 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
             />
             <FormField
               control={form.control}
-              name="salePrice"
+              name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sale Price</FormLabel>
+                  <FormLabel>Final Price</FormLabel>
                   <FormControl>
-                    <Input placeholder="sale price" {...field} />
+                    <Input placeholder="product price" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,6 +167,50 @@ const CreateViewEditProductForm = ({ mode, categoriesName }: Props) => {
                     <Textarea placeholder="Product description" {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <FormField
+              control={form.control}
+              name="featured"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Feature Product</FormLabel>
+                    <FormDescription>
+                      Prodct will be showin in featured product section.
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isActive"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Active</FormLabel>
+                    <FormDescription>
+                      Active or deactive product.
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />

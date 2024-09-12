@@ -39,6 +39,7 @@ import { ProductType } from "@/config/types/product-types";
 import { deleteProduct } from "@/actions/product.action";
 import { useRouter } from "next/navigation";
 import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
+import { Badge } from "@/components/ui/badge";
 
 export function DataTable({ data }: { data: ProductType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -111,21 +112,48 @@ export function DataTable({ data }: { data: ProductType[] }) {
       ),
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "isActive",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Created At
+            Active
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
         <div className="lowercase">
-          {row.getValue("createdAt")?.toString()?.slice(0, 10)}
+          {row.getValue("isActive") ? (
+            <Badge variant="default">Active</Badge>
+          ) : (
+            <Badge variant="destructive">InActive</Badge>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "featured",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Featured
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">
+          {row.getValue("featured") ? (
+            <Badge variant="default">Featured</Badge>
+          ) : (
+            <Badge variant="destructive">Not Featured</Badge>
+          )}
         </div>
       ),
     },
