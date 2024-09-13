@@ -9,13 +9,13 @@ import {
   UpdateUserType,
 } from "@/config/schemas/user.schema";
 import { revalidatePath } from "next/cache";
-import { UserTypes } from "@/config/types/users-types";
+import { UserTypes } from "@/config/types/users.types";
 import User from "@/models/user.model";
 import { auth } from "@/lib/auth";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
-  const users = await User.find().sort({ createdAt: 1 }).lean();
+  const users = await User.find().sort({ createdAt: -1 }).lean();
   if (!users) {
     return { error: "Something went wrong" };
   }

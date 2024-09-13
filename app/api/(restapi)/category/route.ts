@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     await connectDB();
 
     const categories: CategoryType[] = await Category.find({})
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .lean();
 
     return NextResponse.json(
