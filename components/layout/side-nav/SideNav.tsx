@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMainStore } from "@/config/store/useMainStore";
-import { SidebarRoutes } from "@/config/types/sidenav-types";
+import { SidebarRoutes } from "@/config/types/sidenav.types";
 import {
   ChevronLeft,
   LayoutDashboard,

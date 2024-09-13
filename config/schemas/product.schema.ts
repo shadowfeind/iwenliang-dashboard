@@ -12,4 +12,4 @@ export const productSchema = z.object({
   isActive: z.boolean(),
 });
 
-export type ProductType = z.infer<typeof productSchema>;
+export type ProductSchamaType = z.infer<typeof productSchema>;

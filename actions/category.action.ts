@@ -2,14 +2,17 @@
 
 import { CATEGORY_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
-import { categorySchema, CategoryType } from "@/config/schemas/category.schema";
+import {
+  categorySchema,
+  CategorySchemaType,
+} from "@/config/schemas/category.schema";
 import { auth } from "@/lib/auth";
 import { slugify } from "@/lib/slugify";
 import Category from "@/models/category.model";
 import { revalidatePath } from "next/cache";
 
 export async function createCategory(
-  value: CategoryType
+  value: CategorySchemaType
 ): Promise<void | { error: string }> {
   await connectDB();
 
@@ -39,7 +42,7 @@ export async function createCategory(
 }
 
 export async function updateCategory(
-  value: CategoryType,
+  value: CategorySchemaType,
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();

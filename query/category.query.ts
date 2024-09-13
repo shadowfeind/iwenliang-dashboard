@@ -1,5 +1,5 @@
 import { REST_URL } from "@/config/db/constant";
-import { CategoryType } from "@/config/types/category-types";
+import { CategoryType } from "@/config/types/category.types";
 
 export async function getAllCategories(): Promise<
   CategoryType[] | { error: any }

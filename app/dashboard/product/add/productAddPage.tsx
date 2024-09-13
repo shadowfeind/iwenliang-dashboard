@@ -1,4 +1,4 @@
-import { CategoryType } from "@/config/types/category-types";
+import { CategoryType } from "@/config/types/category.types";
 import { getAllCategories } from "@/query/category.query";
 import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/CreateViewEditProductForm";
 import { ErrorComponent } from "@/components/ErrorComponent";

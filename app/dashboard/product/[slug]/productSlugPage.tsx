@@ -1,5 +1,5 @@
 import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/CreateViewEditProductForm";
-import { ProductType } from "@/config/schemas/product.schema";
+import { ProductType } from "@/config/types/product.types";
 
 type Props = {
   data: ProductType;

@@ -1,4 +1,4 @@
-import { CategoryType } from "./category-types";
+import { CategoryType } from "./category.types";
 
 export type ProductType = {
   _id: string;
@@ -10,4 +10,6 @@ export type ProductType = {
   salePrice?: Number;
   stock: Number;
   category?: CategoryType[];
+  featured: boolean;
+  isActive: boolean;
 };

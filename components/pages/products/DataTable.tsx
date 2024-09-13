@@ -35,7 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteUser from "../users/Delete";
-import { ProductType } from "@/config/types/product-types";
+import { ProductType } from "@/config/types/product.types";
 import { deleteProduct } from "@/actions/product.action";
 import { useRouter } from "next/navigation";
 import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";

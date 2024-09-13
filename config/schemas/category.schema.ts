@@ -5,4 +5,4 @@ export const categorySchema = z.object({
   image: z.string().optional(),
 });
 
-export type CategoryType = z.infer<typeof categorySchema>;
+export type CategorySchemaType = z.infer<typeof categorySchema>;

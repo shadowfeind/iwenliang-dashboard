@@ -18,7 +18,11 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { productSchema, ProductType } from "@/config/schemas/product.schema";
+import {
+  productSchema,
+  ProductSchamaType,
+} from "@/config/schemas/product.schema";
+import { ProductType } from "@/config/types/product.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useTransition } from "react";
@@ -38,7 +42,7 @@ const CreateViewEditProductForm = ({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState("");
-  const form = useForm<ProductType>({
+  const form = useForm<ProductSchamaType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
       price: 0,
@@ -52,14 +56,15 @@ const CreateViewEditProductForm = ({
   });
 
   useEffect(() => {
-    if (mode === "view" && productData) {
+    if (mode === "view" || (mode === "edit" && productData)) {
+      //@ts-ignore i do not want to set value manually.
       form.reset(productData);
     }
   }, [mode, productData, form]);
 
-  const handleSubmit = (values: ProductType) => {
+  const handleSubmit = (values: ProductSchamaType) => {
     if (mode === "create") {
-      const createvalues = values as ProductType;
+      const createvalues = values as ProductSchamaType;
       startTransition(() => {
         createProduct(createvalues).then((data) => {
           if ("error" in data) {

@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { CategoryType } from "@/config/types/category-types";
+import { CategoryType } from "@/config/types/category.types";
 import { getAllCategories } from "@/query/category.query";
 import { getProductBySlug } from "@/query/product.query";
 import ProductSlugPage from "./productSlugPage";

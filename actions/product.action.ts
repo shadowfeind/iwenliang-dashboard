@@ -1,7 +1,10 @@
 "use server";
 
 import connectDB from "@/config/db/connect";
-import { productSchema, ProductType } from "@/config/schemas/product.schema";
+import {
+  productSchema,
+  ProductSchamaType,
+} from "@/config/schemas/product.schema";
 import { auth } from "@/lib/auth";
 import { slugify } from "@/lib/slugify";
 import Product from "@/models/product.model";
@@ -10,7 +13,7 @@ import { redirect } from "next/navigation";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
 
 export async function createProduct(
-  values: ProductType
+  values: ProductSchamaType
 ): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
   const { session } = await auth();
@@ -61,7 +64,7 @@ export async function createProduct(
 }
 
 export async function updateProduct(
-  values: ProductType,
+  values: ProductSchamaType,
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();

@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/table";
 import DeleteUser from "../users/Delete";
 import { deleteCategory } from "@/actions/category.action";
-import { CategoryType } from "@/config/types/category-types";
+import { CategoryType } from "@/config/types/category.types";
 import CreateOrUpdateCategory from "./CreateOrUpdateCategory";
 
 export function DataTable({ data }: { data: CategoryType[] }) {
