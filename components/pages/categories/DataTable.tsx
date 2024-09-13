@@ -34,7 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteUser from "../users/Delete";
+import Delete from "../users/Delete";
 import { deleteCategory } from "@/actions/category.action";
 import { CategoryType } from "@/config/types/category.types";
 import CreateOrUpdateCategory from "./CreateOrUpdateCategory";
@@ -258,7 +258,7 @@ export function DataTable({ data }: { data: CategoryType[] }) {
         mode={mode}
         categoryId={userId}
       />
-      <DeleteUser
+      <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={userId}

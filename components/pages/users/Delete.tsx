@@ -20,7 +20,7 @@ type Props = {
   }>;
 };
 
-const DeleteUser = ({ isOpen, setIsOpen, userId, action }: Props) => {
+const Delete = ({ isOpen, setIsOpen, userId, action }: Props) => {
   const [error, setError] = useState("");
   const [isDeleting, startDelete] = useTransition();
   const handleDelete = () => {
@@ -54,4 +54,4 @@ const DeleteUser = ({ isOpen, setIsOpen, userId, action }: Props) => {
   );
 };
 
-export default DeleteUser;
+export default Delete;

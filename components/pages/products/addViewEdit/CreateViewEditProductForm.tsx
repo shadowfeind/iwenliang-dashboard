@@ -1,6 +1,6 @@
 "use client";
 
-import { createProduct } from "@/actions/product.action";
+import { createProduct, updateProduct } from "@/actions/product.action";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import ImageUpload from "@/components/ImageUpload";
 import { MultiSelect } from "@/components/MultiSelect";
@@ -67,6 +67,20 @@ const CreateViewEditProductForm = ({
       const createvalues = values as ProductSchamaType;
       startTransition(() => {
         createProduct(createvalues).then((data) => {
+          if ("error" in data) {
+            setError(data.error);
+          }
+          if ("success" in data) {
+            form.reset();
+            router.push(PRODUCT_ROUTE);
+          }
+        });
+      });
+    }
+    if (mode === "edit") {
+      startTransition(() => {
+        const updateValues = values as ProductSchamaType;
+        updateProduct(updateValues, productData?._id ?? "").then((data) => {
           if ("error" in data) {
             setError(data.error);
           }

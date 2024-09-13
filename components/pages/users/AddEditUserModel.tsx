@@ -108,6 +108,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
     } else {
       form.reset();
     }
+    // eslint-disable-next-line
   }, [mode, userId]);
 
   return (

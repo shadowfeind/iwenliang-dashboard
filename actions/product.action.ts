@@ -66,7 +66,7 @@ export async function createProduct(
 export async function updateProduct(
   values: ProductSchamaType,
   id: string
-): Promise<void | { error: string }> {
+): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
   const { session } = await auth();
 
@@ -114,7 +114,7 @@ export async function updateProduct(
     await product.save();
 
     revalidatePath(PRODUCT_ROUTE);
-    redirect(PRODUCT_ROUTE);
+    return { success: true };
   } catch (error) {
     console.log(error);
     return { error: "Something went wrong" };

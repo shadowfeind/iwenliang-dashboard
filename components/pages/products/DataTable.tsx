@@ -34,7 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteUser from "../users/Delete";
+import Delete from "../users/Delete";
 import { ProductType } from "@/config/types/product.types";
 import { deleteProduct } from "@/actions/product.action";
 import { useRouter } from "next/navigation";
@@ -316,7 +316,7 @@ export function DataTable({ data }: { data: ProductType[] }) {
           </TableBody>
         </Table>
       </div>
-      <DeleteUser
+      <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={productId}
