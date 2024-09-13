@@ -34,13 +34,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserTypes } from "@/config/types/users-types";
-import AddEditUserModel from "./AddEditUserModel";
-import { ChangePassword } from "./ChangePassword";
-import DeleteUser from "./Delete";
-import { deleteUser } from "@/actions/user.action";
+import Delete from "../users/Delete";
+import { ProductType } from "@/config/types/product.types";
+import { deleteProduct } from "@/actions/product.action";
+import { useRouter } from "next/navigation";
+import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
+import { Badge } from "@/components/ui/badge";
 
-export function DataTable({ data }: { data: UserTypes[] }) {
+export function DataTable({ data }: { data: ProductType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -48,101 +49,112 @@ export function DataTable({ data }: { data: UserTypes[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [userModelOpen, setUserModelOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const [changePasswordOpen, setChangePasswordOpen] = React.useState(false);
-  const [mode, setMode] = React.useState<"create" | "update">("create");
-  const [userId, setUserId] = React.useState<string | null>(null);
+  const [productId, setProductId] = React.useState<string | null>(null);
 
-  const handleEdit = (id: string, mode: "create" | "update") => {
-    setMode(mode);
-    setUserModelOpen(true);
-    setUserId(id);
-  };
-
-  const handleAddUser = () => {
-    setMode("create");
-    setUserModelOpen(true);
-    setUserId(null);
-  };
-
-  const handleChangePassword = (id: string) => {
-    setChangePasswordOpen(true);
-    setUserId(id);
-  };
+  const router = useRouter();
 
   const handleDelete = (id: string) => {
     setDeleteOpen(true);
-    setUserId(id);
+    setProductId(id);
   };
 
-  const columns: ColumnDef<UserTypes>[] = [
+  const columns: ColumnDef<ProductType>[] = [
     {
-      accessorKey: "fullName",
+      accessorKey: "name",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            FullName
+            Product Name
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("fullName")}</div>
+        <div className="lowercase">{row.getValue("name")}</div>
       ),
     },
     {
-      accessorKey: "email",
+      accessorKey: "price",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Email
+            Price
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("email")}</div>
+        <div className="lowercase">{row.getValue("price")}</div>
       ),
     },
     {
-      accessorKey: "userName",
+      accessorKey: "stock",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            UserName
+            Inventory
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("userName")}</div>
+        <div className="lowercase">{row.getValue("stock")}</div>
       ),
     },
     {
-      accessorKey: "role",
+      accessorKey: "isActive",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Role
+            Active
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("role")}</div>
+        <div className="lowercase">
+          {row.getValue("isActive") ? (
+            <Badge variant="default">Active</Badge>
+          ) : (
+            <Badge variant="destructive">InActive</Badge>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "featured",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Featured
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">
+          {row.getValue("featured") ? (
+            <Badge variant="default">Featured</Badge>
+          ) : (
+            <Badge variant="destructive">Not Featured</Badge>
+          )}
+        </div>
       ),
     },
     {
@@ -162,14 +174,18 @@ export function DataTable({ data }: { data: UserTypes[] }) {
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
                 <DropdownMenuItem
-                  onClick={() => handleEdit(row.original._id, "update")}
+                  onClick={() =>
+                    router.push(`${PRODUCT_ROUTE}/${row.original.slug}`)
+                  }
                 >
-                  Edit
+                  View
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => handleChangePassword(row.original._id)}
+                  onClick={() =>
+                    router.push(`${PRODUCT_ROUTE}/${row.original.slug}/edit`)
+                  }
                 >
-                  Change Password
+                  Edit
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => handleDelete(row.original._id)}
@@ -208,18 +224,19 @@ export function DataTable({ data }: { data: UserTypes[] }) {
     <div className="w-full">
       <div className="flex justify-between items-center pb-4">
         <Input
-          placeholder="Filter By Fullname..."
-          value={
-            (table.getColumn("fullName")?.getFilterValue() as string) ?? ""
-          }
+          placeholder="Filter By Name..."
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("fullName")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
         <div>
-          <Button className="mr-2" onClick={() => handleAddUser()}>
-            Add User
+          <Button
+            className="mr-2"
+            onClick={() => router.push(PRODUCT_ADD_ROUTE)}
+          >
+            Add Product
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -299,22 +316,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
           </TableBody>
         </Table>
       </div>
-      <AddEditUserModel
-        isOpen={userModelOpen}
-        setIsOpen={setUserModelOpen}
-        mode={mode}
-        userId={userId}
-      />
-      <ChangePassword
-        isOpen={changePasswordOpen}
-        setIsOpen={setChangePasswordOpen}
-        userId={userId}
-      />
-      <DeleteUser
+      <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
-        userId={userId}
-        action={deleteUser}
+        userId={productId}
+        action={deleteProduct}
       />
     </div>
   );

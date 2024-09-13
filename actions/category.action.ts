@@ -1,25 +1,29 @@
 "use server";
 
+import { CATEGORY_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
-import { categorySchema, CategoryType } from "@/config/schemas/category.schema";
+import {
+  categorySchema,
+  CategorySchemaType,
+} from "@/config/schemas/category.schema";
 import { auth } from "@/lib/auth";
 import { slugify } from "@/lib/slugify";
 import Category from "@/models/category.model";
+import { revalidatePath } from "next/cache";
 
 export async function createCategory(
-  value: CategoryType
-): Promise<{ success: boolean; error: string }> {
+  value: CategorySchemaType
+): Promise<void | { error: string }> {
   await connectDB();
 
   const { session } = await auth();
 
-  if (!session) return { success: false, error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
-  if (!validateFields.success)
-    return { success: false, error: "Validation Error" };
+  if (!validateFields.success) return { error: "Validation Error" };
 
-  const { name } = validateFields.data;
+  const { name, image } = validateFields.data;
 
   const slug = slugify(name);
 
@@ -27,55 +31,52 @@ export async function createCategory(
     await Category.create({
       name,
       slug,
+      image,
     });
 
-    // will revalidate path
-
-    return {
-      success: true,
-      error: "",
-    };
+    revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
     console.log(error);
-    return { success: false, error: "Something went wrong" };
+    return { error: "Something went wrong" };
   }
 }
 
 export async function updateCategory(
-  value: CategoryType,
+  value: CategorySchemaType,
   id: string
-): Promise<{ success: boolean; error: string }> {
+): Promise<void | { error: string }> {
   await connectDB();
 
   const { session } = await auth();
 
-  if (!session) return { success: false, error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
-  if (!validateFields.success)
-    return { success: false, error: "Validation Error" };
+  if (!validateFields.success) return { error: "Validation Error" };
 
-  const { name } = validateFields.data;
+  const { name, image } = validateFields.data;
 
   const category = await Category.findById(id);
 
-  if (!category) return { success: false, error: "Category not found" };
+  if (!category) return { error: "Category not found" };
 
   if (category && category.name === name)
-    return { success: false, error: "No change detected" };
+    return { error: "No change detected" };
 
   const slug = slugify(name);
 
   category.name = name;
   category.slug = slug;
-  await category.save();
+  category.image = image;
 
-  // will revalidate path
+  try {
+    await category.save();
+  } catch (error) {
+    console.log(error);
+    return { error: "Databse error" };
+  }
 
-  return {
-    success: true,
-    error: "",
-  };
+  revalidatePath(CATEGORY_ROUTE);
 }
 
 export async function deleteCategory(
@@ -89,7 +90,7 @@ export async function deleteCategory(
 
   try {
     await Category.findByIdAndDelete(id);
-    // will revalidate path
+    revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
     return { error: "Something went wrong" };
   }

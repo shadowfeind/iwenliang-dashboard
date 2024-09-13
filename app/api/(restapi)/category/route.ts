@@ -1,19 +1,15 @@
 import connectDB from "@/config/db/connect";
-import { auth } from "@/lib/auth";
+import { CategoryType } from "@/config/types/category.types";
 import Category from "@/models/category.model";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const { session } = await auth();
-
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await connectDB();
 
-    const categories = await Category.find({}).sort({ createdAt: 1 }).lean();
+    const categories: CategoryType[] = await Category.find({})
+      .sort({ createdAt: -1 })
+      .lean();
 
     return NextResponse.json(
       { success: true, data: categories },

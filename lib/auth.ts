@@ -9,12 +9,14 @@ export const lucia = new Lucia(adapter, {
     name: "auth",
     attributes: {
       secure: process.env.NODE_ENV === "production",
+      path: "/",
     },
   },
   getUserAttributes: (attributes: any) => {
     return {
       fullName: attributes.fullName,
       userName: attributes.userName,
+      email: attributes.email,
       role: attributes.role,
       id: attributes.id,
     };

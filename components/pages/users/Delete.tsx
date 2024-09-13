@@ -6,9 +6,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useState, useTransition } from "react";
-import { ErrorComponent } from "../ErrorComponent";
+import { ErrorComponent } from "../../ErrorComponent";
 import { UserId } from "lucia";
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
   }>;
 };
 
-const DeleteUser = ({ isOpen, setIsOpen, userId, action }: Props) => {
+const Delete = ({ isOpen, setIsOpen, userId, action }: Props) => {
   const [error, setError] = useState("");
   const [isDeleting, startDelete] = useTransition();
   const handleDelete = () => {
@@ -54,4 +54,4 @@ const DeleteUser = ({ isOpen, setIsOpen, userId, action }: Props) => {
   );
 };
 
-export default DeleteUser;
+export default Delete;

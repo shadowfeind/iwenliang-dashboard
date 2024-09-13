@@ -31,7 +31,6 @@ export async function singIn(
     sessionCookie.value,
     sessionCookie.attributes
   );
-
   redirect("/dashboard");
 }
 

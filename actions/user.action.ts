@@ -9,13 +9,13 @@ import {
   UpdateUserType,
 } from "@/config/schemas/user.schema";
 import { revalidatePath } from "next/cache";
-import { UserTypes } from "@/config/types/users-types";
+import { UserTypes } from "@/config/types/users.types";
 import User from "@/models/user.model";
 import { auth } from "@/lib/auth";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
-  const users = await User.find().sort({ createdAt: 1 }).lean();
+  const users = await User.find().sort({ createdAt: -1 }).lean();
   if (!users) {
     return { error: "Something went wrong" };
   }
@@ -56,7 +56,7 @@ export async function createUser(
       role,
     });
 
-    revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/user");
   } catch (error) {
     return { error: "Something went wrong" };
   }
@@ -107,7 +107,7 @@ export async function updateUser(
 
   await userData.save();
 
-  revalidatePath("/dashboard/users");
+  revalidatePath("/dashboard/user");
 }
 
 export async function changePassword(
@@ -128,7 +128,7 @@ export async function changePassword(
   user.password = hashedPassword;
   user.save();
 
-  revalidatePath("/dashboard/users");
+  revalidatePath("/dashboard/user");
 }
 
 export async function deleteUser(
@@ -140,7 +140,7 @@ export async function deleteUser(
   if (!session) return { error: "Unauthorized" };
   try {
     await User.findByIdAndDelete(id);
-    revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/user");
   } catch (error) {
     return { error: "Failed to delete" };
   }
