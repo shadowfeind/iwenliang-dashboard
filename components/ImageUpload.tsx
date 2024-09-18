@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { CloudUpload, X } from "lucide-react";
+import { CloudUpload, Loader, X } from "lucide-react";
 import Image from "next/image";
 import { ErrorComponent } from "./ErrorComponent";
 
@@ -14,12 +14,14 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
   const [files, setFiles] = useState<any[]>([]);
   const [previews, setPreviews] = useState<any[]>([]);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
 
-  const handleFileChange = (
+  const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
-  ): void => {
+  ): Promise<void> => {
     let selectedFiles;
     if (event.target.files) {
+      setUploading(true);
       selectedFiles = Array.from(event.target.files);
 
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -55,14 +57,25 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
     <div className="w-full">
       <label className="w-full h-40 bg-slate-300 flex items-center justify-center flex-col rounded-sm cursor-pointer">
         <input
+          disabled={uploading}
           type="file"
           accept=".jpg,.jpeg,.png"
           multiple
           onChange={handleFileChange}
           className="hidden"
         />
-        <CloudUpload size={48} />
-        <div>Upload Images</div>
+        {uploading ? (
+          <>
+            <Loader size={48} />
+            <div>Uploadding Images...</div>
+          </>
+        ) : (
+          <>
+            {" "}
+            <CloudUpload size={48} />
+            <div>Upload Images</div>
+          </>
+        )}
         <div className="text-sm font-light">
           Allowed types:<strong> png, jpeg and jpg</strong> only
         </div>

@@ -16,9 +16,9 @@ export async function createProduct(
   values: ProductSchamaType
 ): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
-  const { session } = await auth();
+  const { session, user } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
 
   const validateFields = productSchema.safeParse(values);
 

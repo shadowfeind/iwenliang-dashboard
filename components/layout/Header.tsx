@@ -9,7 +9,7 @@ export default function Header() {
         <MobileNav />
         <div>iwenliang</div>
         <div className="flex gap-4">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           <HeaderProfile />
         </div>
       </nav>
