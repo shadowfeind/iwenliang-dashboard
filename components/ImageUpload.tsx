@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { CloudUpload, X } from "lucide-react";
 import Image from "next/image";
+import { ErrorComponent } from "./ErrorComponent";
 
 type imagePropType = {
   size: Number;
@@ -38,8 +39,9 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
           };
           reader.readAsDataURL(file);
         });
+        setError("");
       } else {
-        setError("Check file size of type. Validation failed");
+        setError("Check file size / type. Validation failed");
       }
     }
   };
@@ -68,6 +70,7 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
           max file size: <strong>{size.toString()}MB</strong>, max images:{" "}
           <strong>{maxFiles.toString()}</strong>
         </div>
+        <ErrorComponent message={error} />
       </label>
 
       <div className="mt-4 flex gap-4">
