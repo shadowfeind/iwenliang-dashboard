@@ -16,7 +16,6 @@ const s3Client = new S3Client({
 type UploadResult = {
   originalName: string;
   uploadedName: string;
-  url: string;
 };
 
 type UploadError = {
@@ -29,15 +28,20 @@ type UploadToS3Result = {
   failed: UploadError[];
 };
 
-export async function uploadToS3(files: File[]): Promise<UploadToS3Result> {
+export async function uploadToS3(
+  formData: FormData
+): Promise<UploadToS3Result> {
   const successful: UploadResult[] = [];
   const failed: UploadError[] = [];
 
   const { session, user } = await auth();
 
-  failed.push({ originalName: "AuthError", error: "Not Authorized" });
+  if (!session && user?.role !== "admin") {
+    failed.push({ originalName: "AuthError", error: "Not Authorized" });
+    return { successful, failed };
+  }
 
-  if (!session && user?.role !== "admin") return { successful, failed };
+  const files = formData.getAll("file") as File[];
 
   if (files.length < 1) {
     failed.push({ originalName: "Validation", error: "No Files" });
@@ -50,7 +54,7 @@ export async function uploadToS3(files: File[]): Promise<UploadToS3Result> {
     const fileName = `${crypto.randomUUID()}.${fileExtension}`;
 
     const putObjectParams = {
-      Bucket: process.env.S3_BUCKET_NAME!,
+      Bucket: process.env.AWS_BUCKET_NAME!,
       Key: fileName,
       Body: Buffer.from(fileBuffer),
       ContentType: file.type,
@@ -61,7 +65,7 @@ export async function uploadToS3(files: File[]): Promise<UploadToS3Result> {
 
     // Generate a pre-signed URL for the uploaded object
     const getObjectParams = {
-      Bucket: process.env.S3_BUCKET_NAME!,
+      Bucket: process.env.AWS_BUCKET_NAME!,
       Key: fileName,
     };
     const url = await getSignedUrl(
@@ -74,7 +78,6 @@ export async function uploadToS3(files: File[]): Promise<UploadToS3Result> {
     return {
       originalName: file.name,
       uploadedName: fileName,
-      url: url,
     };
   });
 

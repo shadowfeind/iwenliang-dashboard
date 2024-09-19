@@ -5,35 +5,39 @@ import { CloudUpload, Loader, X } from "lucide-react";
 import Image from "next/image";
 import { ErrorComponent } from "./ErrorComponent";
 import { mode } from "@/config/types/mode.types";
+import { uploadToS3 } from "@/actions/upload.action";
 
 type imagePropType = {
-  size: Number;
-  maxFiles: Number;
+  size: number;
+  maxFiles: number;
   mode: mode;
-  images?: any[];
+  images: string[];
+  setImages: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const ImageUpload = ({ size, maxFiles, mode, images }: imagePropType) => {
-  const [files, setFiles] = useState<any[]>([]);
-  const [previews, setPreviews] = useState<any[]>([]);
+const ImageUpload = ({
+  size,
+  maxFiles,
+  mode,
+  images,
+  setImages,
+}: imagePropType) => {
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  useEffect(() => {
-    if (mode === "view" || mode === "edit") {
-      if (images && images.length > 0) {
-        setPreviews(images);
-      }
-    }
-  }, [mode, images]);
+  console.log(images);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
-    let selectedFiles;
+    if (images.length >= maxFiles) {
+      setError("Delete files first to upload");
+    }
+
     if (event.target.files) {
       setUploading(true);
-      selectedFiles = Array.from(event.target.files);
+      setError("");
+      const selectedFiles = Array.from(event.target.files);
 
       const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       const maxSize = 2 * 1024 * 1024; // 2MB
@@ -41,27 +45,46 @@ const ImageUpload = ({ size, maxFiles, mode, images }: imagePropType) => {
       const validFiles = selectedFiles.filter(
         (file) => allowedTypes.includes(file.type) && file.size <= maxSize
       );
+      if (validFiles.length !== selectedFiles.length) {
+        setError("All files must follow upload rules");
+        setUploading(false);
+        return;
+      }
+      if (validFiles.length > maxFiles) {
+        setError(`only ${maxFiles} files are allowed`);
+        setUploading(false);
+        return;
+      }
 
-      if (validFiles.length === selectedFiles.length) {
-        setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+      const formData = new FormData();
+      validFiles.forEach((file) => {
+        formData.append("file", file);
+      });
 
-        validFiles.forEach((file) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPreviews((prevPreviews) => [...prevPreviews, reader.result]);
-          };
-          reader.readAsDataURL(file);
-        });
-        setError("");
-      } else {
-        setError("Check file size / type. Validation failed");
+      const { successful, failed } = await uploadToS3(formData);
+      console.log(successful, failed);
+
+      if (failed.length > 0) {
+        let errorString = "";
+        failed.forEach((err) => errorString + `${err.originalName}, `);
+        setError(`${errorString} could not be uploaded. try again`);
+      }
+
+      if (successful.length > 0) {
+        let imgUrl: string[] = [];
+        successful.forEach((img) =>
+          imgUrl.push(
+            `https://iwenliangv3.s3.ap-southeast-1.amazonaws.com/${img.uploadedName}`
+          )
+        );
+        setImages((prev) => [...prev, ...imgUrl]);
+        setUploading(false);
       }
     }
   };
 
   const handleDelete = (index: any) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setPreviews((prevPreviews) => prevPreviews.filter((_, i) => i !== index));
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   return (
@@ -100,7 +123,7 @@ const ImageUpload = ({ size, maxFiles, mode, images }: imagePropType) => {
       )}
 
       <div className="mt-4 flex gap-4">
-        {previews?.map((preview, index) => (
+        {images?.map((preview, index) => (
           <div key={index} className="relative">
             <Image
               height={200}
@@ -109,12 +132,14 @@ const ImageUpload = ({ size, maxFiles, mode, images }: imagePropType) => {
               alt={`Preview ${index + 1}`}
               className="w-[200px] h-[200px] object-cover rounded-sm"
             />
-            <button
-              onClick={() => handleDelete(index)}
-              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-            >
-              <X size={16} />
-            </button>
+            {mode !== "view" && (
+              <button
+                onClick={() => handleDelete(index)}
+                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
         ))}
       </div>

@@ -42,6 +42,7 @@ const CreateViewEditProductForm = ({
 }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [images, setImages] = useState<string[]>([]);
   const [error, setError] = useState("");
   const form = useForm<ProductSchamaType>({
     resolver: zodResolver(productSchema),
@@ -57,15 +58,23 @@ const CreateViewEditProductForm = ({
   });
 
   useEffect(() => {
-    if (mode === "view" || (mode === "edit" && productData)) {
-      //@ts-ignore i do not want to set value manually.
-      form.reset(productData);
+    if (mode === "view" || mode === "edit") {
+      if (productData) {
+        // i am doing this as i do not want to put _id as optional
+        //@ts-ignore i do not want to set value manually.
+        form.reset(productData);
+        if (productData.images) {
+          // there are images for preview for upload component
+          setImages(productData.images);
+        }
+      }
     }
   }, [mode, productData, form]);
 
   const handleSubmit = (values: ProductSchamaType) => {
     if (mode === "create") {
       const createvalues = values as ProductSchamaType;
+      createvalues.images = [...images];
       startTransition(() => {
         createProduct(createvalues).then((data) => {
           if ("error" in data) {
@@ -81,6 +90,7 @@ const CreateViewEditProductForm = ({
     if (mode === "edit") {
       startTransition(() => {
         const updateValues = values as ProductSchamaType;
+        updateValues.images = [...images];
         updateProduct(updateValues, productData?._id ?? "").then((data) => {
           if ("error" in data) {
             setError(data.error);
@@ -96,11 +106,16 @@ const CreateViewEditProductForm = ({
 
   return (
     <>
-      {mode === "view" ? null : (
-        <div className="my-4">
-          <ImageUpload size={2} maxFiles={4} mode={mode} />
-        </div>
-      )}
+      <div className="my-4">
+        <ImageUpload
+          size={2}
+          maxFiles={4}
+          mode={mode}
+          images={images}
+          setImages={setImages}
+        />
+      </div>
+
       <Form {...form}>
         <form
           className="w-full space-y-4"
