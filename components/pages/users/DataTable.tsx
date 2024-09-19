@@ -39,6 +39,7 @@ import AddEditUserModel from "./AddEditUserModel";
 import { ChangePassword } from "./ChangePassword";
 import DeleteUser from "./Delete";
 import { deleteUser } from "@/actions/user.action";
+import { mode } from "@/config/types/mode.types";
 
 export function DataTable({ data }: { data: UserTypes[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -51,10 +52,10 @@ export function DataTable({ data }: { data: UserTypes[] }) {
   const [userModelOpen, setUserModelOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [changePasswordOpen, setChangePasswordOpen] = React.useState(false);
-  const [mode, setMode] = React.useState<"create" | "update">("create");
+  const [mode, setMode] = React.useState<mode>("create");
   const [userId, setUserId] = React.useState<string | null>(null);
 
-  const handleEdit = (id: string, mode: "create" | "update") => {
+  const handleEdit = (id: string, mode: mode) => {
     setMode(mode);
     setUserModelOpen(true);
     setUserId(id);
@@ -162,7 +163,7 @@ export function DataTable({ data }: { data: UserTypes[] }) {
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
                 <DropdownMenuItem
-                  onClick={() => handleEdit(row.original._id, "update")}
+                  onClick={() => handleEdit(row.original._id, "edit")}
                 >
                   Edit
                 </DropdownMenuItem>

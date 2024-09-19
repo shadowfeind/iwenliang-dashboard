@@ -21,14 +21,18 @@ import { Button } from "../../ui/button";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../../ErrorComponent";
 import { z } from "zod";
-import { categorySchema, CategoryType } from "@/config/schemas/category.schema";
+import {
+  categorySchema,
+  CategorySchemaType,
+} from "@/config/schemas/category.schema";
 import { createCategory, updateCategory } from "@/actions/category.action";
 import { getCategoryById } from "@/query/category.query";
+import { mode } from "@/config/types/mode.types";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  mode: "create" | "update";
+  mode: mode;
   categoryId?: string | null;
 };
 
@@ -49,7 +53,7 @@ const CreateOrUpdateCategory = ({
     setError("");
     startTransition(() => {
       if (mode === "create") {
-        const createValues = values as CategoryType;
+        const createValues = values;
         createCategory(createValues).then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -59,7 +63,7 @@ const CreateOrUpdateCategory = ({
           }
         });
       }
-      if (mode === "update") {
+      if (mode === "edit") {
         const updateValues = values as z.infer<typeof categorySchema>;
         console.log(updateValues);
         updateCategory(updateValues, categoryId ?? "").then((data) => {
@@ -75,7 +79,7 @@ const CreateOrUpdateCategory = ({
   };
 
   useEffect(() => {
-    if (categoryId && mode === "update") {
+    if (categoryId && mode === "edit") {
       getCategoryById(categoryId).then((data) => {
         if ("error" in data) {
           setError(data.error);
@@ -86,6 +90,7 @@ const CreateOrUpdateCategory = ({
     } else {
       form.reset();
     }
+    // eslint-disable-next-line
   }, [mode, categoryId]);
 
   return (
@@ -117,7 +122,7 @@ const CreateOrUpdateCategory = ({
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending
                 ? "Loading...."
-                : mode === "update"
+                : mode === "edit"
                 ? "Update Category"
                 : "Create Category"}
             </Button>

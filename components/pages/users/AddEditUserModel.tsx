@@ -38,11 +38,12 @@ import {
   updateUser,
 } from "@/actions/user.action";
 import { z } from "zod";
+import { mode } from "@/config/types/mode.types";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  mode: "create" | "update";
+  mode: mode;
   userId?: string | null;
 };
 
@@ -53,7 +54,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
     switch (mode) {
       case "create":
         return createUserSchema;
-      case "update":
+      case "edit":
         return updateUserSchema;
       default:
         return createUserSchema;
@@ -78,7 +79,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           }
         });
       }
-      if (mode === "update") {
+      if (mode === "edit") {
         const updateValues = values as z.infer<typeof updateUserSchema>;
         console.log(updateValues);
         updateUser(updateValues, userId ?? "").then((data) => {
@@ -94,7 +95,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
   };
 
   useEffect(() => {
-    if (userId && mode === "update") {
+    if (userId && mode === "edit") {
       getUserByIdAction(userId).then((data) => {
         if ("error" in data) {
           setError(data.error);
@@ -148,7 +149,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                       <Input
                         placeholder="email@gmail.com"
                         {...field}
-                        disabled={mode === "update"}
+                        disabled={mode === "edit"}
                       />
                     </FormControl>
                     <FormMessage />
@@ -167,7 +168,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
                       <Input
                         placeholder="username"
                         {...field}
-                        disabled={mode === "update"}
+                        disabled={mode === "edit"}
                       />
                     </FormControl>
                     <FormMessage />
@@ -223,7 +224,7 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending
                 ? "Loading...."
-                : mode === "update"
+                : mode === "edit"
                 ? "Update User"
                 : "Create User"}
             </Button>

@@ -38,6 +38,7 @@ import Delete from "../users/Delete";
 import { deleteCategory } from "@/actions/category.action";
 import { CategoryType } from "@/config/types/category.types";
 import CreateOrUpdateCategory from "./CreateOrUpdateCategory";
+import { mode } from "@/config/types/mode.types";
 
 export function DataTable({ data }: { data: CategoryType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -49,11 +50,11 @@ export function DataTable({ data }: { data: CategoryType[] }) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [modelOpen, setModelOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
-  const [mode, setMode] = React.useState<"create" | "update">("create");
+  const [mode, setMode] = React.useState<mode>("create");
   // userId is category id in this case
   const [userId, setUserId] = React.useState<string | null>(null);
 
-  const handleEdit = (id: string, mode: "create" | "update") => {
+  const handleEdit = (id: string, mode: mode) => {
     setMode(mode);
     setModelOpen(true);
     setUserId(id);
@@ -122,7 +123,7 @@ export function DataTable({ data }: { data: CategoryType[] }) {
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
                 <DropdownMenuItem
-                  onClick={() => handleEdit(row.original._id, "update")}
+                  onClick={() => handleEdit(row.original._id, "edit")}
                 >
                   Edit
                 </DropdownMenuItem>

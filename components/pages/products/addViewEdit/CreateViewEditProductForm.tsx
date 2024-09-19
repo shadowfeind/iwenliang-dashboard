@@ -22,6 +22,7 @@ import {
   productSchema,
   ProductSchamaType,
 } from "@/config/schemas/product.schema";
+import { mode } from "@/config/types/mode.types";
 import { ProductType } from "@/config/types/product.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -29,7 +30,7 @@ import React, { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 type Props = {
-  mode: "view" | "edit" | "create";
+  mode: mode;
   categoriesName: any[];
   productData?: ProductType;
 };
@@ -97,7 +98,7 @@ const CreateViewEditProductForm = ({
     <>
       {mode === "view" ? null : (
         <div className="my-4">
-          <ImageUpload size={2} maxFiles={4} />
+          <ImageUpload size={2} maxFiles={4} mode={mode} />
         </div>
       )}
       <Form {...form}>

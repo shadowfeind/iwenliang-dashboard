@@ -1,20 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloudUpload, Loader, X } from "lucide-react";
 import Image from "next/image";
 import { ErrorComponent } from "./ErrorComponent";
+import { mode } from "@/config/types/mode.types";
 
 type imagePropType = {
   size: Number;
   maxFiles: Number;
+  mode: mode;
+  images?: any[];
 };
 
-const ImageUpload = ({ size, maxFiles }: imagePropType) => {
+const ImageUpload = ({ size, maxFiles, mode, images }: imagePropType) => {
   const [files, setFiles] = useState<any[]>([]);
   const [previews, setPreviews] = useState<any[]>([]);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (mode === "view" || mode === "edit") {
+      if (images && images.length > 0) {
+        setPreviews(images);
+      }
+    }
+  }, [mode, images]);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -55,36 +66,38 @@ const ImageUpload = ({ size, maxFiles }: imagePropType) => {
 
   return (
     <div className="w-full">
-      <label className="w-full h-40 bg-slate-300 flex items-center justify-center flex-col rounded-sm cursor-pointer">
-        <input
-          disabled={uploading}
-          type="file"
-          accept=".jpg,.jpeg,.png"
-          multiple
-          onChange={handleFileChange}
-          className="hidden"
-        />
-        {uploading ? (
-          <>
-            <Loader size={48} />
-            <div>Uploadding Images...</div>
-          </>
-        ) : (
-          <>
-            {" "}
-            <CloudUpload size={48} />
-            <div>Upload Images</div>
-          </>
-        )}
-        <div className="text-sm font-light">
-          Allowed types:<strong> png, jpeg and jpg</strong> only
-        </div>
-        <div className="text-sm font-light">
-          max file size: <strong>{size.toString()}MB</strong>, max images:{" "}
-          <strong>{maxFiles.toString()}</strong>
-        </div>
-        <ErrorComponent message={error} />
-      </label>
+      {mode !== "view" && (
+        <label className="w-full h-40 bg-slate-300 flex items-center justify-center flex-col rounded-sm cursor-pointer">
+          <input
+            disabled={uploading}
+            type="file"
+            accept=".jpg,.jpeg,.png"
+            multiple
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          {uploading ? (
+            <>
+              <Loader size={48} />
+              <div>Uploadding Images...</div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <CloudUpload size={48} />
+              <div>Upload Images</div>
+            </>
+          )}
+          <div className="text-sm font-light">
+            Allowed types:<strong> png, jpeg and jpg</strong> only
+          </div>
+          <div className="text-sm font-light">
+            max file size: <strong>{size.toString()}MB</strong>, max images:{" "}
+            <strong>{maxFiles.toString()}</strong>
+          </div>
+          <ErrorComponent message={error} />
+        </label>
+      )}
 
       <div className="mt-4 flex gap-4">
         {previews?.map((preview, index) => (
