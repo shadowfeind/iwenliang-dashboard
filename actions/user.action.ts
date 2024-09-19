@@ -27,9 +27,10 @@ export async function createUser(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session } = await auth();
+  const { session, user: currentUser } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && currentUser?.role !== "admin")
+    return { error: "Unauthorized" };
 
   const validateFields = createUserSchema.safeParse(user);
 
@@ -67,9 +68,10 @@ export async function getUserByIdAction(
 ): Promise<UserTypes | { error: string }> {
   await connectDB();
 
-  const { session } = await auth();
+  const { session, user: currentUser } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && currentUser?.role !== "admin")
+    return { error: "Unauthorized" };
 
   const user = await User.findById(id).exec();
 
@@ -86,9 +88,10 @@ export async function updateUser(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session } = await auth();
+  const { session, user: currentUser } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && currentUser?.role !== "admin")
+    return { error: "Unauthorized" };
 
   const validateFields = updateUserSchema.safeParse(user);
 
@@ -135,9 +138,10 @@ export async function deleteUser(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session } = await auth();
+  const { session, user: currentUser } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && currentUser?.role !== "admin")
+    return { error: "Unauthorized" };
   try {
     await User.findByIdAndDelete(id);
     revalidatePath("/dashboard/user");

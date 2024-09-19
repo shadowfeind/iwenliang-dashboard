@@ -11,6 +11,7 @@ import Product from "@/models/product.model";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
+import { ProductType } from "@/config/types/product.types";
 
 export async function createProduct(
   values: ProductSchamaType
@@ -126,9 +127,9 @@ export async function deleteProduct(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session } = await auth();
+  const { session, user } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
 
   try {
     await Product.findByIdAndDelete(id);
