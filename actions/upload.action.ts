@@ -36,7 +36,7 @@ export async function uploadToS3(
 
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") {
+  if (!session || user?.role !== "admin") {
     failed.push({ originalName: "AuthError", error: "Not Authorized" });
     return { successful, failed };
   }

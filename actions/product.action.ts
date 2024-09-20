@@ -19,7 +19,7 @@ export async function createProduct(
   await connectDB();
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
 
   const validateFields = productSchema.safeParse(values);
 
@@ -129,7 +129,7 @@ export async function deleteProduct(
 
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
 
   try {
     await Product.findByIdAndDelete(id);

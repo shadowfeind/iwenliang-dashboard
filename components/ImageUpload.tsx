@@ -25,8 +25,6 @@ const ImageUpload = ({
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
 
-  console.log(images);
-
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {

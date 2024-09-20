@@ -18,7 +18,7 @@ export async function createCategory(
 
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -49,7 +49,7 @@ export async function updateCategory(
 
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -83,7 +83,7 @@ export async function deleteCategory(
 
   const { session, user } = await auth();
 
-  if (!session && user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
 
   try {
     await Category.findByIdAndDelete(id);
