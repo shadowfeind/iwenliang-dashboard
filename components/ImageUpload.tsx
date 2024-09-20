@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CloudUpload, Loader, X } from "lucide-react";
 import Image from "next/image";
 import { ErrorComponent } from "./ErrorComponent";
@@ -30,10 +30,6 @@ const ImageUpload = ({
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ): Promise<void> => {
-    if (images.length >= maxFiles) {
-      setError("Delete files first to upload");
-    }
-
     if (event.target.files) {
       setUploading(true);
       setError("");
@@ -53,6 +49,11 @@ const ImageUpload = ({
       if (validFiles.length > maxFiles) {
         setError(`only ${maxFiles} files are allowed`);
         setUploading(false);
+        return;
+      }
+
+      if (validFiles.length + images.length > maxFiles) {
+        setError("Delete files first to upload");
         return;
       }
 
@@ -78,8 +79,8 @@ const ImageUpload = ({
           )
         );
         setImages((prev) => [...prev, ...imgUrl]);
-        setUploading(false);
       }
+      setUploading(false);
     }
   };
 
