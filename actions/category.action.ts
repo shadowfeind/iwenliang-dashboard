@@ -60,9 +60,6 @@ export async function updateCategory(
 
   if (!category) return { error: "Category not found" };
 
-  if (category && category.name === name)
-    return { error: "No change detected" };
-
   const slug = slugify(name);
 
   category.name = name;

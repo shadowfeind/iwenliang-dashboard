@@ -21,13 +21,11 @@ import { Button } from "../../ui/button";
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { ErrorComponent } from "../../ErrorComponent";
 import { z } from "zod";
-import {
-  categorySchema,
-  CategorySchemaType,
-} from "@/config/schemas/category.schema";
+import { categorySchema } from "@/config/schemas/category.schema";
 import { createCategory, updateCategory } from "@/actions/category.action";
 import { getCategoryById } from "@/query/category.query";
 import { mode } from "@/config/types/mode.types";
+import ImageUpload from "@/components/ImageUpload";
 
 type Props = {
   isOpen: boolean;
@@ -44,6 +42,7 @@ const CreateOrUpdateCategory = ({
 }: Props) => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
@@ -54,6 +53,7 @@ const CreateOrUpdateCategory = ({
     startTransition(() => {
       if (mode === "create") {
         const createValues = values;
+        createValues.image = images[0];
         createCategory(createValues).then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -65,7 +65,7 @@ const CreateOrUpdateCategory = ({
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof categorySchema>;
-        console.log(updateValues);
+        updateValues.image = images[0];
         updateCategory(updateValues, categoryId ?? "").then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -85,6 +85,9 @@ const CreateOrUpdateCategory = ({
           setError(data.error);
         } else {
           form.setValue("name", data.name ?? "");
+          if (data.image) {
+            setImages([data.image]);
+          }
         }
       });
     } else {
@@ -119,6 +122,13 @@ const CreateOrUpdateCategory = ({
                 )}
               />
             </div>
+            <ImageUpload
+              size={2}
+              maxFiles={1}
+              mode={mode}
+              images={images}
+              setImages={setImages}
+            />
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending
                 ? "Loading...."
