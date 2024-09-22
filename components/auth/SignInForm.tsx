@@ -35,7 +35,7 @@ const SignInForm = () => {
     });
   };
   return (
-    <div className="p-8 m-4 md:p-12 rounded-md w-full md:w-[400px] border">
+    <div className="p-8 m-4 md:p-12 bg-white rounded-md w-full md:w-[400px] border">
       <h1 className="text-xl font-semibold">Sign In</h1>
       <Form {...form}>
         <ErrorComponent message={error} />

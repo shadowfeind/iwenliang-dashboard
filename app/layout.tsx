@@ -18,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* i was using theme switcher but not any more. might remove it future */}
         <Providers>{children}</Providers>
       </body>
     </html>
