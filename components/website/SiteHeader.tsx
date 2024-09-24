@@ -14,7 +14,9 @@ const SiteHeader = (props: Props) => {
   return (
     <>
       {!isExcludedRoute && (
-        <div className="w-full py-2 bg-black text-white">SiteHeader</div>
+        <div className="w-full py-1 text-sm bg-black text-white">
+          SiteHeader
+        </div>
       )}
     </>
   );
