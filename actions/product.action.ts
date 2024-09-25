@@ -9,9 +9,7 @@ import { auth } from "@/lib/auth";
 import { slugify } from "@/lib/slugify";
 import Product from "@/models/product.model";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { ProductType } from "@/config/types/product.types";
 
 export async function createProduct(
   values: ProductSchamaType
@@ -19,7 +17,7 @@ export async function createProduct(
   await connectDB();
   const { session, user } = await auth();
 
-  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
 
   const validateFields = productSchema.safeParse(values);
 
@@ -129,7 +127,7 @@ export async function deleteProduct(
 
   const { session, user } = await auth();
 
-  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
 
   try {
     await Product.findByIdAndDelete(id);

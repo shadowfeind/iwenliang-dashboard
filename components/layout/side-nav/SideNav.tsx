@@ -10,9 +10,14 @@ import {
   ShoppingBasket,
   User,
   ChartColumnStacked,
+  BrickWall,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
-import { CATEGORY_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
+import {
+  CATEGORY_ROUTE,
+  MATERIAL_ROUTE,
+  PRODUCT_ROUTE,
+} from "@/config/constant/routes";
 
 const routes: SidebarRoutes[] = [
   {
@@ -29,6 +34,11 @@ const routes: SidebarRoutes[] = [
     name: "Product",
     icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
     link: PRODUCT_ROUTE,
+  },
+  {
+    name: "Material",
+    icon: <BrickWall className="w-5 h-5 ml-2" />,
+    link: MATERIAL_ROUTE,
   },
   {
     name: "User",

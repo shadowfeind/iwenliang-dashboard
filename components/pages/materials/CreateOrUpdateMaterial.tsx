@@ -22,27 +22,25 @@ import { useEffect, useState, useTransition } from "react";
 import { ErrorComponent } from "../../ErrorComponent";
 import { z } from "zod";
 import { categorySchema } from "@/config/schemas/category.schema";
-import { createCategory, updateCategory } from "@/actions/category.action";
-import { getCategoryById } from "@/query/category.query";
 import { mode } from "@/config/types/mode.types";
-import ImageUpload from "@/components/ImageUpload";
+import { createMaterial, updateMaterial } from "@/actions/material.action";
+import { getMaterialById } from "@/query/material.query";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mode: mode;
-  categoryId?: string | null;
+  materialId?: string | null;
 };
 
-const CreateOrUpdateCategory = ({
+const CreateOrUpdateMaterial = ({
   isOpen,
   setIsOpen,
   mode,
-  categoryId,
+  materialId,
 }: Props) => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
-  const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof categorySchema>>({
     resolver: zodResolver(categorySchema),
@@ -53,8 +51,7 @@ const CreateOrUpdateCategory = ({
     startTransition(() => {
       if (mode === "create") {
         const createValues = values;
-        createValues.image = images[0];
-        createCategory(createValues).then((data) => {
+        createMaterial(createValues).then((data) => {
           if (data?.error) {
             setError(data.error);
           } else {
@@ -65,8 +62,7 @@ const CreateOrUpdateCategory = ({
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof categorySchema>;
-        updateValues.image = images[0];
-        updateCategory(updateValues, categoryId ?? "").then((data) => {
+        updateMaterial(updateValues, materialId ?? "").then((data) => {
           if (data?.error) {
             setError(data.error);
           } else {
@@ -79,24 +75,19 @@ const CreateOrUpdateCategory = ({
   };
 
   useEffect(() => {
-    if (categoryId && mode === "edit") {
-      getCategoryById(categoryId).then((data) => {
+    if (materialId && mode === "edit") {
+      getMaterialById(materialId).then((data) => {
         if ("error" in data) {
           setError(data.error);
         } else {
           form.setValue("name", data.name ?? "");
-          if (data.image) {
-            setImages([data.image]);
-          } else {
-            setImages([]);
-          }
         }
       });
     } else {
       form.reset();
     }
     // eslint-disable-next-line
-  }, [mode, categoryId]);
+  }, [mode, materialId]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -115,28 +106,21 @@ const CreateOrUpdateCategory = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category Name</FormLabel>
+                    <FormLabel>Material Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Category" {...field} />
+                      <Input placeholder="Material" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <ImageUpload
-              size={2}
-              maxFiles={1}
-              mode={mode}
-              images={images}
-              setImages={setImages}
-            />
             <Button disabled={isPending} className="mt-8" type="submit">
               {isPending
                 ? "Loading...."
                 : mode === "edit"
-                ? "Update Category"
-                : "Create Category"}
+                ? "Update Material"
+                : "Create Material"}
             </Button>
           </form>
         </Form>
@@ -145,4 +129,4 @@ const CreateOrUpdateCategory = ({
   );
 };
 
-export default CreateOrUpdateCategory;
+export default CreateOrUpdateMaterial;

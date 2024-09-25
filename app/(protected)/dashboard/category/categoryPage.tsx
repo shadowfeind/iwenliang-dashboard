@@ -1,8 +1,6 @@
 import { DataTable } from "@/components/pages/categories/DataTable";
 import { getAllCategories } from "@/query/category.query";
 
-import React from "react";
-
 const CategoryPage = async () => {
   const data = await getAllCategories();
 

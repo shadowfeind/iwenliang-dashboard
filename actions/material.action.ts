@@ -1,3 +1,5 @@
+"use server";
+
 import { MATERIAL_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import {
@@ -10,10 +12,12 @@ import { revalidatePath } from "next/cache";
 
 export async function createMaterial(
   value: MaterialSchemaType
-): Promise<{ success: true } | { error: string }> {
+): Promise<void | { error: string }> {
   await connectDB();
   const { session, user } = await auth();
-  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
+
+  console.log(user);
+  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -24,7 +28,6 @@ export async function createMaterial(
   try {
     await Material.create({ name });
     revalidatePath(MATERIAL_ROUTE);
-    return { success: true };
   } catch (error) {
     console.log("Error from createMaterial", error);
     return { error: "Something went wrong" };
@@ -34,11 +37,11 @@ export async function createMaterial(
 export async function updateMaterial(
   value: MaterialSchemaType,
   id: string
-): Promise<{ success: true } | { error: string }> {
+): Promise<void | { error: string }> {
   await connectDB();
   const { session, user } = await auth();
 
-  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -54,7 +57,6 @@ export async function updateMaterial(
     material.name = name;
     await material.save();
     revalidatePath(MATERIAL_ROUTE);
-    return { success: true };
   } catch (error) {
     console.log("Error from updateMaterial", error);
     return { error: "Something went wrong" };
@@ -63,17 +65,16 @@ export async function updateMaterial(
 
 export async function deleteMaterial(
   id: string
-): Promise<{ success: true } | { error: string }> {
+): Promise<void | { error: string }> {
   await connectDB();
 
   const { session, user } = await auth();
 
-  if (!session || user?.role !== "admin") return { error: "Unauthorized" };
+  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
 
   try {
     await Material.findByIdAndDelete(id);
     revalidatePath(MATERIAL_ROUTE);
-    return { success: true };
   } catch (error) {
     console.log("Error from deleteMaterial", error);
     return { error: "Something went wrong" };

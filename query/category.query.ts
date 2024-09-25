@@ -2,7 +2,7 @@ import { REST_URL } from "@/config/db/constant";
 import { CategoryType } from "@/config/types/category.types";
 
 export async function getAllCategories(): Promise<
-  CategoryType[] | { error: any }
+  CategoryType[] | { error: string }
 > {
   const response = await fetch(`${REST_URL}category`, {
     method: "GET",
