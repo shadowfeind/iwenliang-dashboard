@@ -87,6 +87,8 @@ const CreateOrUpdateCategory = ({
           form.setValue("name", data.name ?? "");
           if (data.image) {
             setImages([data.image]);
+          } else {
+            setImages([]);
           }
         }
       });
