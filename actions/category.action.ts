@@ -36,7 +36,7 @@ export async function createCategory(
 
     revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
-    console.log(error);
+    console.log("Error from createCategory", error);
     return { error: "Something went wrong" };
   }
 }
@@ -69,7 +69,7 @@ export async function updateCategory(
   try {
     await category.save();
   } catch (error) {
-    console.log(error);
+    console.log("Error from updateCategory", error);
     return { error: "Databse error" };
   }
 
@@ -89,6 +89,7 @@ export async function deleteCategory(
     await Category.findByIdAndDelete(id);
     revalidatePath(CATEGORY_ROUTE);
   } catch (error) {
+    console.log("Error from deleteCategory", error);
     return { error: "Something went wrong" };
   }
 }
