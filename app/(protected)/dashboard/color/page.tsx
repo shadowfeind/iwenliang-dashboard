@@ -1,6 +1,8 @@
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
-import React from "react";
+import { TableLoading } from "@/components/loading/tableLoading";
+import React, { Suspense } from "react";
+import ColorPage from "./colorPage";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
@@ -11,6 +13,9 @@ const page = () => {
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
+      <Suspense fallback={<TableLoading />}>
+        <ColorPage />
+      </Suspense>
     </MainContainer>
   );
 };

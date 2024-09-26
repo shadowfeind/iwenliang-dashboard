@@ -1,3 +1,5 @@
+"use server";
+
 import { COLR_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import {
