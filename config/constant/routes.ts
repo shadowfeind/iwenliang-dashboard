@@ -8,4 +8,4 @@ export const PRODUCT_ADD_ROUTE = "/dashboard/product/add";
 export const USER_ROUTE = "/dashboard/user";
 export const CATEGORY_ROUTE = "/dashboard/category";
 export const MATERIAL_ROUTE = "/dashboard/material";
-export const COLR_ROUTE = "/dashboard/colr";
+export const COLR_ROUTE = "/dashboard/color";
