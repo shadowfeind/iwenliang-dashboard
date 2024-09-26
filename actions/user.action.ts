@@ -12,6 +12,7 @@ import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/config/types/users.types";
 import User from "@/models/user.model";
 import { auth } from "@/lib/auth";
+import { USER_ROUTE } from "@/config/constant/routes";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   await connectDB();
@@ -57,7 +58,7 @@ export async function createUser(
       role,
     });
 
-    revalidatePath("/dashboard/user");
+    revalidatePath(USER_ROUTE);
   } catch (error) {
     return { error: "Something went wrong" };
   }
@@ -110,7 +111,7 @@ export async function updateUser(
 
   await userData.save();
 
-  revalidatePath("/dashboard/user");
+  revalidatePath(USER_ROUTE);
 }
 
 export async function changePassword(
@@ -131,7 +132,7 @@ export async function changePassword(
   user.password = hashedPassword;
   user.save();
 
-  revalidatePath("/dashboard/user");
+  revalidatePath(USER_ROUTE);
 }
 
 export async function deleteUser(
@@ -144,7 +145,7 @@ export async function deleteUser(
     return { error: "Unauthorized" };
   try {
     await User.findByIdAndDelete(id);
-    revalidatePath("/dashboard/user");
+    revalidatePath(USER_ROUTE);
   } catch (error) {
     return { error: "Failed to delete" };
   }

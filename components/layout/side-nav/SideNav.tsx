@@ -11,12 +11,15 @@ import {
   User,
   ChartColumnStacked,
   BrickWall,
+  Palette,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
   CATEGORY_ROUTE,
+  COLR_ROUTE,
   MATERIAL_ROUTE,
   PRODUCT_ROUTE,
+  USER_ROUTE,
 } from "@/config/constant/routes";
 
 const routes: SidebarRoutes[] = [
@@ -41,9 +44,14 @@ const routes: SidebarRoutes[] = [
     link: MATERIAL_ROUTE,
   },
   {
+    name: "Color",
+    icon: <Palette className="w-5 h-5 ml-2" />,
+    link: COLR_ROUTE,
+  },
+  {
     name: "User",
     icon: <User className="w-5 h-5 ml-2" />,
-    link: "/dashboard/user",
+    link: USER_ROUTE,
   },
 ];
 
