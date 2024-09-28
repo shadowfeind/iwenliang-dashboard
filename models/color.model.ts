@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-interface IColor extends Document {
+export interface IColor extends Document {
   name: string;
   hexValue: string;
 }

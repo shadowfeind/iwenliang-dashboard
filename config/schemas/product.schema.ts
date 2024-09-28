@@ -7,7 +7,9 @@ export const productSchema = z.object({
   price: z.coerce.number(),
   salePrice: z.coerce.number(),
   stock: z.coerce.number(),
-  category: z.array(z.string()),
+  color: z.array(z.string()).optional(),
+  material: z.array(z.string()).optional(),
+  category: z.array(z.string()).optional(),
   featured: z.boolean(),
   isActive: z.boolean(),
 });

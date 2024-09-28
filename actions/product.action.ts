@@ -31,6 +31,8 @@ export async function createProduct(
     salePrice,
     stock,
     category,
+    color,
+    material,
     featured,
     isActive,
   } = validateFields.data;
@@ -51,6 +53,8 @@ export async function createProduct(
       salePrice,
       stock,
       category,
+      color,
+      material,
       featured,
       isActive,
     });
@@ -87,6 +91,8 @@ export async function updateProduct(
     salePrice,
     stock,
     category,
+    color,
+    material,
     featured,
     isActive,
   } = validateFields.data;
@@ -106,6 +112,8 @@ export async function updateProduct(
     product.price = price;
     product.salePrice = salePrice;
     product.stock = stock;
+    product.color = color;
+    product.material = material;
     product.category = category;
     product.featured = featured;
     product.isActive = isActive;

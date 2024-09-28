@@ -1,5 +1,7 @@
 import mongoose, { Document } from "mongoose";
 import { ICategory } from "./category.model";
+import { IColor } from "./color.model";
+import { IMaterial } from "./material.model";
 
 interface IProduct extends Document {
   name: string;
@@ -10,6 +12,8 @@ interface IProduct extends Document {
   salePrice: number;
   stock: number;
   category: ICategory["_id"][];
+  color: IColor["_id"][];
+  material: IMaterial["_id"][];
   featured: boolean;
   isActive: boolean;
   createdAt: Date;
@@ -42,6 +46,8 @@ const productSchema = new mongoose.Schema<IProduct>(
       default: 0,
     },
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
+    color: [{ type: mongoose.Schema.Types.ObjectId, ref: "Color" }],
+    material: [{ type: mongoose.Schema.Types.ObjectId, ref: "Material" }],
     featured: {
       type: Boolean,
       default: false,
