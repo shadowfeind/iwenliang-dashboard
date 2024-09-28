@@ -1,3 +1,7 @@
+import { CategoryType } from "./category.types";
+import { ColorType } from "./color.types";
+import { MaterialType } from "./material.types";
+
 export type ProductType = {
   _id: string;
   name: string;
@@ -7,9 +11,9 @@ export type ProductType = {
   price: number;
   salePrice?: number;
   stock: number;
-  color?: string[];
-  material?: string[];
-  category?: string[];
+  color?: ColorType[];
+  material?: MaterialType[];
+  category?: CategoryType[];
   featured: boolean;
   isActive: boolean;
 };
