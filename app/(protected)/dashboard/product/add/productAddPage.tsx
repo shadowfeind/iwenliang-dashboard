@@ -4,43 +4,58 @@ import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/C
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { getAllColors } from "@/query/color.query";
 import { getAllMaterials } from "@/query/material.query";
+import { ColorType } from "@/config/types/color.types";
+import { MaterialType } from "@/config/types/material.types";
+import { error } from "console";
 
 type Props = {};
 
+export type MultiSelectType = {
+  label: string;
+  value: string;
+};
+
+const multiSelectNameCreator = (result: any, errorToSet: any) => {
+  if ("error" in result) {
+    errorToSet = result.error;
+    return;
+  }
+
+  return result.map((value: any) => {
+    return { value: value._id, label: value.name };
+  });
+};
+
 const ProductAddPage = async (props: Props) => {
   let error = "";
-  let categories: CategoryType[] = [];
-  let categoriesName: any[] = [];
-  try {
-    const [categoriesData, colorsData, materialsData] = await Promise.all([
-      getAllCategories(),
-      getAllColors(),
-      getAllMaterials(),
-    ]);
+  let categoriesName: MultiSelectType[] = [];
+  let colorsName: MultiSelectType[] = [];
+  let materialName: MultiSelectType[] = [];
 
-    if ("error" in categoriesData) {
-      error = categoriesData.error;
-    } else {
-      categories = [...categoriesData];
+  const [categoriesData, colorsData, materialsData] = await Promise.all([
+    getAllCategories(),
+    getAllColors(),
+    getAllMaterials(),
+  ]);
 
-      if (categories.length > 0) {
-        // creating labels to show in multi-select component
-        categoriesName = categories.map((cat) => {
-          return { value: cat._id, label: cat.name };
-        });
-      }
-    }
-  } catch (err) {
-    error = "An error occurred while fetching data";
-    console.error(err);
+  // Check for errors in categories data
+  categoriesName = multiSelectNameCreator(categoriesData, error);
+
+  colorsName = multiSelectNameCreator(colorsData, error);
+
+  materialName = multiSelectNameCreator(materialsData, error);
+
+  if (error) {
+    return <ErrorComponent message={error} />;
   }
 
   return (
     <>
-      <ErrorComponent message={error} />
       <CreateViewEditProductForm
         mode="create"
         categoriesName={categoriesName}
+        colors={colorsName}
+        materials={materialName}
       />
     </>
   );

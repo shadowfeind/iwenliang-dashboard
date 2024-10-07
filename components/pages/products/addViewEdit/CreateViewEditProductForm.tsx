@@ -32,14 +32,16 @@ import { useForm } from "react-hook-form";
 type Props = {
   mode: mode;
   categoriesName: any[];
-  colors?: any[];
-  materials?: any[];
+  colors: any[];
+  materials: any[];
   productData?: ProductType;
 };
 
 const CreateViewEditProductForm = ({
   mode,
   categoriesName,
+  colors,
+  materials,
   productData,
 }: Props) => {
   const router = useRouter();
@@ -210,6 +212,52 @@ const CreateViewEditProductForm = ({
                       onValueChange={field.onChange}
                       defaultValue={field.value as string[]}
                       placeholder="Select options"
+                      variant="inverted"
+                      animation={2}
+                      maxCount={3}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+            <FormField
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Colors</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={colors}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value as string[]}
+                      placeholder="Select colors"
+                      variant="inverted"
+                      animation={2}
+                      maxCount={3}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="material"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Materials</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={materials}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value as string[]}
+                      placeholder="Select materials"
                       variant="inverted"
                       animation={2}
                       maxCount={3}
