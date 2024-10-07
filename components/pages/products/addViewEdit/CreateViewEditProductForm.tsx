@@ -32,6 +32,8 @@ import { useForm } from "react-hook-form";
 type Props = {
   mode: mode;
   categoriesName: any[];
+  colors?: any[];
+  materials?: any[];
   productData?: ProductType;
 };
 
@@ -206,7 +208,7 @@ const CreateViewEditProductForm = ({
                     <MultiSelect
                       options={categoriesName}
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={field.value as string[]}
                       placeholder="Select options"
                       variant="inverted"
                       animation={2}
