@@ -55,6 +55,8 @@ const CreateViewEditProductForm = ({
       salePrice: 0,
       stock: 0,
       category: [],
+      color: [],
+      material: [],
       description: "",
       isActive: true,
       featured: false,

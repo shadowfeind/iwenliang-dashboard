@@ -1,12 +1,8 @@
-import { CategoryType } from "@/config/types/category.types";
 import { getAllCategories } from "@/query/category.query";
 import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/CreateViewEditProductForm";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { getAllColors } from "@/query/color.query";
 import { getAllMaterials } from "@/query/material.query";
-import { ColorType } from "@/config/types/color.types";
-import { MaterialType } from "@/config/types/material.types";
-import { error } from "console";
 
 type Props = {};
 
