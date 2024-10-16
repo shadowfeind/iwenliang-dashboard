@@ -3,30 +3,15 @@ import CreateViewEditProductForm from "@/components/pages/products/addViewEdit/C
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { getAllColors } from "@/query/color.query";
 import { getAllMaterials } from "@/query/material.query";
+import { multiSelectNameCreator } from "@/lib/utils";
 
 type Props = {};
 
-export type MultiSelectType = {
-  label: string;
-  value: string;
-};
-
-const multiSelectNameCreator = (result: any, errorToSet: any) => {
-  if ("error" in result) {
-    errorToSet = result.error;
-    return;
-  }
-
-  return result.map((value: any) => {
-    return { value: value._id, label: value.name };
-  });
-};
-
 const ProductAddPage = async (props: Props) => {
   let error = "";
-  let categoriesName: MultiSelectType[] = [];
-  let colorsName: MultiSelectType[] = [];
-  let materialName: MultiSelectType[] = [];
+  let categoriesName: any[] = [];
+  let colorsName: any[] = [];
+  let materialName: any[] = [];
 
   const [categoriesData, colorsData, materialsData] = await Promise.all([
     getAllCategories(),

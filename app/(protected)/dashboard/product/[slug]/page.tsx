@@ -2,11 +2,13 @@ import React from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { CategoryType } from "@/config/types/category.types";
 import { getAllCategories } from "@/query/category.query";
 import { getProductBySlug } from "@/query/product.query";
 import ProductSlugPage from "./productSlugPage";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
+import { getAllColors } from "@/query/color.query";
+import { getAllMaterials } from "@/query/material.query";
+import { multiSelectNameCreator } from "@/lib/utils";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
@@ -19,10 +21,14 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const [productData, categoryData] = await Promise.all([
-    getProductBySlug(params.slug),
-    getAllCategories(),
-  ]);
+  let error = "";
+  const [productData, categoryData, colorsData, materialsData] =
+    await Promise.all([
+      getProductBySlug(params.slug),
+      getAllCategories(),
+      getAllColors(),
+      getAllMaterials(),
+    ]);
 
   if ("error" in productData) {
     return (
@@ -33,17 +39,21 @@ const Page = async ({ params }: Props) => {
     );
   }
 
-  const categories: CategoryType[] =
-    "error" in categoryData ? [] : categoryData;
-  const categoriesName = categories.map((cat) => ({
-    value: cat._id,
-    label: cat.name,
-  }));
+  const categoriesName: any[] = multiSelectNameCreator(categoryData, error);
+
+  const colorsName: any[] = multiSelectNameCreator(colorsData, error);
+
+  const materialName: any[] = multiSelectNameCreator(materialsData, error);
 
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
-      <ProductSlugPage data={productData} categoriesName={categoriesName} />
+      <ProductSlugPage
+        data={productData}
+        categoriesName={categoriesName}
+        colorsName={colorsName}
+        materialName={materialName}
+      />
     </MainContainer>
   );
 };
