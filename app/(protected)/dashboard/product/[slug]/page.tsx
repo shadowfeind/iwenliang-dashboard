@@ -17,10 +17,11 @@ const breadcrumbs = [
 ];
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-const Page = async ({ params }: Props) => {
+const Page = async (props: Props) => {
+  const params = await props.params;
   let error = "";
   const [productData, categoryData, colorsData, materialsData] =
     await Promise.all([

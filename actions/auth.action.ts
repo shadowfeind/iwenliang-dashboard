@@ -26,7 +26,7 @@ export async function singIn(
   const session = await lucia.createSession(user._id, {});
 
   const sessionCookie = lucia.createSessionCookie(session.id);
-  cookies().set(
+  (await cookies()).set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes
@@ -42,7 +42,7 @@ export async function logout(): Promise<void> {
     }
     await lucia.invalidateSession(session.id);
     const sessionCookie = lucia.createBlankSessionCookie();
-    cookies().set(
+    (await cookies()).set(
       sessionCookie.name,
       sessionCookie.value,
       sessionCookie.attributes

@@ -14,10 +14,11 @@ const breadcrumbs = [
 ];
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-const Page = async ({ params }: Props) => {
+const Page = async (props: Props) => {
+  const params = await props.params;
   const [productData, categoryData] = await Promise.all([
     getProductBySlug(params.slug),
     getAllCategories(),
