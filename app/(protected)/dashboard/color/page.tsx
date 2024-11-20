@@ -2,7 +2,7 @@ import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { TableLoading } from "@/components/loading/tableLoading";
 import React, { Suspense } from "react";
-import ColorPage from "./colorPage";
+import ColorPage from "@/features/colors/colorPage";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },

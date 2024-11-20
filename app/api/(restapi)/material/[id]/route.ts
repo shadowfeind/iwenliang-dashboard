@@ -1,8 +1,11 @@
 import connectDB from "@/config/db/connect";
-import Material from "@/models/material.model";
+import Material from "@/features/materials/material.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  props: { params: Promise<{ id: string }> }
+) {
   const params = await props.params;
   try {
     await connectDB();

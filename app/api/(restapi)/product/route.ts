@@ -1,5 +1,6 @@
 import connectDB from "@/config/db/connect";
-import Product from "@/models/product.model";
+import Product from "@/features/products/product.model";
+
 import { NextResponse } from "next/server";
 
 export async function GET() {

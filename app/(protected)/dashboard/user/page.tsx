@@ -1,7 +1,7 @@
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import React, { Suspense } from "react";
-import UserPage from "./userPage";
+import UserPage from "../../../../features/users/userPage";
 import { TableLoading } from "@/components/loading/tableLoading";
 
 const breadcrumbs = [
