@@ -1,5 +1,5 @@
 import { REST_URL } from "@/config/db/constant";
-import { ProductType } from "@/config/types/product.types";
+import { ProductType } from "./product.types";
 
 export async function getAllProducts(): Promise<
   ProductType[] | { error: any }

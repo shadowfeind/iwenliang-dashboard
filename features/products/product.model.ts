@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
-import { ICategory } from "../features/categories/category.model";
-import { IColor } from "../features/colors/color.model";
-import { IMaterial } from "../features/materials/material.model";
+import { ICategory } from "../categories/category.model";
+import { IColor } from "../colors/color.model";
+import { IMaterial } from "../materials/material.model";
 
 interface IProduct extends Document {
   name: string;
