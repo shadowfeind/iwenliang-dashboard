@@ -1,11 +1,11 @@
 import { ErrorComponent } from "@/components/ErrorComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { CategoryType } from "@/config/types/category.types";
-import { getAllCategories } from "@/query/category.query";
-import { getProductBySlug } from "@/query/product.query";
+import { CategoryType } from "@/features/categories/category.types";
+import { getAllCategories } from "@/features/categories/category.query";
+import { getProductBySlug } from "@/features/products/product.query";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
-import ProductEditPage from "./productEditPage";
+import ProductEditPage from "@/features/products/productEditPage";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },

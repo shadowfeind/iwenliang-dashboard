@@ -2,13 +2,13 @@ import React from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
-import { getAllCategories } from "@/query/category.query";
-import { getProductBySlug } from "@/query/product.query";
-import ProductSlugPage from "./productSlugPage";
+import { getAllCategories } from "@/features/categories/category.query";
+import { getProductBySlug } from "@/features/products/product.query";
+import ProductSlugPage from "../../../../../features/products/productSlugPage";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
-import { getAllColors } from "@/query/color.query";
-import { getAllMaterials } from "@/query/material.query";
-import { multiSelectNameCreator } from "@/lib/utils";
+import { getAllColors } from "@/features/colors/color.query";
+import { getAllMaterials } from "@/features/materials/material.query";
+import { multiSelectNameCreator } from "@/config/lib/utils";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },

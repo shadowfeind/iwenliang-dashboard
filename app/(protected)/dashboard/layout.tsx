@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import SideNav from "@/components/layout/side-nav/SideNav";
 import { AuthProvider } from "@/config/providers/AuthProvider";
-import { auth } from "@/lib/auth";
+import { auth } from "@/config/lib/auth";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 

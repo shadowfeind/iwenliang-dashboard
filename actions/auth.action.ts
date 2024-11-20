@@ -1,8 +1,8 @@
 "use server";
 
 import { authSchema, AuthType } from "@/config/schemas/auth.schema";
-import { auth, lucia } from "@/lib/auth";
-import User from "@/models/user.model";
+import { auth, lucia } from "@/config/lib/auth";
+import User from "@/features/users/user.model";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

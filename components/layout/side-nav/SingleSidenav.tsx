@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/config/lib/utils";
 import { useMainStore } from "@/config/store/useMainStore";
 import { SidebarRoutes } from "@/config/types/sidenav.types";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 import connectDB from "@/config/db/connect";
-import Material from "@/models/material.model";
+import Material from "@/features/materials/material.model";
 import { NextResponse } from "next/server";
 
 export async function GET() {

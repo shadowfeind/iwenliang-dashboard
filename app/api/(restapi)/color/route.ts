@@ -1,5 +1,5 @@
 import connectDB from "@/config/db/connect";
-import Color from "@/models/color.model";
+import Color from "@/features/colors/color.model";
 import { NextResponse } from "next/server";
 
 export async function GET() {
