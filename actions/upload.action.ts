@@ -6,10 +6,10 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from "crypto";
 
 const s3Client = new S3Client({
-  region: process.env.AWS_BUCKET_REGION!,
+  region: process.env.I_AWS_BUCKET_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_KEY!,
+    accessKeyId: process.env.I_AWS_ACCESS_KEY!,
+    secretAccessKey: process.env.I_AWS_SECRET_KEY!,
   },
 });
 
@@ -54,7 +54,7 @@ export async function uploadToS3(
     const fileName = `${crypto.randomUUID()}.${fileExtension}`;
 
     const putObjectParams = {
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: process.env.I_AWS_BUCKET_NAME!,
       Key: fileName,
       Body: Buffer.from(fileBuffer),
       ContentType: file.type,
@@ -65,7 +65,7 @@ export async function uploadToS3(
 
     // Generate a pre-signed URL for the uploaded object
     const getObjectParams = {
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: process.env.I_AWS_BUCKET_NAME!,
       Key: fileName,
     };
     const url = await getSignedUrl(
