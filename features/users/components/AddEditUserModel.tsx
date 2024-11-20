@@ -106,8 +106,6 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
           form.setValue("role", data.role ?? "User");
         }
       });
-    } else {
-      form.reset();
     }
     // eslint-disable-next-line
   }, [mode, userId]);

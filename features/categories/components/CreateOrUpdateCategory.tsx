@@ -95,8 +95,6 @@ const CreateOrUpdateCategory = ({
           }
         }
       });
-    } else {
-      form.reset();
     }
     // eslint-disable-next-line
   }, [mode, categoryId]);

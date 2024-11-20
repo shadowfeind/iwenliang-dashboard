@@ -52,24 +52,23 @@ export function DataTable({ data }: { data: CategoryType[] }) {
   const [modelOpen, setModelOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [mode, setMode] = React.useState<mode>("create");
-  // userId is category id in this case
-  const [userId, setUserId] = React.useState<string | null>(null);
+  const [categoryId, setCategoryId] = React.useState<string | null>(null);
 
   const handleEdit = (id: string, mode: mode) => {
     setMode(mode);
     setModelOpen(true);
-    setUserId(id);
+    setCategoryId(id);
   };
 
   const handleAdd = () => {
     setMode("create");
     setModelOpen(true);
-    setUserId(null);
+    setCategoryId(null);
   };
 
   const handleDelete = (id: string) => {
     setDeleteOpen(true);
-    setUserId(id);
+    setCategoryId(id);
   };
 
   const columns: ColumnDef<CategoryType>[] = [
@@ -255,15 +254,16 @@ export function DataTable({ data }: { data: CategoryType[] }) {
         </Table>
       </div>
       <CreateOrUpdateCategory
+        key={categoryId}
         isOpen={modelOpen}
         setIsOpen={setModelOpen}
         mode={mode}
-        categoryId={userId}
+        categoryId={categoryId}
       />
       <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
-        userId={userId}
+        userId={categoryId}
         action={deleteCategory}
       />
     </div>

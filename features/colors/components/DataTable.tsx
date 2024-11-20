@@ -52,24 +52,23 @@ export function DataTable({ data }: { data: ColorType[] }) {
   const [modelOpen, setModelOpen] = React.useState(false);
   const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [mode, setMode] = React.useState<mode>("create");
-  // userId is material id in this case
-  const [userId, setUserId] = React.useState<string | null>(null);
+  const [colorId, setColorId] = React.useState<string | null>(null);
 
   const handleEdit = (id: string, mode: mode) => {
     setMode(mode);
     setModelOpen(true);
-    setUserId(id);
+    setColorId(id);
   };
 
   const handleAdd = () => {
     setMode("create");
     setModelOpen(true);
-    setUserId(null);
+    setColorId(null);
   };
 
   const handleDelete = (id: string) => {
     setDeleteOpen(true);
-    setUserId(id);
+    setColorId(id);
   };
 
   const columns: ColumnDef<ColorType>[] = [
@@ -261,15 +260,16 @@ export function DataTable({ data }: { data: ColorType[] }) {
         </Table>
       </div>
       <CreateOrUpdateColor
+        key={colorId}
         isOpen={modelOpen}
         setIsOpen={setModelOpen}
         mode={mode}
-        colorId={userId}
+        colorId={colorId}
       />
       <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
-        userId={userId}
+        userId={colorId}
         action={deleteColor}
       />
     </div>

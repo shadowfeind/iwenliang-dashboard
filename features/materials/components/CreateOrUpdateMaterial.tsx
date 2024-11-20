@@ -86,8 +86,6 @@ const CreateOrUpdateMaterial = ({
           form.setValue("name", data.name ?? "");
         }
       });
-    } else {
-      form.reset();
     }
     // eslint-disable-next-line
   }, [mode, materialId]);

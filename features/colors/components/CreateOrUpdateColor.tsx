@@ -78,8 +78,6 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
           form.setValue("name", data.name ?? "");
         }
       });
-    } else {
-      form.reset();
     }
     // eslint-disable-next-line
   }, [mode, colorId]);
