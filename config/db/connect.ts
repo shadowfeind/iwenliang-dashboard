@@ -1,28 +1,53 @@
 import mongoose from "mongoose";
 
-let connected = false;
+const MONGODB_URI = process.env.MONGO_URI;
 
-const connectDB = async () => {
-  mongoose.set("strictQuery", true);
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
+}
 
-  if (connected) {
-    console.log("MongoDB is already connected...");
-    return;
-  }
-  // Ensure that MONGO_URI is defined
-  const mongoUri = process.env.MONGO_URI;
-  if (!mongoUri) {
-    throw new Error("MONGO_URI is not defined in the environment variables.");
-  }
+interface MongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
 
-  try {
-    await mongoose.connect(mongoUri);
-    connected = true;
-    console.log("MongoDB connected...");
-  } catch (error) {
-    console.log(error);
-    throw new Error("MongoDB connection failed");
-  }
+// Explicitly initialize the global mongoose cache
+const globalWithMongoose = global as typeof globalThis & {
+  mongoose?: MongooseCache;
 };
+
+// Ensure the cache is always initialized
+if (!globalWithMongoose.mongoose) {
+  globalWithMongoose.mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
+
+async function connectDB() {
+  // Ensure we have a cache, using a non-null assertion
+  const cached = globalWithMongoose.mongoose!;
+
+  // If already connected, return existing connection
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  // If no existing promise, create a new connection
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: true,
+      // Add any other connection options you need
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  // Wait for the connection to be established
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
 
 export default connectDB;

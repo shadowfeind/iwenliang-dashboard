@@ -28,13 +28,13 @@ import { changePassword } from "@/features/users/user.action";
 
 type changePasswordType = {
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenAction: React.Dispatch<React.SetStateAction<boolean>>;
   userId?: string | null;
 };
 
 export const ChangePassword = ({
   isOpen,
-  setIsOpen,
+  setIsOpenAction,
   userId,
 }: changePasswordType) => {
   const [error, setError] = useState("");
@@ -55,14 +55,14 @@ export const ChangePassword = ({
           setError(data.error);
         } else {
           form.reset();
-          setIsOpen(false);
+          setIsOpenAction(false);
         }
       });
     });
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setIsOpenAction}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>

@@ -14,15 +14,6 @@ import User from "@/features/users/user.model";
 import { auth } from "@/config/lib/auth";
 import { USER_ROUTE } from "@/config/constant/routes";
 
-export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
-  await connectDB();
-  const users = await User.find().sort({ createdAt: -1 }).lean();
-  if (!users) {
-    return { error: "Something went wrong" };
-  }
-  return JSON.parse(JSON.stringify(users));
-}
-
 export async function createUser(
   user: CreateUserType
 ): Promise<void | { error: string }> {
