@@ -26,7 +26,7 @@ import {
 import Link from "next/link";
 import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 
-const SignInForm = () => {
+const SignUpForm = () => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<AuthType>({
@@ -34,20 +34,20 @@ const SignInForm = () => {
   });
 
   const handleSubmit = (values: AuthType) => {
-    startTransition(() => {
-      singIn(values).then((data) => {
-        if (data?.error) {
-          setError(data.error);
-        }
-      });
-    });
+    // startTransition(() => {
+    //   singIn(values).then((data) => {
+    //     if (data?.error) {
+    //       setError(data.error);
+    //     }
+    //   });
+    // });
   };
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">Register</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Fill up the form below to register to your account
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -88,22 +88,22 @@ const SignInForm = () => {
               />
             </div>
             <Button disabled={isPending} type="submit" className="w-full">
-              {isPending ? "Authenticating..." : "Sign In"}
+              {isPending ? "Registering..." : "Register"}
             </Button>
             <Button variant="outline" className="w-full">
               <FaGoogle className="mr-2 size-4" />
-              Login with Google
+              Register with Google
             </Button>
             <Button variant="outline" className="w-full">
               <FaFacebookSquare className="mr-2 size-4" />
-              Login with Facebook
+              Register with Facebook
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="underline">
-            Sign up
+          Alrady have an account?{" "}
+          <Link href="/sign-in" className="underline">
+            Sign in
           </Link>
         </div>
       </CardContent>
@@ -111,4 +111,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
