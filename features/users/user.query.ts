@@ -15,3 +15,10 @@ export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
     return { error: "Failed to retrieve users" };
   }
 }
+
+export async function getUserByUsername(
+  userName: string
+): Promise<UserTypes | null> {
+  await connectDB();
+  return User.findOne({ userName }).lean<UserTypes>();
+}

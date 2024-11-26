@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthType } from "@/config/schemas/auth.schema";
 import { useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
-import { singIn } from "@/actions/auth.action";
+import { signIn } from "@/auth";
 import {
   Card,
   CardContent,
@@ -35,9 +35,9 @@ const SignInForm = () => {
 
   const handleSubmit = (values: AuthType) => {
     startTransition(() => {
-      singIn(values).then((data) => {
-        if (data?.error) {
-          setError(data.error);
+      signIn("credentials", values).then((data) => {
+        if (!data) {
+          setError("Credential error");
         }
       });
     });
