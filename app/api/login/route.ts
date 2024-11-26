@@ -1,6 +1,7 @@
 import { authSchema } from "@/config/schemas/auth.schema";
 import User from "@/features/users/user.model";
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 
 export const POST = async (req: Request) => {
   const values = await req.json();
@@ -13,6 +14,14 @@ export const POST = async (req: Request) => {
   const user = await User.findOne({ userName });
 
   if (!user)
+    return NextResponse.json(
+      { success: false, error: "Invalid Cerwentials" },
+      { status: 401 }
+    );
+
+  const matchPassword = await bcrypt.compare(password, user.password);
+
+  if (!matchPassword)
     return NextResponse.json(
       { success: false, error: "Invalid Cerwentials" },
       { status: 401 }
