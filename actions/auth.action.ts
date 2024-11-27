@@ -1,37 +1,27 @@
 "use server";
 
-import { authSchema, AuthType } from "@/config/schemas/auth.schema";
+import { AuthType } from "@/config/schemas/auth.schema";
 import { auth, lucia } from "@/config/lib/auth";
-import User from "@/features/users/user.model";
-import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { CredentialsSignin } from "next-auth";
+import { signIn } from "@/auth";
 
-export async function singIn(
+export async function login(
   values: AuthType
 ): Promise<void | { error: string }> {
-  const validateFields = authSchema.safeParse(values);
+  try {
+    await signIn("credentials", {
+      redirect: false,
+      ...values,
+    });
 
-  if (!validateFields.success) return { error: "validation error" };
-
-  const { userName, password } = validateFields.data;
-
-  const user = await User.findOne({ userName });
-
-  if (!user) return { error: "User does not exists" };
-
-  const matchPassword = await bcrypt.compare(password, user.password);
-  if (!matchPassword) return { error: "Credential error" };
-
-  const session = await lucia.createSession(user._id, {});
-
-  const sessionCookie = lucia.createSessionCookie(session.id);
-  (await cookies()).set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes
-  );
-  redirect("/dashboard");
+    redirect("/dashboard");
+  } catch (error) {
+    return {
+      error: "Invalid credentials",
+    };
+  }
 }
 
 export async function logout(): Promise<void> {

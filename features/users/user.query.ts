@@ -1,7 +1,4 @@
-import "server-only";
-
 import connectDB from "@/config/db/connect";
-import "server-only";
 import User from "./user.model";
 import { UserTypes } from "./users.types";
 
@@ -20,5 +17,6 @@ export async function getUserByUsername(
   userName: string
 ): Promise<UserTypes | null> {
   await connectDB();
-  return User.findOne({ userName }).lean<UserTypes>();
+  const user = await User.findOne({ userName }).lean<UserTypes>();
+  return user;
 }

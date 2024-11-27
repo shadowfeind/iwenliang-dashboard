@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthType } from "@/config/schemas/auth.schema";
 import { useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
-import { signIn } from "@/auth";
 import {
   Card,
   CardContent,
@@ -25,6 +24,7 @@ import {
 } from "../ui/card";
 import Link from "next/link";
 import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
+import { login } from "@/actions/auth.action";
 
 const SignInForm = () => {
   const [error, setError] = useState("");
@@ -35,19 +35,20 @@ const SignInForm = () => {
 
   const handleSubmit = (values: AuthType) => {
     startTransition(() => {
-      signIn("credentials", values).then((data) => {
-        if (!data) {
-          setError("Credential error");
+      login(values).then((data) => {
+        if (data?.error) {
+          setError(data.error);
         }
       });
     });
   };
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your credentials below to login to your account
         </CardDescription>
       </CardHeader>
       <CardContent>

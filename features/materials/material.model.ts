@@ -19,7 +19,7 @@ const materialSchema = new mongoose.Schema<IMaterial>(
 );
 
 const Material =
-  mongoose.models.Material ||
+  mongoose.models?.Material ||
   mongoose.model<IMaterial>("Material", materialSchema);
 
 export default Material;
