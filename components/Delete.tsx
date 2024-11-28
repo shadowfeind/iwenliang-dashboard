@@ -9,13 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState, useTransition } from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
-import { UserId } from "lucia";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
-  action: (userId: UserId) => Promise<void | {
+  action: (userId: string) => Promise<void | {
     error: string;
   }>;
 };

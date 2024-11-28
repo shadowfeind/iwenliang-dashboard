@@ -1,7 +1,7 @@
+import { auth } from "@/auth";
 import { CAROUSEL_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import { carouselSchema, CarouselType } from "@/config/schemas/carousel.schema";
-import { auth } from "@/config/lib/auth";
 import Carousel from "@/models/carousel.model";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -11,9 +11,9 @@ export async function createCarousel(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = z.array(carouselSchema).safeParse(values);
   if (!validateFields.success) return { error: "Validation Error" };

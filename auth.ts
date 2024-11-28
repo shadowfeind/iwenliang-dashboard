@@ -2,7 +2,10 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authSchema } from "./config/schemas/auth.schema";
 import bcrypt from "bcryptjs";
-import { getUserByUsername } from "./features/users/user.query";
+import {
+  // getUserByUsername,
+  getUserByUsernameApi,
+} from "./features/users/user.query";
 
 declare module "next-auth" {
   interface Session {
@@ -50,7 +53,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (validatedFields.success) {
           const { userName, password } = validatedFields.data;
 
-          const user = await getUserByUsername(userName);
+          // const user = await getUserByUsername(userName);
+          const user = await getUserByUsernameApi(userName);
 
           if (!user) throw new Error("User not found");
 
