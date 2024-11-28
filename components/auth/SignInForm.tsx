@@ -25,12 +25,18 @@ import {
 import Link from "next/link";
 import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { login } from "@/actions/auth.action";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<AuthType>({
     resolver: zodResolver(authSchema),
+    defaultValues: {
+      userName: "",
+      password: "",
+    },
   });
 
   const handleSubmit = (values: AuthType) => {
@@ -38,6 +44,9 @@ const SignInForm = () => {
       login(values).then((data) => {
         if (data?.error) {
           setError(data.error);
+        } else {
+          setError("");
+          router.push("/dashboard");
         }
       });
     });

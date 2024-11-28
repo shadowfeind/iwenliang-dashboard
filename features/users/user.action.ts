@@ -110,9 +110,9 @@ export async function changePassword(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session } = await auth();
+  // const { session } = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  // if (!session) return { error: "Unauthorized" };
 
   const user = await User.findById(id);
 

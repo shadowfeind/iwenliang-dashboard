@@ -4,7 +4,6 @@ import { AuthType } from "@/config/schemas/auth.schema";
 import { auth, lucia } from "@/config/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CredentialsSignin } from "next-auth";
 import { signIn } from "@/auth";
 
 export async function login(
@@ -15,8 +14,6 @@ export async function login(
       redirect: false,
       ...values,
     });
-
-    redirect("/dashboard");
   } catch (error) {
     return {
       error: "Invalid credentials",

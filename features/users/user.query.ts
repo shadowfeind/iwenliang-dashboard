@@ -18,5 +18,5 @@ export async function getUserByUsername(
 ): Promise<UserTypes | null> {
   await connectDB();
   const user = await User.findOne({ userName }).lean<UserTypes>();
-  return user;
+  return JSON.parse(JSON.stringify(user));
 }
