@@ -24,5 +24,5 @@ const colorSchema = new mongoose.Schema<IColor>(
 );
 
 const Color =
-  mongoose.models.Color || mongoose.model<IColor>("Color", colorSchema);
+  mongoose.models?.Color || mongoose.model<IColor>("Color", colorSchema);
 export default Color;

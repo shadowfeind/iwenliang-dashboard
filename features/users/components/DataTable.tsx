@@ -307,12 +307,14 @@ export function DataTable({ data }: { data: UserTypes[] }) {
         mode={mode}
         userId={userId}
       />
-      <ChangePassword
-        key={userId}
-        isOpen={changePasswordOpen}
-        setIsOpen={setChangePasswordOpen}
-        userId={userId}
-      />
+      {userId && (
+        <ChangePassword
+          key={userId}
+          isOpen={changePasswordOpen}
+          setIsOpenAction={setChangePasswordOpen}
+          userId={userId}
+        />
+      )}
       <DeleteUser
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}

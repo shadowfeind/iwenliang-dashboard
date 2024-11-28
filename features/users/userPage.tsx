@@ -1,14 +1,14 @@
-import { getAllUsers } from "@/features/users/user.action";
 import { DataTable } from "./components/DataTable";
+import { getAllUsers } from "./user.query";
 
 const UserPage = async () => {
-  const data = await getAllUsers();
+  const user = await getAllUsers();
 
-  if ("error" in data) {
-    return <h1 className="text-red-600">{data.error}</h1>;
+  if ("error" in user) {
+    return <p className="text-red-500">{user.error}</p>;
   }
 
-  return <DataTable data={data} />;
+  return <DataTable data={user} />;
 };
 
 export default UserPage;

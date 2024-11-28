@@ -15,69 +15,109 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authSchema, AuthType } from "@/config/schemas/auth.schema";
 import { useState, useTransition } from "react";
 import { ErrorComponent } from "../ErrorComponent";
-import { singIn } from "@/actions/auth.action";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import Link from "next/link";
+import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
+import { login } from "@/actions/auth.action";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<AuthType>({
     resolver: zodResolver(authSchema),
+    defaultValues: {
+      userName: "",
+      password: "",
+    },
   });
 
   const handleSubmit = (values: AuthType) => {
     startTransition(() => {
-      singIn(values).then((data) => {
+      login(values).then((data) => {
         if (data?.error) {
           setError(data.error);
+        } else {
+          setError("");
+          router.push("/dashboard");
         }
       });
     });
   };
+
   return (
-    <div className="p-8 m-4 md:p-12 bg-white rounded-md w-full md:w-[400px] border">
-      <h1 className="text-xl font-semibold">Sign In</h1>
-      <Form {...form}>
-        <ErrorComponent message={error} />
-        <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-6 mt-4"
-        >
-          <div className="flex flex-col space-y-1.5">
-            <FormField
-              control={form.control}
-              name="userName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username*</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="Johndoe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password*</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="*****" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button disabled={isPending} className="mt-8" type="submit">
-            {isPending ? "Authenticating..." : "Sign In"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <Card className="mx-auto max-w-sm">
+      <CardHeader>
+        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardDescription>
+          Enter your credentials below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <ErrorComponent message={error} />
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-3"
+          >
+            <div>
+              <FormField
+                control={form.control}
+                name="userName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username*</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="Johndoe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password*</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="*****" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button disabled={isPending} type="submit" className="w-full">
+              {isPending ? "Authenticating..." : "Sign In"}
+            </Button>
+            <Button variant="outline" className="w-full">
+              <FaGoogle className="mr-2 size-4" />
+              Login with Google
+            </Button>
+            <Button variant="outline" className="w-full">
+              <FaFacebookSquare className="mr-2 size-4" />
+              Login with Facebook
+            </Button>
+          </form>
+        </Form>
+        <div className="mt-4 text-center text-sm">
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="underline">
+            Sign up
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

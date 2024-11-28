@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { user } = await auth();
-  if (!user) redirect("/");
+  // if (!user) redirect("/");
   const serealizedUser = user ? { ...user, id: user?.id.toString() } : null;
   return (
     <AuthProvider session={{ user: serealizedUser }}>

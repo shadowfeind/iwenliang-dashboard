@@ -20,8 +20,8 @@ export const SingleSidenav = ({ items }: Props) => {
           <Link
             href={item.link}
             className={cn(
-              "flex items-center gap-2 overflow-hidden rounded-md py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-              pathname === item.link ? "bg-accent" : "transparent"
+              "flex text-white items-center gap-2 overflow-hidden rounded-md py-3 text-sm font-medium hover:bg-accent hover:text-black",
+              pathname === item.link ? "bg-accent text-black" : "transparent"
             )}
           >
             {item.icon}

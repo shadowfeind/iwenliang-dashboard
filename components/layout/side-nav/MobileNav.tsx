@@ -34,7 +34,7 @@ export const MobileNav = (props: Props) => {
         <Menu className="w-4 h-4" />
       </div>
       <Sheet open={isOpen} onOpenChange={onClose}>
-        <SheetContent side={"left"} className="p-2 pt-10">
+        <SheetContent side={"left"} className="p-2 pt-10  bg-black text-white">
           <SideNav />
         </SheetContent>
       </Sheet>

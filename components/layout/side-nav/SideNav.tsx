@@ -69,7 +69,7 @@ const SideNav = () => {
   return (
     <nav
       className={cn(
-        `relative  h-[calc(100vh-3rem)] md:mt-12 flex-none md:border-r md:block`,
+        `relative bg-black  h-[calc(100vh-3rem)] md:mt-12 flex-none md:border-r md:block`,
         status && "duration-300",
         !isMinimized ? "w-72" : "w-[64px]"
       )}
