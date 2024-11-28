@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/config/lib/auth";
+import { auth } from "@/auth";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from "crypto";
@@ -34,9 +34,9 @@ export async function uploadToS3(
   const successful: UploadResult[] = [];
   const failed: UploadError[] = [];
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") {
+  if (!session || session?.user?.role !== "Admin") {
     failed.push({ originalName: "AuthError", error: "Not Authorized" });
     return { successful, failed };
   }

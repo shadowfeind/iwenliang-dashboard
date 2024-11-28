@@ -5,19 +5,19 @@ import {
   productSchema,
   ProductSchamaType,
 } from "@/features/products/product.schema";
-import { auth } from "@/config/lib/auth";
 import { slugify } from "@/config/lib/slugify";
 import Product from "./product.model";
 import { revalidatePath } from "next/cache";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
+import { auth } from "@/auth";
 
 export async function createProduct(
   values: ProductSchamaType
 ): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = productSchema.safeParse(values);
 
@@ -71,7 +71,7 @@ export async function updateProduct(
   id: string
 ): Promise<{ success: boolean } | { error: string }> {
   await connectDB();
-  const { session } = await auth();
+  const session = await auth();
 
   if (!session) return { error: "Unauthorized" };
 
@@ -133,9 +133,10 @@ export async function deleteProduct(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session || session.user?.role !== "Admin")
+    return { error: "Unauthorized" };
 
   try {
     await Product.findByIdAndDelete(id);

@@ -32,7 +32,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async jwt({ token, user }) {
-      console.log({ token, user });
       if (user) {
         token.sub = user._id;
         token.userName = user.userName;
@@ -56,8 +55,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!user) throw new Error("User not found");
 
           const passwordMatch = await bcrypt.compare(password, user.password);
-
-          console.log(passwordMatch);
 
           if (!passwordMatch) throw new Error("Credential error");
 

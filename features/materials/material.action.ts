@@ -6,18 +6,17 @@ import {
   materialSchema,
   MaterialSchemaType,
 } from "@/features/materials/material.schema";
-import { auth } from "@/config/lib/auth";
 import Material from "@/features/materials/material.model";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 
 export async function createMaterial(
   value: MaterialSchemaType
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session, user } = await auth();
+  const session = await auth();
 
-  console.log(user);
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -39,9 +38,9 @@ export async function updateMaterial(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -68,9 +67,10 @@ export async function deleteMaterial(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session || session.user?.role !== "Admin")
+    return { error: "Unauthorized" };
 
   try {
     await Material.findByIdAndDelete(id);

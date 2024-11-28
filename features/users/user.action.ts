@@ -11,17 +11,18 @@ import {
 import { revalidatePath } from "next/cache";
 import { UserTypes } from "@/features/users/users.types";
 import User from "@/features/users/user.model";
-import { auth } from "@/config/lib/auth";
+
 import { USER_ROUTE } from "@/config/constant/routes";
+import { auth } from "@/auth";
 
 export async function createUser(
   user: CreateUserType
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user: currentUser } = await auth();
+  const session = await auth();
 
-  if (!session && currentUser?.role !== "Admin")
+  if (!session || session.user?.role !== "Admin")
     return { error: "Unauthorized" };
 
   const validateFields = createUserSchema.safeParse(user);
@@ -60,9 +61,9 @@ export async function getUserByIdAction(
 ): Promise<UserTypes | { error: string }> {
   await connectDB();
 
-  const { session, user: currentUser } = await auth();
+  const session = await auth();
 
-  if (!session && currentUser?.role !== "Admin")
+  if (!session || session.user?.role !== "Admin")
     return { error: "Unauthorized" };
 
   const user = await User.findById(id).exec();
@@ -80,9 +81,9 @@ export async function updateUser(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user: currentUser } = await auth();
+  const session = await auth();
 
-  if (!session && currentUser?.role !== "Admin")
+  if (!session || session.user?.role !== "Admin")
     return { error: "Unauthorized" };
 
   const validateFields = updateUserSchema.safeParse(user);
@@ -110,9 +111,8 @@ export async function changePassword(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  // const { session } = await auth();
-
-  // if (!session) return { error: "Unauthorized" };
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
 
   const user = await User.findById(id);
 
@@ -130,9 +130,9 @@ export async function deleteUser(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session, user: currentUser } = await auth();
+  const session = await auth();
 
-  if (!session && currentUser?.role !== "Admin")
+  if (!session || session.user?.role !== "Admin")
     return { error: "Unauthorized" };
   try {
     await User.findByIdAndDelete(id);

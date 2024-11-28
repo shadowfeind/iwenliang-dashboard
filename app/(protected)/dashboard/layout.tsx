@@ -1,7 +1,8 @@
+import { auth } from "@/auth";
 import Header from "@/components/layout/Header";
 import SideNav from "@/components/layout/side-nav/SideNav";
 import { AuthProvider } from "@/config/providers/AuthProvider";
-import { auth } from "@/config/lib/auth";
+
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -15,11 +16,16 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = await auth();
-  // if (!user) redirect("/");
-  const serealizedUser = user ? { ...user, id: user?.id.toString() } : null;
+  const session = await auth();
+
+  if (!session) {
+    redirect("/");
+  }
+
+  const user = session.user;
+
   return (
-    <AuthProvider session={{ user: serealizedUser }}>
+    <>
       <Header />
       <div className="flex h-screen overflow-hidden">
         <div className="hidden md:block">
@@ -27,6 +33,6 @@ export default async function DashboardLayout({
         </div>
         <main className="flex-1 overflow-hidden pt-16">{children}</main>
       </div>
-    </AuthProvider>
+    </>
   );
 }

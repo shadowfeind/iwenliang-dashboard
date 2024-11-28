@@ -10,25 +10,27 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import LogoutButton from "./LogoutButton";
-import { useAuth } from "@/config/providers/AuthProvider";
+import { useSession } from "next-auth/react";
 
 const HeaderProfile = () => {
-  const { user } = useAuth();
+  const { data: session } = useSession();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarFallback className=" bg-primary/80">
-            {user?.fullName[0]?.toUpperCase()}
+            {session?.user?.fullName[0]?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[300px] p-5">
         <DropdownMenuLabel>
           <div>
-            <h3 className="text-sm font-bold capitalize">{user?.fullName}</h3>
-            <p className="text-xs text-primary ">{user?.role}</p>
+            <h3 className="text-sm font-bold capitalize">
+              {session?.user?.fullName}
+            </h3>
+            <p className="text-xs text-primary ">{session?.user?.role}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

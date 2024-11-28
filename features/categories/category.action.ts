@@ -6,19 +6,19 @@ import {
   categorySchema,
   CategorySchemaType,
 } from "@/features/categories/category.schema";
-import { auth } from "@/config/lib/auth";
 import { slugify } from "@/config/lib/slugify";
 import Category from "@/features/categories/category.model";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 
 export async function createCategory(
   value: CategorySchemaType
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -47,9 +47,9 @@ export async function updateCategory(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -81,9 +81,10 @@ export async function deleteCategory(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session || session.user?.role !== "Admin")
+    return { error: "Unauthorized" };
 
   try {
     await Category.findByIdAndDelete(id);

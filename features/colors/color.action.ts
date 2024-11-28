@@ -6,18 +6,18 @@ import {
   createColorSchema,
   CreateColorSchemaType,
 } from "@/features/colors/color.schema";
-import { auth } from "@/config/lib/auth";
 import Color from "@/features/colors/color.model";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 
 export async function createColor(
   values: CreateColorSchemaType
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = createColorSchema.safeParse(values);
 
@@ -39,9 +39,9 @@ export async function updateColor(
   id: string
 ): Promise<void | { error: string }> {
   await connectDB();
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = createColorSchema.safeParse(value);
 
@@ -69,9 +69,10 @@ export async function deleteColor(
 ): Promise<void | { error: string }> {
   await connectDB();
 
-  const { session, user } = await auth();
+  const session = await auth();
 
-  if (!session || user?.role !== "Admin") return { error: "Unauthorized" };
+  if (!session || session.user?.role !== "Admin")
+    return { error: "Unauthorized" };
 
   try {
     await Color.findByIdAndDelete(id);
