@@ -1,7 +1,6 @@
 import connectDB from "@/config/db/connect";
 import User from "./user.model";
 import { UserTypes } from "./users.types";
-import { REST_URL } from "@/config/db/constant";
 
 export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
   try {
@@ -25,10 +24,13 @@ export async function getUserByUsername(
 export async function getUserByUsernameApi(
   userName: string
 ): Promise<UserTypes | null> {
-  const response = await fetch(`${REST_URL}user?userName=${userName}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${process.env.REST_URL}user?userName=${userName}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     return null;
   }
