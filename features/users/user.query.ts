@@ -24,6 +24,7 @@ export async function getUserByUsername(
 export async function getUserByUsernameApi(
   userName: string
 ): Promise<UserTypes | null> {
+  // TODO: make it post request
   const response = await fetch(
     `${process.env.REST_URL}user?userName=${userName}`,
     {

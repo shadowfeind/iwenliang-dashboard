@@ -1,9 +1,8 @@
-import { REST_URL } from "@/config/db/constant";
 import { ColorType } from "@/features/colors/color.types";
 
 export async function getAllColors(): Promise<ColorType[] | { error: string }> {
   try {
-    const response = await fetch(`${REST_URL}color`, {
+    const response = await fetch(`${process.env.REST_URL}color`, {
       method: "GET",
       credentials: "include",
     });
@@ -22,7 +21,7 @@ export async function getColorById(
   id: string
 ): Promise<ColorType | { error: string }> {
   try {
-    const response = await fetch(`${REST_URL}color/${id}`, {
+    const response = await fetch(`${process.env.REST_URL}color/${id}`, {
       method: "GET",
       credentials: "include",
     });

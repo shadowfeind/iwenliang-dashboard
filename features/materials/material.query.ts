@@ -1,11 +1,10 @@
-import { REST_URL } from "@/config/db/constant";
 import { MaterialType } from "@/features/materials/material.types";
 
 export async function getAllMaterials(): Promise<
   MaterialType[] | { error: string }
 > {
   try {
-    const response = await fetch(`${REST_URL}material`, {
+    const response = await fetch(`${process.env.REST_URL}material`, {
       method: "GET",
       credentials: "include",
     });
@@ -24,7 +23,7 @@ export async function getMaterialById(
   id: string
 ): Promise<MaterialType | { error: string }> {
   try {
-    const response = await fetch(`${REST_URL}material/${id}`, {
+    const response = await fetch(`${process.env.REST_URL}material/${id}`, {
       method: "GET",
       credentials: "include",
     });
