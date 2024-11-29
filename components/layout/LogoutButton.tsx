@@ -1,15 +1,12 @@
-"use client";
 import React from "react";
 import { Button } from "../ui/button";
-import { logout } from "@/actions/auth.action";
 import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 const LogoutButton = () => {
   return (
     <Button
-      onClick={async () => {
-        await logout();
-      }}
+      onClick={() => signOut()}
       className="flex items-center gap-2 w-full"
     >
       <LogOut className="size-4" />

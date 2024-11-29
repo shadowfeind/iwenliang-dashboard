@@ -1,32 +1,53 @@
 import connectDB from "@/config/db/connect";
 import User from "@/features/users/user.model";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { UserTypes } from "@/features/users/users.types";
+import { authSchema } from "@/config/schemas/auth.schema";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const userName = searchParams.get("userName");
-
-  if (!userName)
-    return NextResponse.json(
-      { success: false, error: "Username is required" },
-      { status: 400 }
-    );
-
+export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
-    const user = await User.findOne({ userName }).lean();
+    const body = await request.json();
 
-    if (!user) {
+    const validated = authSchema.safeParse(body);
+
+    if (!validated.success) {
       return NextResponse.json(
-        { success: false, error: "User not found" },
-        { status: 404 }
+        { success: false, error: "Validation Error" },
+        { status: 400 }
       );
     }
 
-    return NextResponse.json({ success: true, data: user }, { status: 200 });
+    const { userName, password } = validated.data;
+
+    const userNameExists = await User.findOne({ userName }).lean<UserTypes>();
+
+    if (!userNameExists) {
+      return NextResponse.json(
+        { success: false, error: "User not found" },
+        { status: 400 }
+      );
+    }
+
+    const hashedPassword = await bcrypt.compare(
+      password,
+      userNameExists.password
+    );
+
+    if (!hashedPassword) {
+      return NextResponse.json(
+        { success: false, error: "Credential error" },
+        { status: 400 }
+      );
+    }
+
+    const user = { ...userNameExists, password: "" };
+
+    return NextResponse.json({ data: user }, { status: 200 });
   } catch (error) {
-    console.error("Error fetching user:", error);
+    // console.error("Error creating user:", error);
     return NextResponse.json(
       { success: false, error: "Internal Server Error" },
       { status: 500 }

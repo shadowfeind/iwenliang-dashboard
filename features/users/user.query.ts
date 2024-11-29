@@ -21,20 +21,24 @@ export async function getUserByUsername(
   return JSON.parse(JSON.stringify(user));
 }
 
-export async function getUserByUsernameApi(
-  userName: string
+export async function authenticateUser(
+  userName: string,
+  password: string
 ): Promise<UserTypes | null> {
   // TODO: make it post request
-  const response = await fetch(
-    `${process.env.REST_URL}user?userName=${userName}`,
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
+  const url = `${process.env.REST_URL}user`;
+  const response = await fetch(url, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({
+      userName,
+      password,
+    }),
+  });
   if (!response.ok) {
     return null;
   }
   const { data } = await response.json();
+
   return data;
 }

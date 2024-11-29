@@ -13,14 +13,22 @@ import LogoutButton from "./LogoutButton";
 import { useSession } from "next-auth/react";
 
 const HeaderProfile = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return (
+      <Avatar>
+        <AvatarFallback className="bg-primary/80">...</AvatarFallback>
+      </Avatar>
+    );
+  }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarFallback className=" bg-primary/80">
-            {session?.user?.fullName[0]?.toUpperCase()}
+          <AvatarFallback className="bg-primary/80">
+            {session?.user?.fullName?.[0]?.toUpperCase() || "?"}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -28,14 +36,16 @@ const HeaderProfile = () => {
         <DropdownMenuLabel>
           <div>
             <h3 className="text-sm font-bold capitalize">
-              {session?.user?.fullName}
+              {session?.user?.fullName || "Guest"}
             </h3>
-            <p className="text-xs text-primary ">{session?.user?.role}</p>
+            <p className="text-xs text-primary">
+              {session?.user?.role || "Unknown Role"}
+            </p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="space-y-2 pb-5 mt-3">
-          <DropdownMenuItem className=" flex items-center gap-3 text-secondary-foreground/50 cursor-pointer">
+          <DropdownMenuItem className="flex items-center gap-3 text-secondary-foreground/50 cursor-pointer">
             <LogoutButton />
           </DropdownMenuItem>
         </div>
