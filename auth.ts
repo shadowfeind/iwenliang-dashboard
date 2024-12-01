@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authSchema } from "./config/schemas/auth.schema";
-import bcrypt from "bcryptjs";
 import { authenticateUser } from "./features/users/user.query";
 
 declare module "next-auth" {
@@ -45,6 +44,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
+        console.log("Authorize called with:", credentials);
+        console.log("REST_URL:", process.env.REST_URL);
+
         const validatedFields = authSchema.safeParse(credentials);
 
         if (validatedFields.success) {
