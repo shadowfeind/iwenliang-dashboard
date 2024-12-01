@@ -9,6 +9,8 @@ const breadcrumbs = [
   { title: "Material" },
 ];
 
+export const revalidate = 0;
+
 const page = () => {
   return (
     <MainContainer>

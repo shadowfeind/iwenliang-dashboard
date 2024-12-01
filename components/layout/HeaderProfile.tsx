@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 
 const HeaderProfile = () => {
   const { data: session, status } = useSession();
+  console.log({ session });
 
   if (status === "loading") {
     return (
@@ -38,7 +39,7 @@ const HeaderProfile = () => {
             <h3 className="text-sm font-bold capitalize">
               {session?.user?.fullName || "Guest"}
             </h3>
-            <p className="text-xs text-primary">
+            <p className="text-xs text-muted-foreground">
               {session?.user?.role || "Unknown Role"}
             </p>
           </div>
