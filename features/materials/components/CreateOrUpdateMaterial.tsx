@@ -21,13 +21,13 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState, useTransition } from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { z } from "zod";
-import { categorySchema } from "@/features/categories/category.schema";
 import { mode } from "@/config/types/mode.types";
 import {
   createMaterial,
   updateMaterial,
 } from "@/features/materials/material.action";
 import { getMaterialById } from "@/features/materials/material.query";
+import { materialSchema } from "../material.schema";
 
 type Props = {
   isOpen: boolean;
@@ -45,11 +45,14 @@ const CreateOrUpdateMaterial = ({
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof categorySchema>>({
-    resolver: zodResolver(categorySchema),
+  const form = useForm<z.infer<typeof materialSchema>>({
+    resolver: zodResolver(materialSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
-  const handleSubmit = (values: z.infer<typeof categorySchema>) => {
+  const handleSubmit = (values: z.infer<typeof materialSchema>) => {
     setError("");
     startTransition(() => {
       if (mode === "create") {
@@ -64,7 +67,7 @@ const CreateOrUpdateMaterial = ({
         });
       }
       if (mode === "edit") {
-        const updateValues = values as z.infer<typeof categorySchema>;
+        const updateValues = values as z.infer<typeof materialSchema>;
         updateMaterial(updateValues, materialId ?? "").then((data) => {
           if (data?.error) {
             setError(data.error);
@@ -95,7 +98,7 @@ const CreateOrUpdateMaterial = ({
       <DialogContent className="p-8">
         <DialogHeader>
           <DialogTitle>
-            {mode === "create" ? "Add User" : "Update user"}
+            {mode === "create" ? "Add Material" : "Update Material"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
