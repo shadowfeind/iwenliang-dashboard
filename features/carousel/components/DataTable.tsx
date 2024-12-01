@@ -38,6 +38,8 @@ import Delete from "@/components/Delete";
 import { mode } from "@/config/types/mode.types";
 import { CarouselType } from "../carousel.type";
 import { deleteCarousel } from "../carouse.action";
+import Image from "next/image";
+import CreateOrUpdateCarousel from "./CreateOrUpdateCarousel";
 
 export function DataTable({ data }: { data: CarouselType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -84,7 +86,14 @@ export function DataTable({ data }: { data: CarouselType[] }) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("image")}</div>
+        <div className="lowercase">
+          <Image
+            src={row.original.image}
+            alt={row.original.image}
+            width={100}
+            height={50}
+          />
+        </div>
       ),
     },
     {
@@ -234,13 +243,13 @@ export function DataTable({ data }: { data: CarouselType[] }) {
           </TableBody>
         </Table>
       </div>
-      {/* <CreateOrUpdateMaterial
-        key={materialId}
+      <CreateOrUpdateCarousel
+        key={carouselId}
         isOpen={modelOpen}
         setIsOpen={setModelOpen}
         mode={mode}
-        materialId={materialId}
-      /> */}
+        carouselId={carouselId}
+      />
       <Delete
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}

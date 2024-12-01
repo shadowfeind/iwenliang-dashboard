@@ -12,7 +12,7 @@ import { mode } from "@/config/types/mode.types";
 import { createCarousel, updateCarousel } from "../carouse.action";
 import { getCarouselById } from "../carouse.query";
 import ImageUpload from "@/components/ImageUpload";
-// import { ErrorComponent } from "@/components/ErrorComponent";
+import { ErrorComponent } from "@/components/ErrorComponent";
 
 type Props = {
   isOpen: boolean;
@@ -33,9 +33,13 @@ const CreateOrUpdateCarousel = ({
 
   const handleSubmit = () => {
     setError("");
+    if (!image.length) {
+      setError("Image is required");
+      return;
+    }
     startTransition(() => {
       if (mode === "create") {
-        createCarousel({ image: image[0] ?? "" }).then((data) => {
+        createCarousel({ image: image[0] }).then((data) => {
           if (data?.error) {
             setError(data.error);
           } else {
@@ -44,15 +48,13 @@ const CreateOrUpdateCarousel = ({
         });
       }
       if (mode === "edit") {
-        updateCarousel({ image: image[0] ?? "" }, carouselId ?? "").then(
-          (data) => {
-            if (data?.error) {
-              setError(data.error);
-            } else {
-              setIsOpen(false);
-            }
+        updateCarousel({ image: image[0] }, carouselId ?? "").then((data) => {
+          if (data?.error) {
+            setError(data.error);
+          } else {
+            setIsOpen(false);
           }
-        );
+        });
       }
     });
   };
@@ -75,11 +77,11 @@ const CreateOrUpdateCarousel = ({
       <DialogContent className="p-8">
         <DialogHeader>
           <DialogTitle>
-            {mode === "create" ? "Add User" : "Update user"}
+            {mode === "create" ? "Add Carousel" : "Update Carousel"}
           </DialogTitle>
         </DialogHeader>
         <div className="my-4">
-          {/* <ErrorComponent message={error} /> */}
+          <ErrorComponent message={error} />
           <ImageUpload
             size={2}
             maxFiles={1}
@@ -97,8 +99,8 @@ const CreateOrUpdateCarousel = ({
           {isPending
             ? "Loading...."
             : mode === "edit"
-            ? "Update Material"
-            : "Create Material"}
+            ? "Update Carousel"
+            : "Create Carousel"}
         </Button>
       </DialogContent>
     </Dialog>

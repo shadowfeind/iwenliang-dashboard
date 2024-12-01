@@ -104,7 +104,7 @@ const CreateOrUpdateCategory = ({
       <DialogContent className="p-8">
         <DialogHeader>
           <DialogTitle>
-            {mode === "create" ? "Add User" : "Update user"}
+            {mode === "create" ? "Add Category" : "Update Category"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>

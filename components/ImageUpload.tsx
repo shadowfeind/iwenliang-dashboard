@@ -100,7 +100,7 @@ const ImageUpload = ({
           />
           {uploading ? (
             <>
-              <Loader size={48} />
+              <Loader className="animate-spin" size={48} />
               <div>Uploadding Images...</div>
             </>
           ) : (

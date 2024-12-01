@@ -121,7 +121,7 @@ export async function changePassword(
   const hashedPassword = await bcrypt.hash(password, 10);
 
   user.password = hashedPassword;
-  user.save();
+  await user.save();
 
   revalidatePath(USER_ROUTE);
 }

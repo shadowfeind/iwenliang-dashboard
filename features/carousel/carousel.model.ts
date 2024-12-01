@@ -17,6 +17,6 @@ const carouselSchema = new mongoose.Schema<ICarousel>(
 );
 
 const Carousel =
-  mongoose.models.Carousel ||
+  mongoose.models?.Carousel ||
   mongoose.model<ICarousel>("Carousel", carouselSchema);
 export default Carousel;
