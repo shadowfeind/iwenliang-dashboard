@@ -4,12 +4,17 @@ interface ICarousel extends Document {
   image: string;
 }
 
-const carouselSchema = new mongoose.Schema<ICarousel>({
-  image: {
-    type: String,
-    required: true,
+const carouselSchema = new mongoose.Schema<ICarousel>(
+  {
+    image: {
+      type: String,
+      required: true,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Carousel =
   mongoose.models.Carousel ||

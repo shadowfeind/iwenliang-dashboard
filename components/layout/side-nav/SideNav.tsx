@@ -12,9 +12,11 @@ import {
   ChartColumnStacked,
   BrickWall,
   Palette,
+  Image as CarouselImage,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
+  CAROUSEL_ROUTE,
   CATEGORY_ROUTE,
   COLR_ROUTE,
   MATERIAL_ROUTE,
@@ -29,14 +31,24 @@ const routes: SidebarRoutes[] = [
     link: "/dashboard",
   },
   {
-    name: "Category",
-    icon: <ChartColumnStacked className="w-5 h-5 ml-2" />,
-    link: CATEGORY_ROUTE,
+    name: "User",
+    icon: <User className="w-5 h-5 ml-2" />,
+    link: USER_ROUTE,
   },
   {
     name: "Product",
     icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
     link: PRODUCT_ROUTE,
+  },
+  {
+    name: "Category",
+    icon: <ChartColumnStacked className="w-5 h-5 ml-2" />,
+    link: CATEGORY_ROUTE,
+  },
+  {
+    name: "Carousel",
+    icon: <CarouselImage className="w-5 h-5 ml-2" />,
+    link: CAROUSEL_ROUTE,
   },
   {
     name: "Material",
@@ -47,11 +59,6 @@ const routes: SidebarRoutes[] = [
     name: "Color",
     icon: <Palette className="w-5 h-5 ml-2" />,
     link: COLR_ROUTE,
-  },
-  {
-    name: "User",
-    icon: <User className="w-5 h-5 ml-2" />,
-    link: USER_ROUTE,
   },
 ];
 

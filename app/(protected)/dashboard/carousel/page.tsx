@@ -1,12 +1,12 @@
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
-import React, { Suspense } from "react";
-import MaterialPage from "../../../../features/materials/materialPage";
 import { TableLoading } from "@/components/loading/tableLoading";
+import CarouselPage from "@/features/carousel/carouselPage";
+import { Suspense } from "react";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Material" },
+  { title: "Carousel" },
 ];
 
 const page = () => {
@@ -14,7 +14,7 @@ const page = () => {
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
       <Suspense fallback={<TableLoading />}>
-        <MaterialPage />
+        <CarouselPage />
       </Suspense>
     </MainContainer>
   );
