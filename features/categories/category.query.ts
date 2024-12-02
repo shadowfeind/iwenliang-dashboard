@@ -3,7 +3,7 @@ import { CategoryType } from "@/features/categories/category.types";
 export async function getAllCategories(): Promise<
   CategoryType[] | { error: string }
 > {
-  const response = await fetch(`${process.env.REST_URL}category`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_REST_URL}category`, {
     method: "GET",
     credentials: "include",
   });
@@ -18,10 +18,13 @@ export async function getCategoryById(
   id: string
 ): Promise<CategoryType | { error: string }> {
   try {
-    const response = await fetch(`${process.env.REST_URL}category/${id}`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REST_URL}category/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
 
     if (!response.ok) {
       return { error: response.statusText };

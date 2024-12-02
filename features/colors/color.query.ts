@@ -2,7 +2,7 @@ import { ColorType } from "@/features/colors/color.types";
 
 export async function getAllColors(): Promise<ColorType[] | { error: string }> {
   try {
-    const response = await fetch(`${process.env.REST_URL}color`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_REST_URL}color`, {
       method: "GET",
       credentials: "include",
     });
@@ -20,11 +20,17 @@ export async function getAllColors(): Promise<ColorType[] | { error: string }> {
 export async function getColorById(
   id: string
 ): Promise<ColorType | { error: string }> {
+  console.log(`${process.env.NEXT_PUBLIC_REST_URL}color/${id}`);
   try {
-    const response = await fetch(`${process.env.REST_URL}color/${id}`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REST_URL}color/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    console.log(response);
 
     if (!response.ok) {
       return { error: response.statusText };

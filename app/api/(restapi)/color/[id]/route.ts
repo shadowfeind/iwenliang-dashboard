@@ -10,9 +10,7 @@ export async function GET(
   try {
     await connectDB();
 
-    const color = await Color.findOne({
-      id: params.id,
-    });
+    const color = await Color.findById(params.id).lean();
 
     if (!color) {
       return NextResponse.json(

@@ -26,7 +26,7 @@ export async function authenticateUser(
   password: string
 ): Promise<UserTypes | null> {
   // TODO: make it post request
-  const url = `${process.env.REST_URL}user`;
+  const url = `${process.env.NEXT_PUBLIC_REST_URL}user`;
   const response = await fetch(url, {
     method: "POST",
     credentials: "include",

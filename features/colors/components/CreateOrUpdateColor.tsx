@@ -39,6 +39,9 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
 
   const form = useForm<z.infer<typeof createColorSchema>>({
     resolver: zodResolver(createColorSchema),
+    defaultValues: {
+      name: "",
+    },
   });
 
   const handleSubmit = (values: z.infer<typeof createColorSchema>) => {

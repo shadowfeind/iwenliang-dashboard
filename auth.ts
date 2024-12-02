@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Credentials({
       async authorize(credentials) {
         console.log("Authorize called with:", credentials);
-        console.log("REST_URL:", process.env.REST_URL);
+        console.log("NEXT_PUBLIC_REST_URL:", process.env.NEXT_PUBLIC_REST_URL);
 
         const validatedFields = authSchema.safeParse(credentials);
 

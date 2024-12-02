@@ -10,9 +10,7 @@ export async function GET(
   try {
     await connectDB();
 
-    const material = await Material.findOne({
-      id: params.id,
-    });
+    const material = await Material.findById(params.id).lean();
 
     if (!material) {
       return NextResponse.json(

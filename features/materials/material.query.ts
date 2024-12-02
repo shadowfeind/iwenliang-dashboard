@@ -4,10 +4,13 @@ export async function getAllMaterials(): Promise<
   MaterialType[] | { error: string }
 > {
   try {
-    const response = await fetch(`${process.env.REST_URL}material`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REST_URL}material`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
     if (!response.ok) {
       return { error: response.statusText };
     }
@@ -23,10 +26,13 @@ export async function getMaterialById(
   id: string
 ): Promise<MaterialType | { error: string }> {
   try {
-    const response = await fetch(`${process.env.REST_URL}material/${id}`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REST_URL}material/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
 
     if (!response.ok) {
       return { error: response.statusText };
