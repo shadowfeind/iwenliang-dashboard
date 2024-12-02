@@ -1,0 +1,28 @@
+import Image from "next/image";
+import { MobileNavigation } from "./MobileNavigation";
+import DesktopNavigation from "./DesktopNavigation";
+import DesktopRightMenu from "./DesktopRightMenu";
+
+const Menu = () => {
+  return (
+    <div className="flex justify-between items-center px-4 py-4 lg:px-8">
+      <Image
+        height={43}
+        width={262}
+        src={"/images/mainlogo.png"}
+        alt="iwenliang"
+      />
+      <div className=" hidden md:block">
+        <DesktopNavigation />
+      </div>
+      <div className=" hidden md:block">
+        <DesktopRightMenu />
+      </div>
+      <div className="block md:hidden">
+        <MobileNavigation />
+      </div>
+    </div>
+  );
+};
+
+export default Menu;

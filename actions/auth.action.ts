@@ -1,8 +1,7 @@
 "use server";
 
 import { AuthType } from "@/config/schemas/auth.schema";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+
 import { signIn } from "@/auth";
 
 export async function login(

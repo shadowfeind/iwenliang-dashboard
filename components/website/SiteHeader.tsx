@@ -1,23 +1,12 @@
-"use client";
+import Menu from "./menu/Menu";
 
-import { PRIVATE_ROUTES } from "@/config/constant/routes";
-import { usePathname } from "next/navigation";
-
-type Props = {};
-
-const SiteHeader = (props: Props) => {
-  const pathname = usePathname();
-  const isExcludedRoute = PRIVATE_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
-
+const SiteHeader = () => {
   return (
     <>
-      {!isExcludedRoute && (
-        <div className="w-full py-1 text-sm bg-black text-white">
-          SiteHeader
-        </div>
-      )}
+      <h6 className="w-full py-1.5 md:py-2 text-xs bg-neutral-800  text-center text-white">
+        IN BELOVED MEMORY OF THE PERSON WHO SEEN FIRST
+      </h6>
+      <Menu />
     </>
   );
 };

@@ -11,16 +11,21 @@ import {
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import LogoutButton from "./LogoutButton";
 import { useSession } from "next-auth/react";
+import { UserRound } from "lucide-react";
+import Link from "next/link";
 
 const HeaderProfile = () => {
-  const { data: session, status } = useSession();
-  console.log({ session });
+  const { data: session } = useSession();
 
-  if (status === "loading") {
+  if (!session?.user) {
     return (
-      <Avatar>
-        <AvatarFallback className="bg-primary/80">...</AvatarFallback>
-      </Avatar>
+      <Link
+        href="/sign-in"
+        className="flex items-center justify-center gap-2 font-semibold cursor-pointer"
+      >
+        <UserRound className="size-5" />
+        Sign In
+      </Link>
     );
   }
 
@@ -29,7 +34,7 @@ const HeaderProfile = () => {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarFallback className="bg-primary/80">
-            {session?.user?.fullName?.[0]?.toUpperCase() || "?"}
+            {session?.user?.fullName?.[0]?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
