@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { CAROUSEL_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import { carouselSchema, CarouselType } from "@/config/schemas/carousel.schema";
-import Carousel from "@/models/carousel.model";
+import Carousel from "@/features/carousel/carousel.model";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 

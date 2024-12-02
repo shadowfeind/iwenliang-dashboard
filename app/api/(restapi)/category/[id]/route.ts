@@ -7,6 +7,7 @@ export async function GET(
   props: { params: Promise<{ id: string }> }
 ) {
   const params = await props.params;
+  console.log(params);
   try {
     await connectDB();
 
