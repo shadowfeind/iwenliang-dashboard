@@ -1,4 +1,4 @@
-import { getAllCarousel } from "./carouse.query";
+import { getAllCarousel } from "./carousel.query";
 import { DataTable } from "./components/DataTable";
 
 const CarouselPage = async () => {

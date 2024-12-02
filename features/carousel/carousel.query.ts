@@ -15,17 +15,3 @@ export async function getAllCarousel(): Promise<
 
   return JSON.parse(JSON.stringify(carousels));
 }
-
-export async function getCarouselById(
-  id: string
-): Promise<CarouselType | { error: string }> {
-  await connectDB();
-
-  const carousel = await Carousel.findById(id).lean<CarouselType>();
-
-  if (!carousel) {
-    return { error: "Carousel not found" };
-  }
-
-  return JSON.parse(JSON.stringify(carousel));
-}

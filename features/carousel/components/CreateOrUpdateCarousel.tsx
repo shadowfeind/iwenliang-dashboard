@@ -9,8 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useTransition } from "react";
 import { mode } from "@/config/types/mode.types";
-import { createCarousel, updateCarousel } from "../carouse.action";
-import { getCarouselById } from "../carouse.query";
+import {
+  createCarousel,
+  updateCarousel,
+  getCarouselById,
+} from "../carousel.action";
+
 import ImageUpload from "@/components/ImageUpload";
 import { ErrorComponent } from "@/components/ErrorComponent";
 
@@ -44,6 +48,7 @@ const CreateOrUpdateCarousel = ({
             setError(data.error);
           } else {
             setIsOpen(false);
+            setImage([]);
           }
         });
       }

@@ -7,6 +7,7 @@ import Carousel from "./carousel.model";
 import { CAROUSEL_ROUTE } from "@/config/constant/routes";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
+import { CarouselType } from "./carousel.type";
 
 export async function createCarousel(
   values: z.infer<typeof carouselSchema>
@@ -53,6 +54,20 @@ export async function updateCarousel(
     console.log("Error from updateCarousel", error);
     return { error: "Something went wrong" };
   }
+}
+
+export async function getCarouselById(
+  id: string
+): Promise<CarouselType | { error: string }> {
+  await connectDB();
+
+  const carousel = await Carousel.findById(id).lean<CarouselType>();
+
+  if (!carousel) {
+    return { error: "Carousel not found" };
+  }
+
+  return JSON.parse(JSON.stringify(carousel));
 }
 
 export async function deleteCarousel(

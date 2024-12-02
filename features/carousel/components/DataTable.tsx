@@ -37,7 +37,7 @@ import {
 import Delete from "@/components/Delete";
 import { mode } from "@/config/types/mode.types";
 import { CarouselType } from "../carousel.type";
-import { deleteCarousel } from "../carouse.action";
+import { deleteCarousel } from "../carousel.action";
 import Image from "next/image";
 import CreateOrUpdateCarousel from "./CreateOrUpdateCarousel";
 
