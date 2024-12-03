@@ -1,4 +1,5 @@
 import CarouselLoading from "@/components/loading/carouselLoading";
+import FeaturedProduct from "@/components/website/homePage/FeaturedProduct";
 import MainCarousel from "@/components/website/MainCarousel";
 import { isMobile } from "@/config/lib/utils";
 import { headers } from "next/headers";
@@ -15,6 +16,7 @@ const page = async () => {
           <MainCarousel />
         </Suspense>
       )}
+      <FeaturedProduct />
     </div>
   );
 };

@@ -39,10 +39,7 @@ export const MobileNavigation = () => {
           return (
             <div
               key={item.title}
-              className={cn(
-                "py-2 px-6 uppercase font-semibold",
-                active && "bg-accent"
-              )}
+              className={cn("py-2 px-6 uppercase ", active && "bg-accent")}
             >
               <Link href={item.path}>{item.title}</Link>
             </div>
