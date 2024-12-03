@@ -16,3 +16,9 @@ export const multiSelectNameCreator = (result: any, errorToSet: any) => {
     return { value: value._id, label: value.name };
   });
 };
+
+export const isMobile = (userAgent: string) => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    userAgent
+  );
+};
