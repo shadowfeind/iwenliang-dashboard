@@ -1,4 +1,4 @@
-import { cn } from "@/config/lib/utils";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 const TitleHeader = ({ title, styles, width = "w-32" }: Props) => {
   return (
     <>
-      <h2 className={cn("text-2xl uppercase", styles)}>{title}</h2>
+      <h2 className={cn("text-xl", styles)}>{title}</h2>
       <span className={cn("block h-0.5 bg-black", width)}></span>
     </>
   );

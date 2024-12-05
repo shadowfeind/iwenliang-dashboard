@@ -1,4 +1,6 @@
+import connectDB from "@/config/db/connect";
 import { ProductType } from "./product.types";
+import Product from "./product.model";
 
 export async function getAllProducts(): Promise<
   ProductType[] | { error: any }
@@ -31,4 +33,24 @@ export async function getProductBySlug(
 
   const { data } = await response.json();
   return data;
+}
+
+type ProductForFrontPageType = {
+  featured: ProductType[];
+  products: ProductType[];
+};
+
+export async function getProductsForFrontPage(): Promise<
+  ProductForFrontPageType | { error: string }
+> {
+  await connectDB();
+
+  const products = await Product.find()
+    .sort({ createdAt: -1 })
+    .lean<ProductType[]>();
+  if (!products) return { error: "No products found" };
+  const featured = products.filter((product) => product.featured);
+
+  const response = JSON.parse(JSON.stringify({ featured, products }));
+  return response;
 }

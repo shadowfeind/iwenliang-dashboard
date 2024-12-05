@@ -83,6 +83,10 @@ const CreateViewEditProductForm = ({
   const handleSubmit = (values: ProductSchamaType) => {
     if (mode === "create") {
       const createvalues = values as ProductSchamaType;
+      if (images.length === 0) {
+        setError("Images are required");
+        return;
+      }
       createvalues.images = [...images];
       startTransition(() => {
         createProduct(createvalues).then((data) => {
@@ -91,6 +95,7 @@ const CreateViewEditProductForm = ({
           }
           if ("success" in data) {
             form.reset();
+            setError("");
             router.push(PRODUCT_ROUTE);
           }
         });
@@ -106,6 +111,7 @@ const CreateViewEditProductForm = ({
           }
           if ("success" in data) {
             form.reset();
+            setError("");
             router.push(PRODUCT_ROUTE);
           }
         });

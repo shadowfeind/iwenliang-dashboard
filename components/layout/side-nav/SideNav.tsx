@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/config/lib/utils";
+import { cn } from "@/lib/utils";
 import { useMainStore } from "@/config/store/useMainStore";
 import { SidebarRoutes } from "@/config/types/sidenav.types";
 import {

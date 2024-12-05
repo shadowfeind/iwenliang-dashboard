@@ -6,7 +6,7 @@ export type ProductType = {
   _id: string;
   name: string;
   slug: string;
-  images?: string[];
+  images: string[];
   description?: string;
   price: number;
   salePrice?: number;

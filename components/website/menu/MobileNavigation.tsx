@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { MENU_ITEMS } from "@/config/db/constant";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/config/lib/utils";
+import { cn } from "@/lib/utils";
 
 export const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);

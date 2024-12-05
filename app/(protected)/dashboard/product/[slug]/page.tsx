@@ -8,7 +8,7 @@ import ProductSlugPage from "../../../../../features/products/productSlugPage";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import { getAllColors } from "@/features/colors/color.query";
 import { getAllMaterials } from "@/features/materials/material.query";
-import { multiSelectNameCreator } from "@/config/lib/utils";
+import { multiSelectNameCreator } from "@/lib/utils";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },

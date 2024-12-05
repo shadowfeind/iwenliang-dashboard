@@ -5,7 +5,7 @@ import {
   productSchema,
   ProductSchamaType,
 } from "@/features/products/product.schema";
-import { slugify } from "@/config/lib/slugify";
+import { slugify } from "@/lib/slugify";
 import Product from "./product.model";
 import { revalidatePath } from "next/cache";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";

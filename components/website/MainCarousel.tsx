@@ -15,7 +15,7 @@ const MainCarousel = async () => {
     return <h1 className="text-red-600">{data.error}</h1>;
   }
   return (
-    <Carousel>
+    <Carousel className="pb-8">
       <CarouselContent>
         {data.map((caro: CarouselType) => (
           <CarouselItem key={caro._id}>

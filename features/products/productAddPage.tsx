@@ -3,7 +3,7 @@ import CreateViewEditProductForm from "@/features/products/components/CreateView
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { getAllColors } from "@/features/colors/color.query";
 import { getAllMaterials } from "@/features/materials/material.query";
-import { multiSelectNameCreator } from "@/config/lib/utils";
+import { multiSelectNameCreator } from "@/lib/utils";
 
 type Props = {};
 

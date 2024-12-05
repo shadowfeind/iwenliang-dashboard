@@ -6,7 +6,7 @@ import {
   categorySchema,
   CategorySchemaType,
 } from "@/features/categories/category.schema";
-import { slugify } from "@/config/lib/slugify";
+import { slugify } from "@/lib/slugify";
 import Category from "@/features/categories/category.model";
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
