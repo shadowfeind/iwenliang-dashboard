@@ -14,7 +14,10 @@ const DesktopNavigation = () => {
         return (
           <div
             key={item.title}
-            className={cn("uppercase", active && "underline")}
+            className={cn(
+              "uppercase text-sm font-semibold",
+              active && "underline"
+            )}
           >
             <Link href={item.path}>{item.title}</Link>
           </div>

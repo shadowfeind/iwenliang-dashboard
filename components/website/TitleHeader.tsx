@@ -10,8 +10,15 @@ type Props = {
 const TitleHeader = ({ title, styles, width = "w-32" }: Props) => {
   return (
     <>
-      <h2 className={cn("text-xl", styles)}>{title}</h2>
-      <span className={cn("block h-0.5 bg-black", width)}></span>
+      <h2
+        className={cn(
+          "text-sm font-semibold uppercase tracking-wide pb-1",
+          styles
+        )}
+      >
+        {title}
+      </h2>
+      <span className={cn("block h-[2px]  bg-black", width)}></span>
     </>
   );
 };

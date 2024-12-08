@@ -1,7 +1,6 @@
 import { ProductType } from "@/features/products/product.types";
 import Image from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
 
 type Props = {
   product: ProductType;
@@ -23,12 +22,14 @@ const ProductCard = ({ product }: Props) => {
       <h3 className="mt-4 text-sm text-gray-700 truncate text-center font-semibold">
         {product.name}
       </h3>
-      <div className="mt-1 flex items-center justify-between">
-        <p className="text-lg font-medium text-gray-900">{product.price}</p>
-        {/* <div className="flex items-center">
-          <Star className="h-5 w-5 text-yellow-400" />
-          <span className="ml-1 text-sm text-gray-600">{product.rating.toFixed(1)}</span>
-        </div> */}
+      <div className="mt-1">
+        <p className="text-sm font-semibold text-center text-gray-400">
+          USD {product.price}{" "}
+          {product?.salePrice !== undefined && product.salePrice > 0 && (
+            <span className="line-through">USD {product.salePrice}</span>
+          )}
+        </p>
+        <p className="text-xs text-center hover:underline">Buy now</p>
       </div>
     </Link>
   );

@@ -26,7 +26,7 @@ const page = async () => {
       )}
       <FeaturedProduct featured={result.featured} />
       <SpacedContainer>
-        <TitleHeader title="All Products" width="w-20" />
+        <TitleHeader title="Our Products" width="w-20" />
         <ProductsGrid products={result.products} />
       </SpacedContainer>
     </div>
