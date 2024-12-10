@@ -6,12 +6,14 @@ import DesktopRightMenu from "./DesktopRightMenu";
 const Menu = () => {
   return (
     <div className="flex justify-between items-center px-4 py-4 lg:px-8">
-      <Image
-        height={43}
-        width={262}
-        src={"/images/mainlogo.png"}
-        alt="iwenliang"
-      />
+      <div>
+        <Image
+          height={43}
+          width={262}
+          src={"/images/mainlogo.png"}
+          alt="iwenliang"
+        />
+      </div>
       <div className=" hidden md:block">
         <DesktopNavigation />
       </div>

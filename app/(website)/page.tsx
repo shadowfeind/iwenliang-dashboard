@@ -1,3 +1,4 @@
+import BigButton from "@/components/BigButton";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import CarouselLoading from "@/components/loading/carouselLoading";
 import FeaturedProduct from "@/components/website/homePage/FeaturedProduct";
@@ -27,7 +28,8 @@ const page = async () => {
       <FeaturedProduct featured={result.featured} />
       <SpacedContainer>
         <TitleHeader title="Our Products" width="w-20" />
-        <ProductsGrid products={result.products} />
+        <ProductsGrid products={result.products} styles="mt-16 mb-12" />
+        <BigButton name="View All Products" href="/products" styles="mt-20" />
       </SpacedContainer>
     </div>
   );

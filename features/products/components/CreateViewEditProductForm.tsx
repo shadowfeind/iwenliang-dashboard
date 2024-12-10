@@ -54,6 +54,7 @@ const CreateViewEditProductForm = ({
   const form = useForm<ProductSchamaType>({
     resolver: zodResolver(productSchema),
     defaultValues: {
+      name: "",
       price: 0,
       salePrice: 0,
       stock: 0,
@@ -78,7 +79,7 @@ const CreateViewEditProductForm = ({
         }
       }
     }
-  }, [mode, productData, form]);
+  }, [mode, productData]);
 
   const handleSubmit = (values: ProductSchamaType) => {
     if (mode === "create") {

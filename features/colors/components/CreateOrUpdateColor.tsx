@@ -41,6 +41,7 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
     resolver: zodResolver(createColorSchema),
     defaultValues: {
       name: "",
+      hexValue: "#000000",
     },
   });
 
@@ -79,6 +80,7 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
           setError(data.error);
         } else {
           form.setValue("name", data.name ?? "");
+          form.setValue("hexValue", data.hexValue ?? "");
         }
       });
     }
@@ -130,8 +132,8 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
               {isPending
                 ? "Loading...."
                 : mode === "edit"
-                ? "Update Material"
-                : "Create Material"}
+                ? "Update Color"
+                : "Create Color"}
             </Button>
           </form>
         </Form>

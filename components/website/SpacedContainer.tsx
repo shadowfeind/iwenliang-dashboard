@@ -7,7 +7,11 @@ type Props = {
 };
 
 const SpacedContainer = ({ styles, children }: Props) => {
-  return <div className={cn("m-6 lg:m-24", styles)}>{children}</div>;
+  return (
+    <div className={cn("w-full m-4 lg:w-10/12 lg:my-24 lg:mx-auto", styles)}>
+      {children}
+    </div>
+  );
 };
 
 export default SpacedContainer;

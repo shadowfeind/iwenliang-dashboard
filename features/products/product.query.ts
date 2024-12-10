@@ -51,6 +51,8 @@ export async function getProductsForFrontPage(): Promise<
   if (!products) return { error: "No products found" };
   const featured = products.filter((product) => product.featured);
 
-  const response = JSON.parse(JSON.stringify({ featured, products }));
+  const response = JSON.parse(
+    JSON.stringify({ featured, products: products?.slice(0, 8) })
+  );
   return response;
 }

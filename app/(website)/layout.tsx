@@ -1,3 +1,4 @@
+import Footer from "@/components/website/footer/Footer";
 import SiteHeader from "@/components/website/SiteHeader";
 import React from "react";
 
@@ -10,6 +11,7 @@ const WebsiteLayout = ({ children }: Props) => {
     <>
       <SiteHeader />
       {children}
+      <Footer />
     </>
   );
 };
