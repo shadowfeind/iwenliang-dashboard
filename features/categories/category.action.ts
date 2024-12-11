@@ -8,8 +8,9 @@ import {
 } from "@/features/categories/category.schema";
 import { slugify } from "@/lib/slugify";
 import Category from "@/features/categories/category.model";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
+import { CATEGORY_TAG } from "@/config/constant/tags";
 
 export async function createCategory(
   value: CategorySchemaType
@@ -34,7 +35,7 @@ export async function createCategory(
       image,
     });
 
-    revalidatePath(CATEGORY_ROUTE);
+    revalidateTag(CATEGORY_TAG);
   } catch (error) {
     console.log("Error from createCategory", error);
     return { error: "Something went wrong" };
@@ -73,7 +74,7 @@ export async function updateCategory(
     return { error: "Databse error" };
   }
 
-  revalidatePath(CATEGORY_ROUTE);
+  revalidateTag(CATEGORY_TAG);
 }
 
 export async function deleteCategory(
@@ -88,7 +89,7 @@ export async function deleteCategory(
 
   try {
     await Category.findByIdAndDelete(id);
-    revalidatePath(CATEGORY_ROUTE);
+    revalidateTag(CATEGORY_TAG);
   } catch (error) {
     console.log("Error from deleteCategory", error);
     return { error: "Something went wrong" };

@@ -1,5 +1,10 @@
 import { MaterialType } from "@/features/materials/material.types";
+import Material from "./material.model";
+import { MATERIAL_TAG } from "@/config/constant/tags";
+import connectDB from "@/config/db/connect";
+import { unstable_cache as cache } from "next/cache";
 
+// for client side only
 export async function getAllMaterials(): Promise<
   MaterialType[] | { error: string }
 > {
@@ -21,6 +26,19 @@ export async function getAllMaterials(): Promise<
     return { error: "Failed to fetch material" };
   }
 }
+
+export const getAllMaterialsQuery = cache(async (): Promise<
+  MaterialType[] | { error: string }
+> => {
+  try {
+    await connectDB();
+    const materials = await Material.find().lean<MaterialType[]>();
+    return JSON.parse(JSON.stringify(materials));
+  } catch (error) {
+    console.error("Error fetching materials:", error);
+    return { error: "Failed to retrieve materials" };
+  }
+}, [MATERIAL_TAG]);
 
 export async function getMaterialById(
   id: string

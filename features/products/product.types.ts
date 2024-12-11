@@ -16,4 +16,6 @@ export type ProductType = {
   category?: CategoryType[];
   featured: boolean;
   isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 };

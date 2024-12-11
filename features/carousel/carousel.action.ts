@@ -4,10 +4,10 @@ import { z } from "zod";
 import { carouselSchema } from "./carousel.schema";
 import connectDB from "@/config/db/connect";
 import Carousel from "./carousel.model";
-import { CAROUSEL_ROUTE } from "@/config/constant/routes";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { CarouselType } from "./carousel.type";
+import { CAROUSEL_TAG } from "@/config/constant/tags";
 
 export async function createCarousel(
   values: z.infer<typeof carouselSchema>
@@ -25,7 +25,7 @@ export async function createCarousel(
 
   try {
     await Carousel.create({ image });
-    revalidatePath(CAROUSEL_ROUTE);
+    revalidateTag(CAROUSEL_TAG);
   } catch (error) {
     console.log("Error from createCarousel", error);
     return { error: "Something went wrong" };
@@ -49,7 +49,7 @@ export async function updateCarousel(
 
   try {
     await Carousel.findByIdAndUpdate(id, { image });
-    revalidatePath(CAROUSEL_ROUTE);
+    revalidateTag(CAROUSEL_TAG);
   } catch (error) {
     console.log("Error from updateCarousel", error);
     return { error: "Something went wrong" };
@@ -82,7 +82,7 @@ export async function deleteCarousel(
 
   try {
     await Carousel.findByIdAndDelete(id);
-    revalidatePath(CAROUSEL_ROUTE);
+    revalidateTag(CAROUSEL_TAG);
   } catch (error) {
     console.log("Error from deleteCarousel", error);
     return { error: "Something went wrong" };

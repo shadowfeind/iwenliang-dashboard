@@ -1,14 +1,14 @@
 "use server";
 
-import { MATERIAL_ROUTE } from "@/config/constant/routes";
 import connectDB from "@/config/db/connect";
 import {
   materialSchema,
   MaterialSchemaType,
 } from "@/features/materials/material.schema";
 import Material from "@/features/materials/material.model";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/auth";
+import { MATERIAL_TAG } from "@/config/constant/tags";
 
 export async function createMaterial(
   value: MaterialSchemaType
@@ -26,7 +26,7 @@ export async function createMaterial(
 
   try {
     await Material.create({ name });
-    revalidatePath(MATERIAL_ROUTE);
+    revalidateTag(MATERIAL_TAG);
   } catch (error) {
     console.log("Error from createMaterial", error);
     return { error: "Something went wrong" };
@@ -55,7 +55,7 @@ export async function updateMaterial(
   try {
     material.name = name;
     await material.save();
-    revalidatePath(MATERIAL_ROUTE);
+    revalidateTag(MATERIAL_TAG);
   } catch (error) {
     console.log("Error from updateMaterial", error);
     return { error: "Something went wrong" };
@@ -74,7 +74,7 @@ export async function deleteMaterial(
 
   try {
     await Material.findByIdAndDelete(id);
-    revalidatePath(MATERIAL_ROUTE);
+    revalidateTag(MATERIAL_TAG);
   } catch (error) {
     console.log("Error from deleteMaterial", error);
     return { error: "Something went wrong" };

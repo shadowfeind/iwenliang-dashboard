@@ -58,7 +58,7 @@ export async function createProduct(
       featured,
       isActive,
     });
-    revalidatePath(PRODUCT_ROUTE);
+    // revalidatePath(PRODUCT_ROUTE);
     return { success: true };
   } catch (error) {
     console.log(error);

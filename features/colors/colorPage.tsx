@@ -1,9 +1,9 @@
-import { getAllColors } from "@/features/colors/color.query";
+import { getAllColorsQuery } from "@/features/colors/color.query";
 import React from "react";
 import { DataTable } from "./components/DataTable";
 
 const ColorPage = async () => {
-  const data = await getAllColors();
+  const data = await getAllColorsQuery();
 
   if ("error" in data) {
     return <h1 className="text-red-600">{data.error}</h1>;

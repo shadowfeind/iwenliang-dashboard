@@ -1,7 +1,8 @@
 import connectDB from "@/config/db/connect";
 import { ProductType } from "./product.types";
 import Product from "./product.model";
-import { cache } from "react";
+import { unstable_cache as cache } from "next/cache";
+import { PRODUCT_TAG } from "@/config/constant/tags";
 
 //testing api will remove in future
 export async function getAllProducts(): Promise<
@@ -43,36 +44,36 @@ type ProductForFrontPageType = {
   products: ProductType[];
 };
 
-export const getProductsForFrontPage = cache(
-  async (): Promise<ProductForFrontPageType | { error: string }> => {
-    await connectDB();
+export const getProductsForFrontPage = cache(async (): Promise<
+  ProductForFrontPageType | { error: string }
+> => {
+  await connectDB();
 
-    const products = await Product.find()
-      .sort({ createdAt: -1 })
-      .lean<ProductType[]>();
-    if (!products) return { error: "No products found" };
-    const featured = products.filter((product) => product.featured);
+  const products = await Product.find()
+    .sort({ createdAt: -1 })
+    .lean<ProductType[]>();
+  if (!products) return { error: "No products found" };
+  const featured = products.filter((product) => product.featured);
 
-    const response = JSON.parse(
-      JSON.stringify({ featured, products: products?.slice(0, 8) })
-    );
-    return response;
-  }
-);
+  const response = JSON.parse(
+    JSON.stringify({ featured, products: products?.slice(0, 8) })
+  );
+  return response;
+}, [PRODUCT_TAG]);
 
-export const getAllProductsQuery = cache(
-  async (): Promise<ProductType[] | { error: string }> => {
-    await connectDB();
+export const getAllProductsQuery = cache(async (): Promise<
+  ProductType[] | { error: string }
+> => {
+  await connectDB();
 
-    const products = await Product.find()
-      .sort({ createdAt: -1 })
-      .lean<ProductType[]>();
+  const products = await Product.find()
+    .sort({ createdAt: -1 })
+    .lean<ProductType[]>();
 
-    if (!products) return { error: "No products found" };
+  if (!products) return { error: "No products found" };
 
-    return JSON.parse(JSON.stringify(products));
-  }
-);
+  return JSON.parse(JSON.stringify(products));
+}, [PRODUCT_TAG]);
 
 export const getProductBySlugQuery = cache(
   async (slug: string): Promise<ProductType | { error: string }> => {

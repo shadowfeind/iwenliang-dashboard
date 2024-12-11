@@ -1,8 +1,12 @@
 import connectDB from "@/config/db/connect";
 import User from "./user.model";
 import { UserTypes } from "./users.types";
+import { unstable_cache as cache } from "next/cache";
+import { USER_TAG } from "@/config/constant/tags";
 
-export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
+export const getAllUsers = cache(async (): Promise<
+  UserTypes[] | { error: string }
+> => {
   try {
     await connectDB();
     const users = await User.find().sort({ createdAt: -1 }).lean<UserTypes[]>();
@@ -11,7 +15,7 @@ export async function getAllUsers(): Promise<UserTypes[] | { error: string }> {
     console.error("Error fetching users:", error);
     return { error: "Failed to retrieve users" };
   }
-}
+}, [USER_TAG]);
 
 export async function getUserByUsername(
   userName: string

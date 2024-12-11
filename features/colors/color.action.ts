@@ -7,8 +7,9 @@ import {
   CreateColorSchemaType,
 } from "@/features/colors/color.schema";
 import Color from "@/features/colors/color.model";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/auth";
+import { COLOR_TAG } from "@/config/constant/tags";
 
 export async function createColor(
   values: CreateColorSchemaType
@@ -27,7 +28,7 @@ export async function createColor(
 
   try {
     await Color.create({ name, hexValue });
-    revalidatePath(COLR_ROUTE);
+    revalidateTag(COLOR_TAG);
   } catch (error) {
     console.log("Error from createColor action", error);
     return { error: "Something went wrong" };
@@ -57,7 +58,7 @@ export async function updateColor(
     color.name = name;
     color.hexValue = hexValue;
     await color.save();
-    revalidatePath(COLR_ROUTE);
+    revalidateTag(COLOR_TAG);
   } catch (error) {
     console.log("Error from updateColor", error);
     return { error: "Something went wrong" };
@@ -76,7 +77,7 @@ export async function deleteColor(
 
   try {
     await Color.findByIdAndDelete(id);
-    revalidatePath(COLR_ROUTE);
+    revalidateTag(COLOR_TAG);
   } catch (error) {
     console.log("Error from deleteColor", error);
     return { error: "Something went wrong" };
