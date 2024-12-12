@@ -5,3 +5,4 @@ export const MATERIAL_TAG = "Material";
 export const COLOR_TAG = "Color";
 export const CAROUSEL_TAG = "Carousel";
 export const ORDER_TAG = "Order";
+export const PRODUCT_FILTER = "ProductFilter";

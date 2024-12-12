@@ -29,11 +29,7 @@ const page = async () => {
       <SpacedContainer>
         <TitleHeader title="Our Products" width="w-20" />
         <ProductsGrid products={result.products} styles="mt-16 mb-12" />
-        <BigButton
-          name="View All Products"
-          href="/all-products"
-          styles="mt-20"
-        />
+        <BigButton name="View All Products" href="/bracelets" styles="mt-20" />
       </SpacedContainer>
     </div>
   );

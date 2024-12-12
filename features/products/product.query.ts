@@ -2,7 +2,13 @@ import connectDB from "@/config/db/connect";
 import { ProductType } from "./product.types";
 import Product from "./product.model";
 import { unstable_cache as cache } from "next/cache";
-import { PRODUCT_TAG } from "@/config/constant/tags";
+import { PRODUCT_FILTER, PRODUCT_TAG } from "@/config/constant/tags";
+import Color from "../colors/color.model";
+import Material from "../materials/material.model";
+import Category from "../categories/category.model";
+import { ColorType } from "../colors/color.types";
+import { MaterialType } from "../materials/material.types";
+import { CategoryType } from "../categories/category.types";
 
 //testing api will remove in future
 export async function getAllProducts(): Promise<
@@ -68,6 +74,9 @@ export const getAllProductsQuery = cache(async (): Promise<
 
   const products = await Product.find()
     .sort({ createdAt: -1 })
+    .populate("color")
+    .populate("material")
+    .populate("category")
     .lean<ProductType[]>();
 
   if (!products) return { error: "No products found" };
@@ -86,3 +95,39 @@ export const getProductBySlugQuery = cache(
     return JSON.parse(JSON.stringify(product));
   }
 );
+
+export const getFiltersForProduct = cache(async (): Promise<{
+  colors: ColorType[];
+  materials: MaterialType[];
+  categories: CategoryType[];
+}> => {
+  try {
+    const [colorData, materialData, categoryData] = await Promise.all([
+      Color.find().sort({ createdAt: -1 }).lean().exec(),
+      Material.find().sort({ createdAt: -1 }).lean().exec(),
+      Category.find().sort({ createdAt: -1 }).lean().exec(),
+    ]);
+
+    const response = JSON.parse(
+      JSON.stringify({
+        colors: colorData,
+        materials: materialData,
+        categories: categoryData,
+      })
+    );
+
+    return {
+      ...response,
+    };
+  } catch (error) {
+    console.error("Error fetching product filters:", error);
+
+    // Determine the specific error message
+
+    return {
+      colors: [],
+      materials: [],
+      categories: [],
+    };
+  }
+}, [PRODUCT_FILTER]);
