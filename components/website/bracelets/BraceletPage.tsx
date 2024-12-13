@@ -10,7 +10,6 @@ const BraceletPage = async () => {
   const filters = await getFiltersForProduct();
 
   const [data, filtersData] = await Promise.all([products, filters]);
-  console.log(data);
 
   if ("error" in data) {
     return <h1 className="text-red-600">{data.error}</h1>;

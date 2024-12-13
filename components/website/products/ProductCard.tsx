@@ -8,7 +8,7 @@ type Props = {
 
 const ProductCard = ({ product }: Props) => {
   return (
-    <Link href={`/product/${product._id}`} className="group block">
+    <Link href={`/bracelets/${product.slug}`} className="group block">
       <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
         <Image
           src={product.images[0]}

@@ -21,18 +21,23 @@ export async function getAllColors(): Promise<ColorType[] | { error: string }> {
   }
 }
 
-export const getAllColorsQuery = cache(async (): Promise<
-  ColorType[] | { error: string }
-> => {
-  try {
-    await connectDB();
-    const colors = await Color.find().lean<ColorType[]>();
-    return JSON.parse(JSON.stringify(colors));
-  } catch (error) {
-    console.error("Error fetching colors:", error);
-    return { error: "Failed to retrieve colors" };
+export const getAllColorsQuery = cache(
+  async (): Promise<ColorType[] | { error: string }> => {
+    try {
+      await connectDB();
+      const colors = await Color.find().lean<ColorType[]>();
+      return JSON.parse(JSON.stringify(colors));
+    } catch (error) {
+      console.error("Error fetching colors:", error);
+      return { error: "Failed to retrieve colors" };
+    }
+  },
+  [COLOR_TAG],
+  {
+    tags: [COLOR_TAG],
+    revalidate: false,
   }
-}, [COLOR_TAG]);
+);
 
 export async function getColorById(
   id: string

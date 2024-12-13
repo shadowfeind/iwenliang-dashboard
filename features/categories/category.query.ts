@@ -19,18 +19,23 @@ export async function getAllCategories(): Promise<
   return data;
 }
 
-export const getAllCategoriesQuery = cache(async (): Promise<
-  CategoryType[] | { error: string }
-> => {
-  try {
-    await connectDB();
-    const categories = await Category.find().lean<CategoryType[]>();
-    return JSON.parse(JSON.stringify(categories));
-  } catch (error) {
-    console.error("Error fetching categories:", error);
-    return { error: "Failed to retrieve categories" };
+export const getAllCategoriesQuery = cache(
+  async (): Promise<CategoryType[] | { error: string }> => {
+    try {
+      await connectDB();
+      const categories = await Category.find().lean<CategoryType[]>();
+      return JSON.parse(JSON.stringify(categories));
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return { error: "Failed to retrieve categories" };
+    }
+  },
+  [CATEGORY_TAG],
+  {
+    tags: [CATEGORY_TAG],
+    revalidate: false,
   }
-}, [CATEGORY_TAG]);
+);
 
 export async function getCategoryById(
   id: string

@@ -50,84 +50,101 @@ type ProductForFrontPageType = {
   products: ProductType[];
 };
 
-export const getProductsForFrontPage = cache(async (): Promise<
-  ProductForFrontPageType | { error: string }
-> => {
-  await connectDB();
-
-  const products = await Product.find()
-    .sort({ createdAt: -1 })
-    .lean<ProductType[]>();
-  if (!products) return { error: "No products found" };
-  const featured = products.filter((product) => product.featured);
-
-  const response = JSON.parse(
-    JSON.stringify({ featured, products: products?.slice(0, 8) })
-  );
-  return response;
-}, [PRODUCT_TAG]);
-
-export const getAllProductsQuery = cache(async (): Promise<
-  ProductType[] | { error: string }
-> => {
-  await connectDB();
-
-  const products = await Product.find()
-    .sort({ createdAt: -1 })
-    .populate("color")
-    .populate("material")
-    .populate("category")
-    .lean<ProductType[]>();
-
-  if (!products) return { error: "No products found" };
-
-  return JSON.parse(JSON.stringify(products));
-}, [PRODUCT_TAG]);
-
-export const getProductBySlugQuery = cache(
-  async (slug: string): Promise<ProductType | { error: string }> => {
+export const getProductsForFrontPage = cache(
+  async (): Promise<ProductForFrontPageType | { error: string }> => {
     await connectDB();
 
-    const product = await Product.findOne({ slug }).lean<ProductType>();
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .lean<ProductType[]>();
+    if (!products) return { error: "No products found" };
+    const featured = products.filter((product) => product.featured);
 
-    if (!product) return { error: "Product not found" };
-
-    return JSON.parse(JSON.stringify(product));
+    const response = JSON.parse(
+      JSON.stringify({ featured, products: products?.slice(0, 8) })
+    );
+    return response;
+  },
+  [PRODUCT_TAG],
+  {
+    tags: [PRODUCT_TAG],
+    revalidate: false,
   }
 );
 
-export const getFiltersForProduct = cache(async (): Promise<{
-  colors: ColorType[];
-  materials: MaterialType[];
-  categories: CategoryType[];
-}> => {
-  try {
-    const [colorData, materialData, categoryData] = await Promise.all([
-      Color.find().sort({ createdAt: -1 }).lean().exec(),
-      Material.find().sort({ createdAt: -1 }).lean().exec(),
-      Category.find().sort({ createdAt: -1 }).lean().exec(),
-    ]);
+export const getAllProductsQuery = cache(
+  async (): Promise<ProductType[] | { error: string }> => {
+    await connectDB();
 
-    const response = JSON.parse(
-      JSON.stringify({
-        colors: colorData,
-        materials: materialData,
-        categories: categoryData,
-      })
-    );
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .populate("color")
+      .populate("material")
+      .populate("category")
+      .lean<ProductType[]>();
 
-    return {
-      ...response,
-    };
-  } catch (error) {
-    console.error("Error fetching product filters:", error);
+    if (!products) return { error: "No products found" };
 
-    // Determine the specific error message
-
-    return {
-      colors: [],
-      materials: [],
-      categories: [],
-    };
+    return JSON.parse(JSON.stringify(products));
+  },
+  [PRODUCT_TAG],
+  {
+    tags: [PRODUCT_TAG],
+    revalidate: false,
   }
-}, [PRODUCT_FILTER]);
+);
+
+export const getProductBySlugQuery = async (
+  slug: string
+): Promise<ProductType | { error: string }> => {
+  await connectDB();
+
+  const product = await Product.findOne({ slug }).lean<ProductType>();
+
+  if (!product) return { error: "Product not found" };
+
+  return JSON.parse(JSON.stringify(product));
+};
+
+export const getFiltersForProduct = cache(
+  async (): Promise<{
+    colors: ColorType[];
+    materials: MaterialType[];
+    categories: CategoryType[];
+  }> => {
+    try {
+      const [colorData, materialData, categoryData] = await Promise.all([
+        Color.find().sort({ createdAt: -1 }).lean().exec(),
+        Material.find().sort({ createdAt: -1 }).lean().exec(),
+        Category.find().sort({ createdAt: -1 }).lean().exec(),
+      ]);
+
+      const response = JSON.parse(
+        JSON.stringify({
+          colors: colorData,
+          materials: materialData,
+          categories: categoryData,
+        })
+      );
+
+      return {
+        ...response,
+      };
+    } catch (error) {
+      console.error("Error fetching product filters:", error);
+
+      // Determine the specific error message
+
+      return {
+        colors: [],
+        materials: [],
+        categories: [],
+      };
+    }
+  },
+  [PRODUCT_FILTER],
+  {
+    tags: [PRODUCT_FILTER],
+    revalidate: 3600,
+  }
+);

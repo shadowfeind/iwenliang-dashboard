@@ -4,18 +4,25 @@ import { UserTypes } from "./users.types";
 import { unstable_cache as cache } from "next/cache";
 import { USER_TAG } from "@/config/constant/tags";
 
-export const getAllUsers = cache(async (): Promise<
-  UserTypes[] | { error: string }
-> => {
-  try {
-    await connectDB();
-    const users = await User.find().sort({ createdAt: -1 }).lean<UserTypes[]>();
-    return JSON.parse(JSON.stringify(users));
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    return { error: "Failed to retrieve users" };
+export const getAllUsers = cache(
+  async (): Promise<UserTypes[] | { error: string }> => {
+    try {
+      await connectDB();
+      const users = await User.find()
+        .sort({ createdAt: -1 })
+        .lean<UserTypes[]>();
+      return JSON.parse(JSON.stringify(users));
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return { error: "Failed to retrieve users" };
+    }
+  },
+  [USER_TAG],
+  {
+    tags: [USER_TAG],
+    revalidate: false,
   }
-}, [USER_TAG]);
+);
 
 export async function getUserByUsername(
   userName: string

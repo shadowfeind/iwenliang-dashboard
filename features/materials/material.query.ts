@@ -27,18 +27,23 @@ export async function getAllMaterials(): Promise<
   }
 }
 
-export const getAllMaterialsQuery = cache(async (): Promise<
-  MaterialType[] | { error: string }
-> => {
-  try {
-    await connectDB();
-    const materials = await Material.find().lean<MaterialType[]>();
-    return JSON.parse(JSON.stringify(materials));
-  } catch (error) {
-    console.error("Error fetching materials:", error);
-    return { error: "Failed to retrieve materials" };
+export const getAllMaterialsQuery = cache(
+  async (): Promise<MaterialType[] | { error: string }> => {
+    try {
+      await connectDB();
+      const materials = await Material.find().lean<MaterialType[]>();
+      return JSON.parse(JSON.stringify(materials));
+    } catch (error) {
+      console.error("Error fetching materials:", error);
+      return { error: "Failed to retrieve materials" };
+    }
+  },
+  [MATERIAL_TAG],
+  {
+    tags: [MATERIAL_TAG],
+    revalidate: false,
   }
-}, [MATERIAL_TAG]);
+);
 
 export async function getMaterialById(
   id: string
