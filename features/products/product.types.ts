@@ -1,6 +1,7 @@
 import { CategoryType } from "../../features/categories/category.types";
 import { ColorType } from "../../features/colors/color.types";
 import { MaterialType } from "../../features/materials/material.types";
+import { BeadType } from "../beadSize/beadSize.type";
 
 export type ProductType = {
   _id: string;
@@ -14,6 +15,7 @@ export type ProductType = {
   color?: ColorType[];
   material?: MaterialType[];
   category?: CategoryType[];
+  beadSize?: BeadType[];
   featured: boolean;
   isActive: boolean;
   styleId?: string;

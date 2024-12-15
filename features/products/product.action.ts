@@ -33,6 +33,7 @@ export async function createProduct(
     category,
     color,
     material,
+    beadSize,
     featured,
     isActive,
     styleId,
@@ -57,6 +58,7 @@ export async function createProduct(
       category,
       color,
       material,
+      beadSize,
       featured,
       isActive,
       styleId,
@@ -97,6 +99,7 @@ export async function updateProduct(
     category,
     color,
     material,
+    beadSize,
     featured,
     isActive,
     styleId,
@@ -121,6 +124,7 @@ export async function updateProduct(
     product.color = color;
     product.material = material;
     product.category = category;
+    product.beadSize = beadSize;
     product.featured = featured;
     product.isActive = isActive;
     product.styleId = styleId;

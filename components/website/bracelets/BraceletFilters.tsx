@@ -83,6 +83,48 @@ const BraceletFilters = ({
           ))}
         </div>
         <div className="flex flex-col space-y-2 mb-3">
+          <span className=" text-sm font-bold text-black">Bead Sizes</span>
+          {filters.beadSizes.map((beadSize) => (
+            <div key={beadSize._id} className="flex items-center space-x-2">
+              <Checkbox
+                id={beadSize._id}
+                value={beadSize._id}
+                checked={filtersData.beadSizes.some(
+                  (selectedBeadSize) => selectedBeadSize._id === beadSize._id
+                )}
+                onCheckedChange={(checked) => {
+                  setFilters((prev) => {
+                    if (checked) {
+                      const isAlreadySelected = prev.beadSizes.some(
+                        (c) => c._id === beadSize._id
+                      );
+                      return isAlreadySelected
+                        ? prev
+                        : {
+                            ...prev,
+                            beadSizes: [...prev.beadSizes, beadSize],
+                          };
+                    } else {
+                      return {
+                        ...prev,
+                        beadSizes: prev.beadSizes.filter(
+                          (c) => c._id !== beadSize._id
+                        ),
+                      };
+                    }
+                  });
+                }}
+              />
+              <label
+                htmlFor={beadSize._id}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {beadSize.name}
+              </label>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col space-y-2 mb-3">
           <span className=" text-sm font-bold text-black">Materials</span>
           {filters.materials.map((material) => (
             <div key={material._id} className="flex items-center space-x-2">

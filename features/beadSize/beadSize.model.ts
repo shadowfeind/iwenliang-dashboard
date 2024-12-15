@@ -1,6 +1,6 @@
 import mongoose, { Document } from "mongoose";
 
-interface IBeadSize extends Document {
+export interface IBeadSize extends Document {
   name: string;
   createdAt: Date;
   updatedAt: Date;

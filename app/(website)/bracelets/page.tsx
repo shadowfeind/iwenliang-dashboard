@@ -11,8 +11,7 @@ const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Bracelets" }];
 const BraceletsPage = () => {
   return (
     <>
-      <Container>
-        <Separator className="mb-2" />
+      <Container style="mt-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <SpacedContainer>

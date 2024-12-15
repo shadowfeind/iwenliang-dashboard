@@ -6,6 +6,10 @@ import { getAllCategories } from "@/features/categories/category.query";
 import { getProductBySlug } from "@/features/products/product.query";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import ProductEditPage from "@/features/products/productEditPage";
+import { getAllColors } from "@/features/colors/color.query";
+import { getAllMaterials } from "@/features/materials/material.query";
+import { getAllBeadSizeQuery } from "@/features/beadSize/beadSize.query";
+import { multiSelectNameCreator } from "@/lib/utils";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
@@ -19,10 +23,20 @@ type Props = {
 
 const Page = async (props: Props) => {
   const params = await props.params;
-  const [productData, categoryData] = await Promise.all([
-    getProductBySlug(params.slug),
-    getAllCategories(),
-  ]);
+  let error = "";
+  let categoriesName: any[] = [];
+  let colorsName: any[] = [];
+  let materialName: any[] = [];
+  let beadSizeName: any[] = [];
+
+  const [productData, categoriesData, colorsData, materialsData, beadSizeData] =
+    await Promise.all([
+      getProductBySlug(params.slug),
+      getAllCategories(),
+      getAllColors(),
+      getAllMaterials(),
+      getAllBeadSizeQuery(),
+    ]);
 
   if ("error" in productData) {
     return (
@@ -33,17 +47,24 @@ const Page = async (props: Props) => {
     );
   }
 
-  const categories: CategoryType[] =
-    "error" in categoryData ? [] : categoryData;
-  const categoriesName = categories.map((cat) => ({
-    value: cat._id,
-    label: cat.name,
-  }));
+  categoriesName = multiSelectNameCreator(categoriesData, error);
+
+  colorsName = multiSelectNameCreator(colorsData, error);
+
+  materialName = multiSelectNameCreator(materialsData, error);
+
+  beadSizeName = multiSelectNameCreator(beadSizeData, error);
 
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
-      <ProductEditPage data={productData} categoriesName={categoriesName} />
+      <ProductEditPage
+        data={productData}
+        categoriesName={categoriesName}
+        colors={colorsName}
+        materials={materialName}
+        beadSizes={beadSizeName}
+      />
     </MainContainer>
   );
 };

@@ -10,6 +10,7 @@ export const productSchema = z.object({
   color: z.array(z.string()).optional(),
   material: z.array(z.string()).optional(),
   category: z.array(z.string()).optional(),
+  beadSize: z.array(z.string()).optional(),
   featured: z.boolean(),
   isActive: z.boolean(),
   styleId: z.string().optional(),

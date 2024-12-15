@@ -9,6 +9,8 @@ import Category from "../categories/category.model";
 import { ColorType } from "../colors/color.types";
 import { MaterialType } from "../materials/material.types";
 import { CategoryType } from "../categories/category.types";
+import { BeadType } from "../beadSize/beadSize.type";
+import BeadSize from "../beadSize/beadSize.model";
 
 //testing api will remove in future
 export async function getAllProducts(): Promise<
@@ -81,6 +83,7 @@ export const getAllProductsQuery = cache(
       .populate("color")
       .populate("material")
       .populate("category")
+      .populate("beadSize")
       .lean<ProductType[]>();
 
     if (!products) return { error: "No products found" };
@@ -111,19 +114,23 @@ export const getFiltersForProduct = cache(
     colors: ColorType[];
     materials: MaterialType[];
     categories: CategoryType[];
+    beadSizes: BeadType[];
   }> => {
     try {
-      const [colorData, materialData, categoryData] = await Promise.all([
-        Color.find().sort({ createdAt: -1 }).lean().exec(),
-        Material.find().sort({ createdAt: -1 }).lean().exec(),
-        Category.find().sort({ createdAt: -1 }).lean().exec(),
-      ]);
+      const [colorData, materialData, categoryData, beadSizeData] =
+        await Promise.all([
+          Color.find().sort({ createdAt: -1 }).lean().exec(),
+          Material.find().sort({ createdAt: -1 }).lean().exec(),
+          Category.find().sort({ createdAt: -1 }).lean().exec(),
+          BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
+        ]);
 
       const response = JSON.parse(
         JSON.stringify({
           colors: colorData,
           materials: materialData,
           categories: categoryData,
+          beadSizes: beadSizeData,
         })
       );
 
@@ -133,12 +140,11 @@ export const getFiltersForProduct = cache(
     } catch (error) {
       console.error("Error fetching product filters:", error);
 
-      // Determine the specific error message
-
       return {
         colors: [],
         materials: [],
         categories: [],
+        beadSizes: [],
       };
     }
   },

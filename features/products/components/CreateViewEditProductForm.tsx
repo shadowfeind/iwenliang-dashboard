@@ -37,6 +37,7 @@ type Props = {
   categoriesName: any[];
   colors: any[];
   materials: any[];
+  beadSizes: any[];
   productData?: ProductType;
 };
 
@@ -46,6 +47,7 @@ const CreateViewEditProductForm = ({
   colors,
   materials,
   productData,
+  beadSizes,
 }: Props) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -61,6 +63,7 @@ const CreateViewEditProductForm = ({
       category: [],
       color: [],
       material: [],
+      beadSize: [],
       description: "",
       videoUrl: "",
       styleId: "",
@@ -196,7 +199,7 @@ const CreateViewEditProductForm = ({
               )}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
             <FormField
               control={form.control}
               name="stock"
@@ -207,6 +210,28 @@ const CreateViewEditProductForm = ({
                     <Input
                       placeholder="2"
                       {...field}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="beadSize"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bead Size</FormLabel>
+                  <FormControl>
+                    <MultiSelect
+                      options={beadSizes}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value as string[]}
+                      placeholder="Select options"
+                      variant="inverted"
+                      animation={2}
+                      maxCount={3}
                       disabled={mode === "view"}
                     />
                   </FormControl>
@@ -283,25 +308,7 @@ const CreateViewEditProductForm = ({
               )}
             />
           </div>
-          <div className="grid grid-cols-1">
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Product Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Product description"
-                      {...field}
-                      disabled={mode === "view"}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
             <FormField
               control={form.control}
@@ -330,6 +337,25 @@ const CreateViewEditProductForm = ({
                   <FormControl>
                     <Input
                       placeholder="https://www.youtube.com/watch?watchid"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-1">
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Product description"
                       {...field}
                       disabled={mode === "view"}
                     />

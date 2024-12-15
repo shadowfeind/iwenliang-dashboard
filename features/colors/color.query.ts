@@ -42,7 +42,6 @@ export const getAllColorsQuery = cache(
 export async function getColorById(
   id: string
 ): Promise<ColorType | { error: string }> {
-  console.log(`${process.env.NEXT_PUBLIC_REST_URL}color/${id}`);
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_REST_URL}color/${id}`,
@@ -51,8 +50,6 @@ export async function getColorById(
         credentials: "include",
       }
     );
-
-    console.log(response);
 
     if (!response.ok) {
       return { error: response.statusText };

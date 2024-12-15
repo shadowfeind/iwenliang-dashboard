@@ -13,11 +13,13 @@ import BraceletFilters from "./BraceletFilters";
 import { CategoryType } from "@/features/categories/category.types";
 import { ColorType } from "@/features/colors/color.types";
 import { MaterialType } from "@/features/materials/material.types";
+import { BeadType } from "@/features/beadSize/beadSize.type";
 
 export type Filters = {
   categories: CategoryType[];
   colors: ColorType[];
   materials: MaterialType[];
+  beadSizes: BeadType[];
 };
 
 type Props = {
@@ -31,6 +33,7 @@ const BraceletClientPage = ({ products, filters }: Props) => {
     categories: [],
     colors: [],
     materials: [],
+    beadSizes: [],
   });
   const [open, setOpen] = useState(false);
 
@@ -67,6 +70,7 @@ const BraceletClientPage = ({ products, filters }: Props) => {
     const hasCategoryFilters = filtersData.categories.length > 0;
     const hasColorFilters = filtersData.colors.length > 0;
     const hasMaterialFilters = filtersData.materials.length > 0;
+    const hasBeadSizeFilters = filtersData.beadSizes.length > 0;
 
     const filteredBracelets = products.filter((product) => {
       const matchesCategory =
@@ -91,8 +95,16 @@ const BraceletClientPage = ({ products, filters }: Props) => {
           )
         );
 
-      // Include product only if it matches all selected filters
-      return matchesCategory && matchesColor && matchesMaterial;
+      const matchesBeadSize =
+        !hasBeadSizeFilters ||
+        product.beadSize?.some((beadSize) =>
+          filtersData.beadSizes.some(
+            (selected) => selected._id === beadSize._id
+          )
+        );
+      return (
+        matchesCategory && matchesColor && matchesMaterial && matchesBeadSize
+      );
     });
 
     setBracelets(filteredBracelets);
@@ -104,6 +116,7 @@ const BraceletClientPage = ({ products, filters }: Props) => {
       categories: [],
       colors: [],
       materials: [],
+      beadSizes: [],
     });
     setBracelets(products);
     setOpen(false);

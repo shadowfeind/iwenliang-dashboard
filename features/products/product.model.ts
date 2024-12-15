@@ -2,6 +2,7 @@ import mongoose, { Document } from "mongoose";
 import { ICategory } from "../categories/category.model";
 import { IColor } from "../colors/color.model";
 import { IMaterial } from "../materials/material.model";
+import { IBeadSize } from "../beadSize/beadSize.model";
 
 export interface IProduct extends Document {
   name: string;
@@ -14,6 +15,7 @@ export interface IProduct extends Document {
   category: ICategory["_id"][];
   color: IColor["_id"][];
   material: IMaterial["_id"][];
+  beadSize: IBeadSize["_id"][];
   featured: boolean;
   isActive: boolean;
   styleId?: string;
@@ -50,6 +52,7 @@ const productSchema = new mongoose.Schema<IProduct>(
     category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
     color: [{ type: mongoose.Schema.Types.ObjectId, ref: "Color" }],
     material: [{ type: mongoose.Schema.Types.ObjectId, ref: "Material" }],
+    beadSize: [{ type: mongoose.Schema.Types.ObjectId, ref: "BeadSize" }],
     featured: {
       type: Boolean,
       default: false,

@@ -9,6 +9,7 @@ import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import { getAllColors } from "@/features/colors/color.query";
 import { getAllMaterials } from "@/features/materials/material.query";
 import { multiSelectNameCreator } from "@/lib/utils";
+import { getAllBeadSizeQuery } from "@/features/beadSize/beadSize.query";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
@@ -23,12 +24,13 @@ type Props = {
 const Page = async (props: Props) => {
   const params = await props.params;
   let error = "";
-  const [productData, categoryData, colorsData, materialsData] =
+  const [productData, categoryData, colorsData, materialsData, beadSizeData] =
     await Promise.all([
       getProductBySlug(params.slug),
       getAllCategories(),
       getAllColors(),
       getAllMaterials(),
+      getAllBeadSizeQuery(),
     ]);
 
   if ("error" in productData) {
@@ -46,6 +48,8 @@ const Page = async (props: Props) => {
 
   const materialName: any[] = multiSelectNameCreator(materialsData, error);
 
+  const beadSizeName: any[] = multiSelectNameCreator(beadSizeData, error);
+
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
@@ -54,6 +58,7 @@ const Page = async (props: Props) => {
         categoriesName={categoriesName}
         colorsName={colorsName}
         materialName={materialName}
+        beadSizeName={beadSizeName}
       />
     </MainContainer>
   );

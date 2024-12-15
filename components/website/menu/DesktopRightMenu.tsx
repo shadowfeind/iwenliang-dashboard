@@ -1,10 +1,18 @@
+"use client";
+
 import HeaderProfile from "@/components/layout/HeaderProfile";
-import { ShoppingCart } from "lucide-react";
+import { Cart } from "../cart/Cart";
+import { useEffect, useState } from "react";
 
 const DesktopRightMenu = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <div className="flex items-center gap-4">
-      <ShoppingCart className="size-5 font-semibold" />
+      {mounted && <Cart />}
       <HeaderProfile />
     </div>
   );

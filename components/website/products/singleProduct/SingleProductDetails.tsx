@@ -8,25 +8,38 @@ import { Input } from "@/components/ui/input";
 import { DrawerDialog } from "../../DrawerDialog";
 import Image from "next/image";
 import { isMobile } from "@/lib/utils";
+import { useMainStore } from "@/config/store/useMainStore";
 
 type Props = {
   data: ProductType;
 };
 
-type SingleProductErrorType = {
-  sizeError: string;
-  quantityError: string;
-};
 const SingleProductDetails = ({ data }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState<string>("");
-  const [error, setError] = useState<SingleProductErrorType>({
-    sizeError: "",
-    quantityError: "",
-  });
   const mobile = isMobile();
-  const incrementQuantity = () => setQuantity((prev) => prev + 1);
-  const decrementQuantity = () => setQuantity((prev) => prev - 1);
+  const addCart = useMainStore((state) => state.addCart);
+  const setCartOpen = useMainStore((state) => state.setCartOpen);
+
+  const incrementQuantity = () =>
+    setQuantity((prev) => {
+      if (prev > data.stock) return prev;
+      return prev + 1;
+    });
+  const decrementQuantity = () =>
+    setQuantity((prev) => {
+      if (prev < 1) return prev;
+      return prev - 1;
+    });
+
+  const handleCart = () => {
+    addCart({
+      product: data,
+      quantity,
+      wristSize: size,
+    });
+    setCartOpen(true);
+  };
 
   return (
     <>
@@ -80,12 +93,22 @@ const SingleProductDetails = ({ data }: Props) => {
           <Button size="sm" variant="outline" onClick={incrementQuantity}>
             <Plus className="h-4 w-4" />
           </Button>
-          <Button size="sm" className="w-full">
+          <Button
+            size="sm"
+            className="w-full"
+            disabled={quantity < 1}
+            onClick={handleCart}
+          >
             Add to Cart
           </Button>
         </div>
         <div className="mt-4">
-          <Button size="sm" variant="outline" className="w-full">
+          <Button
+            size="sm"
+            variant="outline"
+            className="w-full"
+            disabled={quantity < 1}
+          >
             Buy Now
           </Button>
         </div>

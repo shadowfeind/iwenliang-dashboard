@@ -6,6 +6,7 @@ type Props = {
   categoriesName: any[];
   colorsName: any[];
   materialName: any[];
+  beadSizeName: any[];
 };
 
 const ProductSlugPage = ({
@@ -13,6 +14,7 @@ const ProductSlugPage = ({
   categoriesName,
   colorsName,
   materialName,
+  beadSizeName,
 }: Props) => {
   return (
     <div className="flex flex-col space-y-4">
@@ -23,6 +25,7 @@ const ProductSlugPage = ({
         categoriesName={categoriesName}
         colors={colorsName}
         materials={materialName}
+        beadSizes={beadSizeName}
       />
     </div>
   );

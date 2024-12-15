@@ -5,7 +5,7 @@ import DesktopRightMenu from "./DesktopRightMenu";
 
 const Menu = () => {
   return (
-    <div className="flex justify-between items-center px-4 py-4 lg:px-8">
+    <div className="flex justify-between items-center px-4 py-4 lg:px-8 border-b-2 ">
       <div>
         <Image
           height={43}
