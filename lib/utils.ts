@@ -17,8 +17,8 @@ export const multiSelectNameCreator = (result: any, errorToSet: any) => {
   });
 };
 
-export const isMobile = (userAgent: string) => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    userAgent
-  );
+export const isMobile = (breakpoint: number = 600): boolean => {
+  if (typeof window === "undefined") return false;
+
+  return window.innerWidth < breakpoint;
 };

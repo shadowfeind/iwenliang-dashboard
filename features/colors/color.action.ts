@@ -7,7 +7,7 @@ import {
   CreateColorSchemaType,
 } from "@/features/colors/color.schema";
 import Color from "@/features/colors/color.model";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { COLOR_TAG } from "@/config/constant/tags";
 

@@ -49,6 +49,13 @@ const HeaderProfile = () => {
             </p>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <p>
+            <Link href="/dashboard" className="text-sm">
+              Dashboard
+            </Link>
+          </p>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="space-y-2 pb-5 mt-3">
           <DropdownMenuItem className="flex items-center gap-3 text-secondary-foreground/50 cursor-pointer">

@@ -12,6 +12,8 @@ export const productSchema = z.object({
   category: z.array(z.string()).optional(),
   featured: z.boolean(),
   isActive: z.boolean(),
+  styleId: z.string().optional(),
+  videoUrl: z.string().optional(),
 });
 
 export type ProductSchamaType = z.infer<typeof productSchema>;

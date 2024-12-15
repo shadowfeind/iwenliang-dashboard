@@ -17,22 +17,23 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { cn } from "@/lib/utils";
+import { cn, isMobile } from "@/lib/utils";
 import { useState } from "react";
 
 type DrawerDialogProps = {
   children: React.ReactNode;
-  mobile: boolean;
   title: string;
   style?: string;
 };
 export function DrawerDialog({
   children,
-  mobile,
+
   title,
   style,
 }: DrawerDialogProps) {
   const [open, setOpen] = useState(false);
+
+  const mobile = isMobile();
 
   if (!mobile) {
     return (
@@ -55,6 +56,7 @@ export function DrawerDialog({
           {title}
         </Button>
       </DrawerTrigger>
+      <DrawerTitle></DrawerTitle>
       <DrawerContent>{children}</DrawerContent>
     </Drawer>
   );

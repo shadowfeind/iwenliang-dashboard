@@ -13,9 +13,11 @@ import {
   BrickWall,
   Palette,
   Image as CarouselImage,
+  Link,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
+  BEAD_SIZE_ROUTE,
   CAROUSEL_ROUTE,
   CATEGORY_ROUTE,
   COLR_ROUTE,
@@ -59,6 +61,11 @@ const routes: SidebarRoutes[] = [
     name: "Color",
     icon: <Palette className="w-5 h-5 ml-2" />,
     link: COLR_ROUTE,
+  },
+  {
+    name: "Bead Size",
+    icon: <Link className="w-5 h-5 ml-2" />,
+    link: BEAD_SIZE_ROUTE,
   },
 ];
 

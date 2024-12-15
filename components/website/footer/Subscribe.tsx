@@ -5,12 +5,12 @@ import Image from "next/image";
 export const Subscribe = () => {
   return (
     <>
-      <div className="w-10/12 mx-auto bg-[#f5f5f5] py-16">
+      <div className="w-11/12 md:w-10/12 mx-auto bg-[#f5f5f5] py-16">
         <div className=" mx-auto flex flex-col gap-y-4 justify-center items-center">
           <h5 className="text-xs font-bold tracking-wider">
             FOR NEWS LETTER AND UPDATES
           </h5>
-          <div className="flex w-3/12 rounded-lg shadow-sm shadow-black/5">
+          <div className="flex w-10/12 md:w-3/12 rounded-lg shadow-sm shadow-black/5">
             <Input
               id="input-21"
               className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"
@@ -27,7 +27,7 @@ export const Subscribe = () => {
           </p>
         </div>
       </div>
-      <div className="w-10/12 mx-auto flex flex-row justify-between items-center">
+      <div className="w-11/12 md:w-10/12 mx-auto flex flex-row justify-between items-center py-2">
         <div>
           <Image
             src={"/images/30daygurantee.png"}

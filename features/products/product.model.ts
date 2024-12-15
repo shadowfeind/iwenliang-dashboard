@@ -3,7 +3,7 @@ import { ICategory } from "../categories/category.model";
 import { IColor } from "../colors/color.model";
 import { IMaterial } from "../materials/material.model";
 
-interface IProduct extends Document {
+export interface IProduct extends Document {
   name: string;
   slug: string;
   images: string[];
@@ -16,6 +16,8 @@ interface IProduct extends Document {
   material: IMaterial["_id"][];
   featured: boolean;
   isActive: boolean;
+  styleId?: string;
+  videoUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -55,6 +57,14 @@ const productSchema = new mongoose.Schema<IProduct>(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    styleId: {
+      type: String,
+      default: "",
+    },
+    videoUrl: {
+      type: String,
+      default: "",
     },
   },
   {

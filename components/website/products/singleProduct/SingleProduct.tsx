@@ -1,8 +1,6 @@
 import { getProductBySlugQuery } from "@/features/products/product.query";
 import ImageGallery from "./ImageGallery";
 import SingleProductDetails from "./SingleProductDetails";
-import { headers } from "next/headers";
-import { isMobile } from "@/lib/utils";
 
 type Props = {
   slug: string;
@@ -10,9 +8,6 @@ type Props = {
 
 export default async function SingleProduct({ slug }: Props) {
   const data = await getProductBySlugQuery(slug);
-  const headersList = await headers();
-  const userAgent = headersList.get("user-agent") || "";
-  const mobile = isMobile(userAgent);
 
   if ("error" in data) {
     return (
@@ -26,7 +21,7 @@ export default async function SingleProduct({ slug }: Props) {
         <ImageGallery images={data.images} />
 
         <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-          <SingleProductDetails data={data} mobile={mobile} />
+          <SingleProductDetails data={data} />
         </div>
       </div>
     </div>

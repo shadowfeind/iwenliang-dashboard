@@ -62,6 +62,8 @@ const CreateViewEditProductForm = ({
       color: [],
       material: [],
       description: "",
+      videoUrl: "",
+      styleId: "",
       isActive: true,
       featured: false,
     },
@@ -291,6 +293,43 @@ const CreateViewEditProductForm = ({
                   <FormControl>
                     <Textarea
                       placeholder="Product description"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
+            <FormField
+              control={form.control}
+              name="styleId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Style Id</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="1234Iwen"
+                      {...field}
+                      disabled={mode === "view"}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="videoUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Video Url</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://www.youtube.com/watch?watchid"
                       {...field}
                       disabled={mode === "view"}
                     />

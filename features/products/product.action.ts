@@ -7,9 +7,9 @@ import {
 } from "@/features/products/product.schema";
 import { slugify } from "@/lib/slugify";
 import Product from "./product.model";
-import { revalidatePath } from "next/cache";
-import { PRODUCT_ROUTE } from "@/config/constant/routes";
+import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
+import { PRODUCT_TAG } from "@/config/constant/tags";
 
 export async function createProduct(
   values: ProductSchamaType
@@ -35,6 +35,8 @@ export async function createProduct(
     material,
     featured,
     isActive,
+    styleId,
+    videoUrl,
   } = validateFields.data;
 
   const productNameExists = await Product.findOne({ name }).lean();
@@ -57,8 +59,10 @@ export async function createProduct(
       material,
       featured,
       isActive,
+      styleId,
+      videoUrl,
     });
-    // revalidatePath(PRODUCT_ROUTE);
+    revalidateTag(PRODUCT_TAG);
     return { success: true };
   } catch (error) {
     console.log(error);
@@ -95,6 +99,8 @@ export async function updateProduct(
     material,
     featured,
     isActive,
+    styleId,
+    videoUrl,
   } = validateFields.data;
 
   // checking if the name has been changed
@@ -117,10 +123,12 @@ export async function updateProduct(
     product.category = category;
     product.featured = featured;
     product.isActive = isActive;
+    product.styleId = styleId;
+    product.videoUrl = videoUrl;
 
     await product.save();
 
-    revalidatePath(PRODUCT_ROUTE);
+    revalidateTag(PRODUCT_TAG);
     return { success: true };
   } catch (error) {
     console.log(error);
@@ -140,7 +148,7 @@ export async function deleteProduct(
 
   try {
     await Product.findByIdAndDelete(id);
-    revalidatePath(PRODUCT_ROUTE);
+    revalidateTag(PRODUCT_TAG);
   } catch (error) {
     return { error: "Something went wrong" };
   }

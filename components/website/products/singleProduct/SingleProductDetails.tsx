@@ -7,23 +7,24 @@ import { Plus, Minus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { DrawerDialog } from "../../DrawerDialog";
 import Image from "next/image";
+import { isMobile } from "@/lib/utils";
 
 type Props = {
   data: ProductType;
-  mobile: boolean;
 };
 
 type SingleProductErrorType = {
   sizeError: string;
   quantityError: string;
 };
-const SingleProductDetails = ({ data, mobile }: Props) => {
+const SingleProductDetails = ({ data }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState<string>("");
   const [error, setError] = useState<SingleProductErrorType>({
     sizeError: "",
     quantityError: "",
   });
+  const mobile = isMobile();
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () => setQuantity((prev) => prev - 1);
 
@@ -58,9 +59,13 @@ const SingleProductDetails = ({ data, mobile }: Props) => {
           onChange={(e) => setSize(e.target.value)}
           placeholder="6 inches or 15 cm"
         />
-        <DrawerDialog mobile={mobile} title="How to measure" style="mt-4">
+        <DrawerDialog title="How to measure" style="mt-4">
           <Image
-            src="/images/measurement.png"
+            src={
+              mobile
+                ? "/images/mobileMeasurement.png"
+                : "/images/measurement.png"
+            }
             width={800}
             height={800}
             alt="measurement"
@@ -80,7 +85,7 @@ const SingleProductDetails = ({ data, mobile }: Props) => {
           </Button>
         </div>
         <div className="mt-4">
-          <Button size="sm" variant="secondary" className="w-full">
+          <Button size="sm" variant="outline" className="w-full">
             Buy Now
           </Button>
         </div>

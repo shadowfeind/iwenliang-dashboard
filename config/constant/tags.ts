@@ -6,3 +6,4 @@ export const COLOR_TAG = "Color";
 export const CAROUSEL_TAG = "Carousel";
 export const ORDER_TAG = "Order";
 export const PRODUCT_FILTER = "ProductFilter";
+export const BEAS_SIZE_TAG = "BeadSize";

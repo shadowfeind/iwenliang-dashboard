@@ -16,6 +16,8 @@ export type ProductType = {
   category?: CategoryType[];
   featured: boolean;
   isActive: boolean;
+  styleId?: string;
+  videoUrl?: string;
   createdAt: string;
   updatedAt: string;
 };

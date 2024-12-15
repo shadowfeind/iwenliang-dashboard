@@ -8,13 +8,10 @@ import SpacedContainer from "@/components/website/SpacedContainer";
 import TitleHeader from "@/components/website/TitleHeader";
 import { getProductsForFrontPage } from "@/features/products/product.query";
 import { isMobile } from "@/lib/utils";
-import { headers } from "next/headers";
 import { Suspense } from "react";
 
 const page = async () => {
-  const headersList = await headers();
-  const userAgent = headersList.get("user-agent") || "";
-  const mobile = isMobile(userAgent);
+  const mobile = isMobile();
   const result = await getProductsForFrontPage();
 
   if ("error" in result) return <ErrorComponent message={result.error} />;
