@@ -8,7 +8,7 @@ import {
 import Material from "@/features/materials/material.model";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/auth";
-import { MATERIAL_TAG } from "@/config/constant/tags";
+import { MATERIAL_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 
 export async function createMaterial(
   value: MaterialSchemaType
@@ -27,6 +27,7 @@ export async function createMaterial(
   try {
     await Material.create({ name });
     revalidateTag(MATERIAL_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from createMaterial", error);
     return { error: "Something went wrong" };
@@ -56,6 +57,7 @@ export async function updateMaterial(
     material.name = name;
     await material.save();
     revalidateTag(MATERIAL_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from updateMaterial", error);
     return { error: "Something went wrong" };
@@ -75,6 +77,7 @@ export async function deleteMaterial(
   try {
     await Material.findByIdAndDelete(id);
     revalidateTag(MATERIAL_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from deleteMaterial", error);
     return { error: "Something went wrong" };

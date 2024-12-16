@@ -9,7 +9,7 @@ import {
 import Color from "@/features/colors/color.model";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
-import { COLOR_TAG } from "@/config/constant/tags";
+import { COLOR_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 
 export async function createColor(
   values: CreateColorSchemaType
@@ -29,6 +29,7 @@ export async function createColor(
   try {
     await Color.create({ name, hexValue });
     revalidateTag(COLOR_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from createColor action", error);
     return { error: "Something went wrong" };
@@ -59,6 +60,7 @@ export async function updateColor(
     color.hexValue = hexValue;
     await color.save();
     revalidateTag(COLOR_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from updateColor", error);
     return { error: "Something went wrong" };
@@ -78,6 +80,7 @@ export async function deleteColor(
   try {
     await Color.findByIdAndDelete(id);
     revalidateTag(COLOR_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from deleteColor", error);
     return { error: "Something went wrong" };

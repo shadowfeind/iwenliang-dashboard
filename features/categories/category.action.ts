@@ -10,7 +10,7 @@ import { slugify } from "@/lib/slugify";
 import Category from "@/features/categories/category.model";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
-import { CATEGORY_TAG } from "@/config/constant/tags";
+import { CATEGORY_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 
 export async function createCategory(
   value: CategorySchemaType
@@ -36,6 +36,7 @@ export async function createCategory(
     });
 
     revalidateTag(CATEGORY_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from createCategory", error);
     return { error: "Something went wrong" };
@@ -75,6 +76,7 @@ export async function updateCategory(
   }
 
   revalidateTag(CATEGORY_TAG);
+  revalidateTag(PRODUCT_FILTER);
 }
 
 export async function deleteCategory(
@@ -90,6 +92,7 @@ export async function deleteCategory(
   try {
     await Category.findByIdAndDelete(id);
     revalidateTag(CATEGORY_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from deleteCategory", error);
     return { error: "Something went wrong" };

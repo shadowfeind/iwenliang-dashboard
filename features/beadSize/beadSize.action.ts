@@ -7,7 +7,7 @@ import {
 } from "./beadSize.schema";
 import { auth } from "@/auth";
 import BeadSize from "./beadSize.model";
-import { BEAS_SIZE_TAG } from "@/config/constant/tags";
+import { BEAS_SIZE_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 import { revalidateTag } from "next/cache";
 
 export async function createBeadSize(
@@ -28,6 +28,7 @@ export async function createBeadSize(
   try {
     await BeadSize.create({ name });
     revalidateTag(BEAS_SIZE_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from createBeadSize action", error);
     return { error: "Something went wrong" };
@@ -47,6 +48,7 @@ export async function deleteBeadSize(
   try {
     await BeadSize.findByIdAndDelete(id);
     revalidateTag(BEAS_SIZE_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from deleteBeadSize", error);
     return { error: "Something went wrong" };
@@ -76,6 +78,7 @@ export async function updateBeadSize(
     beadSize.name = name;
     await beadSize.save();
     revalidateTag(BEAS_SIZE_TAG);
+    revalidateTag(PRODUCT_FILTER);
   } catch (error) {
     console.log("Error from updateBeadSize", error);
     return { error: "Something went wrong" };
