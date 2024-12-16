@@ -6,7 +6,7 @@
       }
     },
     "functions": {
-    "bracelets/page.js": {
+    "app/(website)/bracelets/page.js": {
       "maxDuration": 30
     }
   }
