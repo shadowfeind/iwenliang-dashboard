@@ -110,9 +110,9 @@ const CreateOrUpdateMaterial = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Material Name</FormLabel>
+                    <FormLabel> Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Material" {...field} />
+                      <Input placeholder="Stone name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -123,8 +123,8 @@ const CreateOrUpdateMaterial = ({
               {isPending
                 ? "Loading...."
                 : mode === "edit"
-                ? "Update Material"
-                : "Create Material"}
+                ? "Update Stone"
+                : "Create Stone"}
             </Button>
           </form>
         </Form>

@@ -53,7 +53,7 @@ const routes: SidebarRoutes[] = [
     link: CAROUSEL_ROUTE,
   },
   {
-    name: "Material",
+    name: "Stone",
     icon: <BrickWall className="w-5 h-5 ml-2" />,
     link: MATERIAL_ROUTE,
   },

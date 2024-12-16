@@ -125,7 +125,7 @@ const BraceletFilters = ({
           ))}
         </div>
         <div className="flex flex-col space-y-2 mb-3">
-          <span className=" text-sm font-bold text-black">Materials</span>
+          <span className=" text-sm font-bold text-black">Stones</span>
           {filters.materials.map((material) => (
             <div key={material._id} className="flex items-center space-x-2">
               <Checkbox

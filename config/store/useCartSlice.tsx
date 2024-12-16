@@ -17,17 +17,24 @@ export type CreateCartSliceType = {
 };
 
 export const createCartSlice = (set: any): CreateCartSliceType => {
-  const savedCart = localStorage.getItem("cart");
-  const initialCart = savedCart ? JSON.parse(savedCart) : [];
+  const getInitialCart = (): CartType[] => {
+    if (typeof window !== "undefined") {
+      const savedCart = localStorage.getItem("cart");
+      return savedCart ? JSON.parse(savedCart) : [];
+    }
+    return [];
+  };
 
   return {
     cartOpen: false,
     setCartOpen: (cartOpen: boolean) => set({ cartOpen }),
-    cart: initialCart,
+    cart: getInitialCart(),
     addCart: (cart: CartType) =>
       set((state: any) => {
         const updatedCart = [...state.cart, cart];
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        }
         return { cart: updatedCart };
       }),
     removeCart: (id: string) =>
@@ -35,7 +42,9 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
         const updatedCart = state.cart.filter(
           (c: CartType) => c.product._id !== id
         );
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        }
         return { cart: updatedCart };
       }),
     incrementQuantity: (id: string) =>
@@ -49,7 +58,9 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
           }
           return c;
         });
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        }
         return { cart: updatedCart };
       }),
     decrementQuantity: (id: string) =>
@@ -63,7 +74,9 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
           }
           return c;
         });
-        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("cart", JSON.stringify(updatedCart));
+        }
         return { cart: updatedCart };
       }),
   };

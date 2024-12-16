@@ -6,7 +6,7 @@ import { TableLoading } from "@/components/loading/tableLoading";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Material" },
+  { title: "Stone" },
 ];
 
 const page = () => {

@@ -14,7 +14,6 @@ import {
 import { useMainStore } from "@/config/store/useMainStore";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 export const Cart = () => {
   const cart = useMainStore((state) => state.cart);

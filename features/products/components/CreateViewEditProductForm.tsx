@@ -290,7 +290,7 @@ const CreateViewEditProductForm = ({
               name="material"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Materials</FormLabel>
+                  <FormLabel>Stones</FormLabel>
                   <FormControl>
                     <MultiSelect
                       options={materials}

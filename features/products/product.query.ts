@@ -109,48 +109,41 @@ export const getProductBySlugQuery = async (
   return JSON.parse(JSON.stringify(product));
 };
 
-export const getFiltersForProduct = cache(
-  async (): Promise<{
-    colors: ColorType[];
-    materials: MaterialType[];
-    categories: CategoryType[];
-    beadSizes: BeadType[];
-  }> => {
-    try {
-      const [colorData, materialData, categoryData, beadSizeData] =
-        await Promise.all([
-          Color.find().sort({ createdAt: -1 }).lean().exec(),
-          Material.find().sort({ createdAt: -1 }).lean().exec(),
-          Category.find().sort({ createdAt: -1 }).lean().exec(),
-          BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
-        ]);
+export const getFiltersForProduct = async (): Promise<{
+  colors: ColorType[];
+  materials: MaterialType[];
+  categories: CategoryType[];
+  beadSizes: BeadType[];
+}> => {
+  try {
+    const [colorData, materialData, categoryData, beadSizeData] =
+      await Promise.all([
+        Color.find().sort({ createdAt: -1 }).lean().exec(),
+        Material.find().sort({ createdAt: -1 }).lean().exec(),
+        Category.find().sort({ createdAt: -1 }).lean().exec(),
+        BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
+      ]);
 
-      const response = JSON.parse(
-        JSON.stringify({
-          colors: colorData,
-          materials: materialData,
-          categories: categoryData,
-          beadSizes: beadSizeData,
-        })
-      );
+    const response = JSON.parse(
+      JSON.stringify({
+        colors: colorData,
+        materials: materialData,
+        categories: categoryData,
+        beadSizes: beadSizeData,
+      })
+    );
 
-      return {
-        ...response,
-      };
-    } catch (error) {
-      console.error("Error fetching product filters:", error);
+    return {
+      ...response,
+    };
+  } catch (error) {
+    console.error("Error fetching product filters:", error);
 
-      return {
-        colors: [],
-        materials: [],
-        categories: [],
-        beadSizes: [],
-      };
-    }
-  },
-  [PRODUCT_FILTER],
-  {
-    tags: [PRODUCT_FILTER],
-    revalidate: 3600,
+    return {
+      colors: [],
+      materials: [],
+      categories: [],
+      beadSizes: [],
+    };
   }
-);
+};

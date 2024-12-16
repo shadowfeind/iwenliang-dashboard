@@ -6,10 +6,12 @@ import React from "react";
 import BraceletClientPage from "./BraceletClientPage";
 
 const BraceletPage = async () => {
-  const products = await getAllProductsQuery();
-  const filters = await getFiltersForProduct();
+  const products = getAllProductsQuery();
+  const filters = getFiltersForProduct();
 
   const [data, filtersData] = await Promise.all([products, filters]);
+
+  console.log({ filtersData });
 
   if ("error" in data) {
     return <h1 className="text-red-600">{data.error}</h1>;
