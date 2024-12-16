@@ -4,7 +4,6 @@ import BraceletPageLoading from "@/components/website/bracelets/BraceletPageLoad
 import Container from "@/components/website/Container";
 import SpacedContainer from "@/components/website/SpacedContainer";
 import { Suspense } from "react";
-import { Separator } from "@/components/ui/separator";
 
 const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Bracelets" }];
 

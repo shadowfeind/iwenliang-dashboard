@@ -11,7 +11,7 @@ const FooterMenu = () => {
             CUSTOMER SERVICE
           </h3>
           <nav className="flex flex-col space-y-3">
-            <Link href="/contact" className="text-sm hover:text-gray-300">
+            <Link href="/contact-us" className="text-sm hover:text-gray-300">
               Contact Us
             </Link>
             <Link href="/faqs" className="text-sm hover:text-gray-300">
@@ -20,8 +20,9 @@ const FooterMenu = () => {
             <Link href="/measurements" className="text-sm hover:text-gray-300">
               Measurements
             </Link>
-            <Link href="/gift-voucher" className="text-sm hover:text-gray-300">
-              Gift Voucher
+            <Link href="/bracelets" className="text-sm hover:text-gray-300">
+              {/* Gift Voucher */}
+              Shop
             </Link>
           </nav>
         </div>
@@ -32,16 +33,22 @@ const FooterMenu = () => {
             ABOUT COMPANY
           </h3>
           <nav className="flex flex-col space-y-3">
-            <Link href="/about" className="text-sm hover:text-gray-300">
+            <Link href="/about-us" className="text-sm hover:text-gray-300">
               About Us
             </Link>
-            <Link href="/shipping" className="text-sm hover:text-gray-300">
+            <Link
+              href="/shipping-guide"
+              className="text-sm hover:text-gray-300"
+            >
               Shipping Guide
             </Link>
-            <Link href="/returns" className="text-sm hover:text-gray-300">
+            <Link href="/refund-policy" className="text-sm hover:text-gray-300">
               Return Policy
             </Link>
-            <Link href="/terms" className="text-sm hover:text-gray-300">
+            <Link
+              href="/terms-and-conditions"
+              className="text-sm hover:text-gray-300"
+            >
               Terms & Conditions
             </Link>
           </nav>

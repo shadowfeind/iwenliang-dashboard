@@ -4,9 +4,9 @@ import StaticContentContainer from "@/components/website/StaticContentContainer"
 import Image from "next/image";
 import measurement from "../../../public/images/measurement.png";
 
-const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Sizes" }];
+const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Measurements" }];
 
-const SizePage = () => {
+const Page = () => {
   return (
     <>
       <Container style="mt-3">
@@ -19,4 +19,4 @@ const SizePage = () => {
   );
 };
 
-export default SizePage;
+export default Page;
