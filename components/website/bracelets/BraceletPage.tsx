@@ -6,12 +6,10 @@ import React from "react";
 import BraceletClientPage from "./BraceletClientPage";
 
 const BraceletPage = async () => {
-  const data = await getAllProductsQuery();
-  const filtersData = await getFiltersForProduct();
-  // vercel function timeout in Promise.all
-  // const products = getAllProductsQuery();
-  // const filters = getFiltersForProduct();
-  // const [data, filtersData] = await Promise.all([products, filters]);
+  const products = getAllProductsQuery();
+  const filters = getFiltersForProduct();
+
+  const [data, filtersData] = await Promise.all([products, filters]);
 
   if ("error" in data) {
     return <h1 className="text-red-600">{data.error}</h1>;

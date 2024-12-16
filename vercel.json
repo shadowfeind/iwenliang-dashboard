@@ -4,5 +4,10 @@
         "main": true,
         "**": false
       }
+    },
+    "functions": {
+    "/bracelets/page.js": {
+      "maxDuration": 30
     }
+  }
   }
