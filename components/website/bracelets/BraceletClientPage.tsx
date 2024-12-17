@@ -1,6 +1,6 @@
 "use client";
 import { ProductType } from "@/features/products/product.types";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,6 +14,7 @@ import { CategoryType } from "@/features/categories/category.types";
 import { ColorType } from "@/features/colors/color.types";
 import { MaterialType } from "@/features/materials/material.types";
 import { BeadType } from "@/features/beadSize/beadSize.type";
+import { getAllFiltersForProductApiQuery } from "@/features/products/product.query";
 
 export type Filters = {
   categories: CategoryType[];
@@ -24,11 +25,13 @@ export type Filters = {
 
 type Props = {
   products: ProductType[];
-  filters: Filters;
+  // filters: Filters;
 };
 
-const BraceletClientPage = ({ products, filters }: Props) => {
+const BraceletClientPage = ({ products }: Props) => {
   const [bracelets, setBracelets] = useState<ProductType[]>(products);
+
+  // this will have data that are filtered
   const [filtersData, setFiltersData] = useState<Filters>({
     categories: [],
     colors: [],
@@ -36,6 +39,28 @@ const BraceletClientPage = ({ products, filters }: Props) => {
     beadSizes: [],
   });
   const [open, setOpen] = useState(false);
+
+  // this will have data that are fetched
+  const [dataForFilter, setDataForFilter] = useState<Filters>({
+    categories: [],
+    colors: [],
+    materials: [],
+    beadSizes: [],
+  });
+  const [showFilterButton, setShowFilterButton] = useState(false);
+
+  const fetchFilters = useCallback(async () => {
+    const data = await getAllFiltersForProductApiQuery();
+    setDataForFilter(data);
+  }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetchFilters();
+      setShowFilterButton(true);
+    }, 300);
+    return () => clearTimeout(timeout);
+  }, [fetchFilters]);
 
   const handleSort = (value: string) => {
     let sortedBracelets = [...products];
@@ -140,15 +165,17 @@ const BraceletClientPage = ({ products, filters }: Props) => {
             <SelectItem value="oldest">Oldest</SelectItem>
           </SelectContent>
         </Select>
-        <BraceletFilters
-          filters={filters}
-          handleFilters={handleFilters}
-          setFilters={setFiltersData}
-          filtersData={filtersData}
-          handleResetFilters={handleResetFilters}
-          open={open}
-          setOpen={setOpen}
-        />
+        {showFilterButton && (
+          <BraceletFilters
+            filters={dataForFilter}
+            handleFilters={handleFilters}
+            setFilters={setFiltersData}
+            filtersData={filtersData}
+            handleResetFilters={handleResetFilters}
+            open={open}
+            setOpen={setOpen}
+          />
+        )}
       </div>
       <ProductsGrid products={bracelets} />
     </div>

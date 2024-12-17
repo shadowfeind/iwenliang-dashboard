@@ -6,14 +6,15 @@ import React from "react";
 import BraceletClientPage from "./BraceletClientPage";
 
 const BraceletPage = async () => {
-  const products = getAllProductsQuery();
-  const filters = getFiltersForProduct();
+  const products = await getAllProductsQuery();
+  // const filters = getFiltersForProduct();
 
-  const [data, filtersData] = await Promise.all([products, filters]);
+  // const [data, filtersData] = await Promise.all([products, filters]);
 
-  if ("error" in data) {
-    return <h1 className="text-red-600">{data.error}</h1>;
+  if ("error" in products) {
+    return <h1 className="text-red-600">{products.error}</h1>;
   }
-  return <BraceletClientPage products={data} filters={filtersData} />;
+  // return <BraceletClientPage products={products} filters={filtersData} />;
+  return <BraceletClientPage products={products} />;
 };
 export default BraceletPage;

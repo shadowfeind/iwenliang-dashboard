@@ -153,3 +153,26 @@ export const getFiltersForProduct = cache(
     tags: [PRODUCT_FILTER],
   }
 );
+
+// i created a api route as vercel serverless function was timing out
+// i will remove this api route in future if i use vps
+export const getAllFiltersForProductApiQuery = async (): Promise<{
+  colors: ColorType[];
+  materials: MaterialType[];
+  categories: CategoryType[];
+  beadSizes: BeadType[];
+}> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_REST_URL}bracelet-filters`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+  if (!response.ok) {
+    return { colors: [], materials: [], categories: [], beadSizes: [] };
+  }
+  const data = await response.json();
+
+  return data;
+};

@@ -1,4 +1,5 @@
 import connectDB from "@/config/db/connect";
+import BeadSize from "@/features/beadSize/beadSize.model";
 import Category from "@/features/categories/category.model";
 import Color from "@/features/colors/color.model";
 import Material from "@/features/materials/material.model";
@@ -8,18 +9,22 @@ export async function GET() {
   await connectDB();
 
   try {
-    const colors = Color.find().sort({ createdAt: -1 }).lean();
-    const materials = Material.find().sort({ createdAt: -1 }).lean();
-    const categories = Category.find().sort({ createdAt: -1 }).lean();
-
-    const [colorData, materialData, categoryData] = await Promise.all([
-      colors,
-      materials,
-      categories,
-    ]);
+    const [colorData, materialData, categoryData, beadSizeData] =
+      await Promise.all([
+        Color.find().sort({ createdAt: -1 }).lean(),
+        Material.find().sort({ createdAt: -1 }).lean(),
+        Category.find().sort({ createdAt: -1 }).lean(),
+        BeadSize.find().sort({ createdAt: -1 }).lean(),
+      ]);
 
     return NextResponse.json(
-      { success: true, colorData, materialData, categoryData },
+      {
+        success: true,
+        colors: colorData,
+        materials: materialData,
+        categories: categoryData,
+        beadSizes: beadSizeData,
+      },
       { status: 200 }
     );
   } catch (error) {

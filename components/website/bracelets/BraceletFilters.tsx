@@ -43,7 +43,7 @@ const BraceletFilters = ({
         </SheetHeader>
         <div className="flex flex-col space-y-2 mb-3">
           <span className=" text-sm font-bold text-black">Categories</span>
-          {filters.categories.map((category) => (
+          {filters?.categories.map((category) => (
             <div key={category._id} className="flex items-center space-x-2">
               <Checkbox
                 id={category._id}
@@ -84,7 +84,7 @@ const BraceletFilters = ({
         </div>
         <div className="flex flex-col space-y-2 mb-3">
           <span className=" text-sm font-bold text-black">Bead Sizes</span>
-          {filters.beadSizes.map((beadSize) => (
+          {filters?.beadSizes.map((beadSize) => (
             <div key={beadSize._id} className="flex items-center space-x-2">
               <Checkbox
                 id={beadSize._id}
@@ -126,7 +126,7 @@ const BraceletFilters = ({
         </div>
         <div className="flex flex-col space-y-2 mb-3">
           <span className=" text-sm font-bold text-black">Stones</span>
-          {filters.materials.map((material) => (
+          {filters?.materials.map((material) => (
             <div key={material._id} className="flex items-center space-x-2">
               <Checkbox
                 id={material._id}
@@ -168,7 +168,7 @@ const BraceletFilters = ({
         </div>
         <div className="flex flex-col space-y-2 mb-3">
           <span className=" text-sm font-bold text-black">Colors</span>
-          {filters.colors.map((color) => (
+          {filters?.colors.map((color) => (
             <div key={color._id} className="flex items-center space-x-2">
               <Checkbox
                 id={color._id}
