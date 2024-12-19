@@ -9,6 +9,7 @@ import Material from "@/features/materials/material.model";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { MATERIAL_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createMaterial(
   value: MaterialSchemaType
@@ -16,7 +17,8 @@ export async function createMaterial(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -41,7 +43,8 @@ export async function updateMaterial(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = materialSchema.safeParse(value);
 
@@ -70,8 +73,7 @@ export async function deleteMaterial(
   await connectDB();
 
   const session = await auth();
-
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {

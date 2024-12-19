@@ -10,6 +10,7 @@ import Color from "@/features/colors/color.model";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { COLOR_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createColor(
   values: CreateColorSchemaType
@@ -18,7 +19,8 @@ export async function createColor(
 
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = createColorSchema.safeParse(values);
 
@@ -43,7 +45,8 @@ export async function updateColor(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = createColorSchema.safeParse(value);
 
@@ -74,7 +77,7 @@ export async function deleteColor(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {

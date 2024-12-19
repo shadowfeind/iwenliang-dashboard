@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import BeadSize from "./beadSize.model";
 import { BEAS_SIZE_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 import { revalidateTag } from "next/cache";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createBeadSize(
   values: CreateBeadSizeSchemaType
@@ -17,7 +18,8 @@ export async function createBeadSize(
 
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = createBeadSizeSchema.safeParse(values);
 
@@ -42,7 +44,7 @@ export async function deleteBeadSize(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {
@@ -62,7 +64,8 @@ export async function updateBeadSize(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = createBeadSizeSchema.safeParse(value);
 

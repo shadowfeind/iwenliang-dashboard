@@ -11,6 +11,7 @@ import Category from "@/features/categories/category.model";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { CATEGORY_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createCategory(
   value: CategorySchemaType
@@ -19,7 +20,8 @@ export async function createCategory(
 
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -51,7 +53,8 @@ export async function updateCategory(
 
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = categorySchema.safeParse(value);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -86,7 +89,7 @@ export async function deleteCategory(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {

@@ -8,6 +8,7 @@ import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { CarouselType } from "./carousel.type";
 import { CAROUSEL_TAG } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createCarousel(
   values: z.infer<typeof carouselSchema>
@@ -18,7 +19,7 @@ export async function createCarousel(
   await connectDB();
   const session = await auth();
 
-  if (!session || session.user?.role === "Customer")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   const { image } = validateFields.data;
@@ -42,7 +43,7 @@ export async function updateCarousel(
   await connectDB();
   const session = await auth();
 
-  if (!session || session.user?.role === "Customer")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   const { image } = validateFields.data;
@@ -77,7 +78,7 @@ export async function deleteCarousel(
 
   const session = await auth();
 
-  if (!session || session.user?.role === "Customer")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {

@@ -15,6 +15,7 @@ import User from "@/features/users/user.model";
 import { USER_ROUTE } from "@/config/constant/routes";
 import { auth } from "@/auth";
 import { USER_TAG } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createUser(
   user: CreateUserType
@@ -64,7 +65,7 @@ export async function getUserByIdAction(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   const user = await User.findById(id).exec();

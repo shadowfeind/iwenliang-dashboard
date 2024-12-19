@@ -10,6 +10,7 @@ import Product from "./product.model";
 import { revalidateTag } from "next/cache";
 import { auth } from "@/auth";
 import { PRODUCT_TAG } from "@/config/constant/tags";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 
 export async function createProduct(
   values: ProductSchamaType
@@ -17,7 +18,8 @@ export async function createProduct(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const validateFields = productSchema.safeParse(values);
 
@@ -79,7 +81,8 @@ export async function updateProduct(
   await connectDB();
   const session = await auth();
 
-  if (!session) return { error: "Unauthorized" };
+  if (!session || !allowedRoles.includes(session?.user.role))
+    return { error: "Unauthorized" };
 
   const product = await Product.findById(id).exec();
 
@@ -147,7 +150,7 @@ export async function deleteProduct(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
+  if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
 
   try {
