@@ -1,7 +1,29 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
+import { createSubscriber } from "@/features/subscriber/subscriber.action";
 import Image from "next/image";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 export const Subscribe = () => {
+  const [email, setEmail] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubscribe = () => {
+    if (!email) toast("Email is required");
+    startTransition(() => {
+      createSubscriber(email).then((data) => {
+        if (data?.error) {
+          toast(data.error);
+        } else {
+          setEmail("");
+          toast("Subscribed successfully");
+        }
+      });
+    });
+  };
+
   return (
     <>
       <div className="w-11/12 md:w-10/12 mx-auto bg-[#f5f5f5] py-16">
@@ -15,9 +37,16 @@ export const Subscribe = () => {
               className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"
               placeholder="Email"
               type="email"
+              value={email}
+              disabled={isPending}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <button className="inline-flex items-center rounded-e-lg border border-input bg-background px-3 text-sm font-medium text-foreground outline-offset-2 transition-colors hover:bg-accent hover:text-foreground focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:cursor-not-allowed disabled:opacity-50">
-              Subscribe
+            <button
+              disabled={isPending}
+              onClick={handleSubscribe}
+              className="inline-flex items-center rounded-e-lg border border-input bg-background px-3 text-sm font-medium text-foreground outline-offset-2 transition-colors hover:bg-accent hover:text-foreground focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isPending ? "Subscribing" : "Subscribe"}
             </button>
           </div>
           <p className="text-[12px] text-center">

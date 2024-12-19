@@ -15,6 +15,7 @@ import {
   Image as CarouselImage,
   Link,
   SquareUser,
+  UserRound,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -25,6 +26,7 @@ import {
   CUSTOMER_ROUTE,
   MATERIAL_ROUTE,
   PRODUCT_ROUTE,
+  SUBSCRIBER_ROUTE,
   USER_ROUTE,
 } from "@/config/constant/routes";
 
@@ -74,6 +76,11 @@ const routes: SidebarRoutes[] = [
     name: "Customer",
     icon: <SquareUser className="w-5 h-5 ml-2" />,
     link: CUSTOMER_ROUTE,
+  },
+  {
+    name: "Subscriber",
+    icon: <UserRound className="w-5 h-5 ml-2" />,
+    link: SUBSCRIBER_ROUTE,
   },
 ];
 
