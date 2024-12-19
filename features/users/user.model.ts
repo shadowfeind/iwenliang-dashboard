@@ -4,6 +4,7 @@ interface IUser extends Document {
   fullName: string;
   userName: string;
   email: string;
+  phone: string;
   password: string;
   role: "Admin" | "User" | "Customer";
   createdAt: Date;
@@ -28,6 +29,9 @@ const userSchema = new mongoose.Schema<IUser>(
       unique: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+    },
+    phone: {
+      type: String,
     },
     password: {
       type: String,

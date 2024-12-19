@@ -9,6 +9,7 @@ export const getAllUsers = cache(
     try {
       await connectDB();
       const users = await User.find()
+        .select("-password")
         .sort({ createdAt: -1 })
         .lean<UserTypes[]>();
       return JSON.parse(JSON.stringify(users));
@@ -33,7 +34,7 @@ export async function getUserByUsername(
 }
 
 export async function authenticateUser(
-  userName: string,
+  email: string,
   password: string
 ): Promise<UserTypes | null> {
   // TODO: make it post request
@@ -42,7 +43,7 @@ export async function authenticateUser(
     method: "POST",
     credentials: "include",
     body: JSON.stringify({
-      userName,
+      email,
       password,
     }),
   });

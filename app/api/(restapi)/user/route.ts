@@ -20,21 +20,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { userName, password } = validated.data;
+    const { email, password } = validated.data;
 
-    const userNameExists = await User.findOne({ userName }).lean<UserTypes>();
+    const emailExists = await User.findOne({ email }).lean<UserTypes>();
 
-    if (!userNameExists) {
+    if (!emailExists) {
       return NextResponse.json(
         { success: false, error: "User not found" },
         { status: 400 }
       );
     }
 
-    const hashedPassword = await bcrypt.compare(
-      password,
-      userNameExists.password
-    );
+    const hashedPassword = await bcrypt.compare(password, emailExists.password);
 
     if (!hashedPassword) {
       return NextResponse.json(
@@ -43,7 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = { ...userNameExists, password: "" };
+    const user = { ...emailExists, password: "" };
 
     return NextResponse.json({ data: user }, { status: 200 });
   } catch (error) {

@@ -34,7 +34,7 @@ const SignInForm = () => {
   const form = useForm<AuthType>({
     resolver: zodResolver(authSchema),
     defaultValues: {
-      userName: "",
+      email: "",
       password: "",
     },
   });
@@ -70,12 +70,16 @@ const SignInForm = () => {
             <div>
               <FormField
                 control={form.control}
-                name="userName"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username*</FormLabel>
+                    <FormLabel>Email*</FormLabel>
                     <FormControl>
-                      <Input type="text" placeholder="Johndoe" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="Johndoe@example.com"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -100,14 +104,14 @@ const SignInForm = () => {
             <Button disabled={isPending} type="submit" className="w-full">
               {isPending ? "Authenticating..." : "Sign In"}
             </Button>
-            <Button variant="outline" className="w-full">
+            {/* <Button variant="outline" className="w-full">
               <FaGoogle className="mr-2 size-4" />
               Login with Google
             </Button>
             <Button variant="outline" className="w-full">
               <FaFacebookSquare className="mr-2 size-4" />
               Login with Facebook
-            </Button>
+            </Button> */}
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">

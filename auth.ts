@@ -50,9 +50,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const validatedFields = authSchema.safeParse(credentials);
 
         if (validatedFields.success) {
-          const { userName, password } = validatedFields.data;
+          const { email, password } = validatedFields.data;
 
-          const user = await authenticateUser(userName, password);
+          const user = await authenticateUser(email, password);
 
           if (!user) throw new Error("Credentials error");
 

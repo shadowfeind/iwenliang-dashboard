@@ -14,6 +14,7 @@ import {
   Palette,
   Image as CarouselImage,
   Link,
+  SquareUser,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -21,6 +22,7 @@ import {
   CAROUSEL_ROUTE,
   CATEGORY_ROUTE,
   COLR_ROUTE,
+  CUSTOMER_ROUTE,
   MATERIAL_ROUTE,
   PRODUCT_ROUTE,
   USER_ROUTE,
@@ -32,11 +34,7 @@ const routes: SidebarRoutes[] = [
     icon: <LayoutDashboard className="w-5 h-5 ml-2" />,
     link: "/dashboard",
   },
-  {
-    name: "User",
-    icon: <User className="w-5 h-5 ml-2" />,
-    link: USER_ROUTE,
-  },
+
   {
     name: "Product",
     icon: <ShoppingBasket className="w-5 h-5 ml-2" />,
@@ -66,6 +64,16 @@ const routes: SidebarRoutes[] = [
     name: "Bead Size",
     icon: <Link className="w-5 h-5 ml-2" />,
     link: BEAD_SIZE_ROUTE,
+  },
+  {
+    name: "User",
+    icon: <User className="w-5 h-5 ml-2" />,
+    link: USER_ROUTE,
+  },
+  {
+    name: "Customer",
+    icon: <SquareUser className="w-5 h-5 ml-2" />,
+    link: CUSTOMER_ROUTE,
   },
 ];
 
