@@ -14,14 +14,20 @@ import {
 import { useMainStore } from "@/config/store/useMainStore";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const Cart = () => {
+  const router = useRouter();
   const cart = useMainStore((state) => state.cart);
   const cartOpen = useMainStore((state) => state.cartOpen);
   const setCartOpen = useMainStore((state) => state.setCartOpen);
   const removeCart = useMainStore((state) => state.removeCart);
   const incrementQuantity = useMainStore((state) => state.incrementQuantity);
   const decrementQuantity = useMainStore((state) => state.decrementQuantity);
+  const handleCart = () => {
+    setCartOpen(false);
+    router.push("/checkout");
+  };
 
   return (
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
@@ -82,7 +88,7 @@ export const Cart = () => {
         )}
         {cart.length > 0 && (
           <SheetFooter className="absolute bottom-0 w-full p-3 border-t-2">
-            <Button className="w-full" onClick={() => setCartOpen(false)}>
+            <Button className="w-full" onClick={handleCart}>
               Checkout
             </Button>
           </SheetFooter>
