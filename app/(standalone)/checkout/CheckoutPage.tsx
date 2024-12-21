@@ -3,15 +3,10 @@
 import { useState } from "react";
 import { Stepper, Step } from "./components/Stepper";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useMainStore } from "@/config/store/useMainStore";
 import CheckoutCart from "./components/CheckoutCart";
+import CheckoutForm from "./components/CheckoutForm";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -27,7 +22,9 @@ const CheckoutPage = () => {
     <div className="container mx-auto py-10">
       <Stepper steps={steps} currentStep={currentStep} className="mb-4" />
       <div className="flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-2/4">shipping form</div>
+        <div className="w-full lg:w-2/4">
+          <CheckoutForm />
+        </div>
         <div className="w-full lg:w-2/4">
           <Card>
             <CardContent>
