@@ -19,12 +19,17 @@ import {
 } from "@/components/ui/select";
 import { COUNTRIES } from "@/config/db/constant";
 import Image from "next/image";
-import React from "react";
+import React, { Ref, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 
-type Props = {};
+export type SubmitRef = {
+  submit: () => void;
+};
+type Props = {
+  ref: Ref<SubmitRef>;
+};
 
-const CheckoutForm = (props: Props) => {
+const CheckoutForm = ({ ref }: Props) => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -38,11 +43,19 @@ const CheckoutForm = (props: Props) => {
     },
   });
 
-  const handleSubmit = (values: any) => console.log(values);
+  const handleSubmit = (values: any) => {
+    console.log(values);
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      form.handleSubmit(handleSubmit)();
+    },
+  }));
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+        <form className="space-y-4">
           <FormField
             control={form.control}
             name="country"

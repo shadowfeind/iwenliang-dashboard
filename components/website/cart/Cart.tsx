@@ -1,6 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 
+import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import {
@@ -24,7 +25,12 @@ export const Cart = () => {
   const removeCart = useMainStore((state) => state.removeCart);
   const incrementQuantity = useMainStore((state) => state.incrementQuantity);
   const decrementQuantity = useMainStore((state) => state.decrementQuantity);
+  const { data: session } = useSession();
   const handleCart = () => {
+    if (!session) {
+      router.push("/sign-in");
+      return;
+    }
     setCartOpen(false);
     router.push("/checkout");
   };

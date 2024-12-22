@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { Stepper, Step } from "./components/Stepper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useMainStore } from "@/config/store/useMainStore";
 import CheckoutCart from "./components/CheckoutCart";
-import CheckoutForm from "./components/CheckoutForm";
+import CheckoutForm, { SubmitRef } from "./components/CheckoutForm";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 
@@ -21,12 +22,32 @@ const CheckoutPage = () => {
   const [mounted, setMounted] = useState(false);
   const cart = useMainStore((state) => state.cart);
   const router = useRouter();
+  const formRef = useRef<SubmitRef>(null);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (!session) {
+      router.push("/sign-in");
+    }
+  }, [session]);
+
+  const handleProceedToPayment = () => {
+    formRef?.current?.submit();
+  };
+
   if (!mounted) return null;
+
+  if (cart.length === 0) {
+    return (
+      <div className="h-4/5 flex justify-center items-center">
+        <p> your cart is empty</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-10">
@@ -34,7 +55,7 @@ const CheckoutPage = () => {
       <Separator className="my-8 md:my-12" />
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-2/4">
-          <CheckoutForm />
+          <CheckoutForm ref={formRef} />
         </div>
         <div className="w-full lg:w-2/4">
           <Card>
@@ -63,10 +84,10 @@ const CheckoutPage = () => {
                 <span className="text-muted-foreground">OR</span>
                 <Button
                   variant="default"
-                  onClick={() => router.push("/checkout")}
+                  onClick={handleProceedToPayment}
                   className="bg-zinc-800 hover:bg-zinc-900"
                 >
-                  Place order
+                  Proceed to payment
                 </Button>
               </div>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 import { useMainStore } from "@/config/store/useMainStore";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,20 @@ export const CartPage = () => {
   const removeCart = useMainStore((state) => state.removeCart);
   const incrementQuantity = useMainStore((state) => state.incrementQuantity);
   const decrementQuantity = useMainStore((state) => state.decrementQuantity);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleCheckout = () => {
+    if (!session) {
+      router.push("/sign-in");
+      return;
+    }
+
+    router.push("/checkout");
+  };
 
   if (!mounted) return null;
 
@@ -121,7 +132,7 @@ export const CartPage = () => {
           <span className="text-muted-foreground">OR</span>
           <Button
             variant="default"
-            onClick={() => router.push("/checkout")}
+            onClick={handleCheckout}
             className="bg-zinc-800 hover:bg-zinc-900"
           >
             Proceed to Checkout
