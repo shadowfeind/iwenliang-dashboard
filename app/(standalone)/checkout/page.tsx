@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Logo from "../../../public/images/mainlogo.png";
 import CheckoutPage from "./CheckoutPage";
+import Loading from "./loading";
 
 const page = () => {
   return (

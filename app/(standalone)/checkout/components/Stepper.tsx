@@ -15,7 +15,7 @@ interface StepperProps {
 
 export function Stepper({ steps, currentStep, className }: StepperProps) {
   return (
-    <nav aria-label="Progress" className={cn("mx-auto max-w-xl", className)}>
+    <nav aria-label="Progress" className={cn("mx-auto max-w-md", className)}>
       <ol role="list" className="flex items-center justify-between">
         {steps.map((step, index) => (
           <li key={step.id} className="flex-1">
