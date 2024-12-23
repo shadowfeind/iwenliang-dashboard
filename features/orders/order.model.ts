@@ -4,7 +4,7 @@ import { IUser } from "../users/user.model";
 
 export interface IOrderItem {
   name: string;
-  qty: number;
+  quantity: number;
   price: number;
   product: IProduct["_id"];
 }
@@ -41,7 +41,7 @@ export interface IOrder extends Document {
   totalPrice: number;
   user: IUser["_id"];
   status: OrderStatus;
-  paidAt: Date;
+  paidAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
