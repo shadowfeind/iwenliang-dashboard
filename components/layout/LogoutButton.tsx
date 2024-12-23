@@ -1,17 +1,21 @@
-import React from "react";
+import { signOut } from "@/auth";
 import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
-import { signOut } from "next-auth/react";
 
 const LogoutButton = () => {
   return (
-    <Button
-      onClick={() => signOut()}
-      className="flex items-center gap-2 w-full"
+    <form
+      action={async () => {
+        "use server";
+        await signOut();
+      }}
+      className="w-full"
     >
-      <LogOut className="size-4" />
-      Logout
-    </Button>
+      <Button className="flex items-center gap-2 w-full">
+        <LogOut className="size-4" />
+        Logout
+      </Button>
+    </form>
   );
 };
 

@@ -28,7 +28,7 @@ export const Cart = () => {
   const { data: session } = useSession();
   const handleCart = () => {
     if (!session) {
-      router.push("/sign-in");
+      router.push("/sign-in?redirect=cart");
       return;
     }
     setCartOpen(false);

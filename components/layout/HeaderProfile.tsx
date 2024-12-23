@@ -1,5 +1,3 @@
-"use client";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +8,12 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import LogoutButton from "./LogoutButton";
-import { useSession } from "next-auth/react";
 import { UserRound } from "lucide-react";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-const HeaderProfile = () => {
-  const { data: session } = useSession();
+const HeaderProfile = async () => {
+  const session = await auth();
 
   if (!session?.user) {
     return (

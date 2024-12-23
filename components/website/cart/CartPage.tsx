@@ -30,7 +30,7 @@ export const CartPage = () => {
 
   const handleCheckout = () => {
     if (!session) {
-      router.push("/sign-in");
+      router.push("/sign-in?redirect=cart");
       return;
     }
 

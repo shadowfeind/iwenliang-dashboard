@@ -25,12 +25,14 @@ import {
 import Link from "next/link";
 import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { login } from "@/actions/auth.action";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SignInForm = () => {
   const [error, setError] = useState("");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const form = useForm<AuthType>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -46,7 +48,9 @@ const SignInForm = () => {
           setError(data.error);
         } else {
           setError("");
-          router.push("/dashboard");
+          router.push(
+            searchParams.get("redirect") === "cart" ? "/cart" : "/dashboard"
+          );
         }
       });
     });
