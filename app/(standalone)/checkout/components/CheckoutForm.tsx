@@ -33,7 +33,6 @@ const CheckoutForm = ({ ref }: Props) => {
   const form = useForm({
     defaultValues: {
       email: "",
-      name: "",
       country: "",
       fullName: "",
       address: "",
