@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { OrderStatus } from "./order.model";
 
 export const shippingSchema = z.object({
   address: z.string().min(3, "Address is required"),
@@ -17,6 +16,7 @@ export const createOrderSchema = z.object({
       name: z.string(),
       quantity: z.number(),
       price: z.number(),
+      image: z.string(),
       product: z.string(),
     })
   ),

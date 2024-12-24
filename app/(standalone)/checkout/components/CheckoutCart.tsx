@@ -1,28 +1,62 @@
 import { CartType } from "@/config/store/useCartSlice";
+import { IOrderItem } from "@/features/orders/order.model";
 
 import Image from "next/image";
 import React from "react";
 
 type Props = {
-  cart: CartType;
+  cart: CartType | IOrderItem;
 };
 
 const CheckoutCart = ({ cart }: Props) => {
+  const isCartType = (cart: CartType | IOrderItem): cart is CartType => {
+    return "product" in cart && typeof cart.product === "object";
+  };
+
+  const getDisplayValues = () => {
+    if (isCartType(cart)) {
+      return {
+        name: cart.product.name,
+        image: cart.product.images[0],
+        price: cart.product.price * cart.quantity,
+        quantity: cart.quantity,
+      };
+    }
+    return {
+      name: cart.name,
+      image: cart.image,
+      price: cart.price * cart.quantity,
+      quantity: cart.quantity,
+    };
+  };
+
+  const { name, image, price, quantity } = getDisplayValues();
+
   return (
-    <div key={cart.product._id} className="w-full p-4">
-      <div className="flex justify-between items-center pb-2">
-        <div>
-          <Image
-            src={cart.product.images[0]}
-            width={120}
-            height={120}
-            alt={cart.product.name}
-            className="rounded-md"
-          />
-          <p className="text-sm text-center">{cart.product.name}</p>
+    <div className="w-full p-4 border-b border-gray-200 last:border-b-0">
+      <div className="flex justify-between items-center gap-4">
+        <div className="flex flex-col items-center space-y-2">
+          <div className="relative w-[120px] h-[120px]">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover rounded-md"
+              sizes="120px"
+            />
+          </div>
+          <p className="text-sm text-center line-clamp-2">{name}</p>
         </div>
-        <p className="text-sm px-2">{cart.quantity} X</p>
-        <p className="text-sm px-2">USD {cart.product.price * cart.quantity}</p>
+        <div className="flex items-center gap-4">
+          <p className="text-sm px-2">Qty: {quantity}</p>
+          <p className="text-sm font-medium">
+            USD{" "}
+            {price.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </div>
       </div>
     </div>
   );

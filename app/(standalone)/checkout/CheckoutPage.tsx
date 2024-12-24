@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Stepper, Step } from "./components/Stepper";
 import { Button } from "@/components/ui/button";
@@ -10,8 +10,16 @@ import CheckoutCart from "./components/CheckoutCart";
 import CheckoutForm, { SubmitRef } from "./components/CheckoutForm";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import { ShippingSchemaType } from "@/features/orders/order.schema";
+import {
+  CreateOrderSchemaType,
+  ShippingSchemaType,
+} from "@/features/orders/order.schema";
 import StepZero from "./components/StepZero";
+import { createOrder } from "@/features/orders/order.action";
+import { OrderType } from "@/features/orders/order.types";
+import { ErrorComponent } from "@/components/ErrorComponent";
+import { OrderStatus } from "@/features/orders/order.model";
+import StepOne from "./components/StepOne";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -21,8 +29,11 @@ const steps: Step[] = [
 
 const CheckoutPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [error, setError] = useState("");
+  const [order, setOrder] = useState<OrderType | null>(null);
   const [shippingPrice, setShippingPrice] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const cart = useMainStore((state) => state.cart);
   const router = useRouter();
   const formRef = useRef<SubmitRef>(null);
@@ -38,7 +49,7 @@ const CheckoutPage = () => {
     }
   }, [session]);
 
-  const handleFormSubmit = (values: ShippingSchemaType) => {
+  const handleShippingFormSubmitForStepZero = (values: ShippingSchemaType) => {
     const itemsPrice = cart.reduce(
       (acc, item) => acc + item.product.price * item.quantity,
       0
@@ -49,6 +60,7 @@ const CheckoutPage = () => {
         name: item.product.name,
         quantity: item.quantity,
         price: item.product.price,
+        image: item.product.images[0],
         product: item.product._id,
       })),
       shippingAddress: values,
@@ -63,8 +75,26 @@ const CheckoutPage = () => {
       totalPrice: itemsPrice + taxPrice + shippingPrice,
     };
 
+    setError("");
+    // startTransition(() => {
+    // createOrder(order).then((data) => {
+    //   if ("error" in data) {
+    //     setError(data.error);
+    //     return;
+    //   }
+    //   setOrder(data);
+    //   setCurrentStep(1);
+    // });
+    // });
+    setOrder({
+      ...order,
+      createdAt: "test",
+      updatedAt: "test",
+      status: OrderStatus.Pending,
+      user: "test",
+      _id: "test",
+    });
     setCurrentStep(1);
-    console.log("Form values in parent:", order);
   };
 
   const handleProceedToPayment = () => {
@@ -94,13 +124,15 @@ const CheckoutPage = () => {
       {currentStep === 0 && (
         <StepZero
           formRef={formRef}
-          handleFormSubmit={handleFormSubmit}
+          handleFormSubmit={handleShippingFormSubmitForStepZero}
           handleShippingPrice={handleShippingPrice}
           cart={cart}
           handleProceedToPayment={handleProceedToPayment}
+          isPending={isPending}
         />
       )}
-      {currentStep === 1 && "nicela nicela nicela"}
+      <ErrorComponent message={error} />
+      {currentStep === 1 && <StepOne order={order!} />}
     </div>
   );
 };

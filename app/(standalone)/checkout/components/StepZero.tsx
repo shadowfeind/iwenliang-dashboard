@@ -14,6 +14,7 @@ type Props = {
   handleShippingPrice: (price: number) => void;
   cart: CartType[];
   handleProceedToPayment: () => void;
+  isPending: boolean;
 };
 
 const StepZero = ({
@@ -22,6 +23,7 @@ const StepZero = ({
   handleShippingPrice,
   cart,
   handleProceedToPayment,
+  isPending,
 }: Props) => {
   const router = useRouter();
   return (
@@ -51,7 +53,11 @@ const StepZero = ({
             </div>
 
             <div className="flex justify-end items-center gap-4">
-              <Button onClick={() => router.push("/cart")} variant="outline">
+              <Button
+                disabled={isPending}
+                onClick={() => router.push("/cart")}
+                variant="outline"
+              >
                 Back to cart
               </Button>
               <span className="text-muted-foreground">OR</span>
@@ -59,6 +65,7 @@ const StepZero = ({
                 variant="default"
                 onClick={handleProceedToPayment}
                 className="bg-zinc-800 hover:bg-zinc-900"
+                disabled={isPending}
               >
                 Proceed to payment
               </Button>

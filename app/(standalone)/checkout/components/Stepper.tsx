@@ -47,6 +47,7 @@ function StepItem({ step, stepNumber, status }: StepItemProps) {
   return (
     <div className="group flex flex-col items-center  pt-2 pb-0">
       <StepCircle status={status} stepNumber={stepNumber} />
+
       <div className="mt-2 text-center">
         <span className="mt-1 block text-sm font-medium">{step.name}</span>
       </div>
