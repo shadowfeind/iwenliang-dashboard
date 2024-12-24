@@ -50,7 +50,6 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
     },
     resolver: zodResolver(shippingSchema),
   });
-  const cart = useMainStore((state) => state.cart);
 
   const handleSubmit = (values: ShippingSchemaType) => {
     onSubmitForm(values);
