@@ -9,7 +9,7 @@ export const createOrder = async (
   values: CreateOrderSchemaType
 ): Promise<OrderType | { error: string }> => {
   const session = await auth();
-  if (session) return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = createOrderSchema.safeParse(values);
   if (!validateFields.success) return { error: "Validation Error" };
@@ -26,9 +26,10 @@ export const createOrder = async (
     discountType,
     taxPrice,
     totalPrice,
-    user,
-    status,
   } = validateFields.data;
+
+  const user = session?.user?.id;
+  const status = "Pending";
 
   try {
     const order = await Order.create({

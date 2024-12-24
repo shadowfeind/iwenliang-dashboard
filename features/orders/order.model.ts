@@ -31,6 +31,7 @@ export interface IOrder extends Document {
   orderItems: IOrderItem[];
   shippingAddress: IShippingAddress;
   paymentMethod: string;
+  paymentId?: string;
   itemsPrice: number;
   discountPrice?: number;
   discountCode?: string;
@@ -70,6 +71,7 @@ const orderSchema = new mongoose.Schema<IOrder>(
       phone: { type: String },
     },
     paymentMethod: { type: String, required: true },
+    paymentId: { type: String },
     itemsPrice: { type: Number, required: true },
     discountPrice: { type: Number },
     discountCode: { type: String },

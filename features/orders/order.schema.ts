@@ -1,6 +1,16 @@
 import { z } from "zod";
 import { OrderStatus } from "./order.model";
 
+export const shippingSchema = z.object({
+  address: z.string().min(3, "Address is required"),
+  city: z.string().min(3, "Address is required"),
+  postalCode: z.string().min(1, "Address is required"),
+  country: z.string().min(3, "Address is required"),
+  email: z.string().email(),
+  fullName: z.string().min(3, "Address is required"),
+  phone: z.string().optional(),
+});
+
 export const createOrderSchema = z.object({
   orderItems: z.array(
     z.object({
@@ -10,15 +20,7 @@ export const createOrderSchema = z.object({
       product: z.string(),
     })
   ),
-  shippingAddress: z.object({
-    address: z.string(),
-    city: z.string(),
-    postalCode: z.string(),
-    country: z.string(),
-    email: z.string().email(),
-    fullName: z.string(),
-    phone: z.string().optional(),
-  }),
+  shippingAddress: shippingSchema,
   paymentMethod: z.string(),
   itemsPrice: z.number(),
   discountPrice: z.number().optional(),
@@ -28,9 +30,7 @@ export const createOrderSchema = z.object({
   discountType: z.string().optional(),
   taxPrice: z.number().optional(),
   totalPrice: z.number(),
-  user: z.string(),
-  status: z.nativeEnum(OrderStatus),
-  paidAt: z.string().optional(),
 });
 
 export type CreateOrderSchemaType = z.infer<typeof createOrderSchema>;
+export type ShippingSchemaType = z.infer<typeof shippingSchema>;

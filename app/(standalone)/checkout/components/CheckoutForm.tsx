@@ -18,8 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { COUNTRIES } from "@/config/db/constant";
+import { useMainStore } from "@/config/store/useMainStore";
+import {
+  shippingSchema,
+  ShippingSchemaType,
+} from "@/features/orders/order.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React, { Ref, useImperativeHandle } from "react";
+import React, { Ref, useImperativeHandle, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 export type SubmitRef = {
@@ -27,9 +33,11 @@ export type SubmitRef = {
 };
 type Props = {
   ref: Ref<SubmitRef>;
+  onSubmitForm: (values: ShippingSchemaType) => void;
+  handleShippingPrice: (price: number) => void;
 };
 
-const CheckoutForm = ({ ref }: Props) => {
+const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -40,10 +48,12 @@ const CheckoutForm = ({ ref }: Props) => {
       city: "",
       phone: "",
     },
+    resolver: zodResolver(shippingSchema),
   });
+  const cart = useMainStore((state) => state.cart);
 
-  const handleSubmit = (values: any) => {
-    console.log(values);
+  const handleSubmit = (values: ShippingSchemaType) => {
+    onSubmitForm(values);
   };
 
   useImperativeHandle(ref, () => ({
@@ -51,6 +61,7 @@ const CheckoutForm = ({ ref }: Props) => {
       form.handleSubmit(handleSubmit)();
     },
   }));
+
   return (
     <div>
       <Form {...form}>
@@ -60,7 +71,12 @@ const CheckoutForm = ({ ref }: Props) => {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country*</FormLabel>
+                <FormLabel>
+                  Country*{" "}
+                  <span className="text-xs text-muted-foreground">
+                    (you can also type the name of the country)
+                  </span>
+                </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -86,9 +102,7 @@ const CheckoutForm = ({ ref }: Props) => {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormDescription>
-                  You can manage email addresses in your{" "}
-                </FormDescription>
+                <FormDescription>Country to deliver too </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -102,6 +116,7 @@ const CheckoutForm = ({ ref }: Props) => {
                 <FormControl>
                   <Input placeholder="johndoe@gmail.com" {...field} />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -116,6 +131,7 @@ const CheckoutForm = ({ ref }: Props) => {
                 <FormControl>
                   <Input placeholder="John Doe" {...field} />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -129,6 +145,7 @@ const CheckoutForm = ({ ref }: Props) => {
                 <FormControl>
                   <Input placeholder="822 E. 20th Street" {...field} />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -148,7 +165,7 @@ const CheckoutForm = ({ ref }: Props) => {
               )}
             />
             <FormField
-              //   control={form.control}
+              control={form.control}
               name="city"
               render={({ field }) => (
                 <FormItem>
@@ -166,10 +183,16 @@ const CheckoutForm = ({ ref }: Props) => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>
+                  Phone{" "}
+                  <span className="text-xs text-muted-foreground">
+                    optional
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="5556166" {...field} />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}

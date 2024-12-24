@@ -10,6 +10,7 @@ import CheckoutCart from "./components/CheckoutCart";
 import CheckoutForm, { SubmitRef } from "./components/CheckoutForm";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
+import { ShippingSchemaType } from "@/features/orders/order.schema";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -19,6 +20,7 @@ const steps: Step[] = [
 
 const CheckoutPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [shippingPrice, setShippingPrice] = useState(0);
   const [mounted, setMounted] = useState(false);
   const cart = useMainStore((state) => state.cart);
   const router = useRouter();
@@ -35,8 +37,43 @@ const CheckoutPage = () => {
     }
   }, [session]);
 
+  const handleFormSubmit = (values: ShippingSchemaType) => {
+    const itemsPrice = cart.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    );
+    const taxPrice = 0;
+    const order = {
+      orderItems: cart.map((item) => ({
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+        product: item.product._id,
+      })),
+      shippingAddress: values,
+      paymentMethod: "paypal",
+      itemsPrice,
+      discountPrice: 0,
+      discountCode: "",
+      discountPercentage: 0,
+      discountType: "",
+      shippingPrice: shippingPrice,
+      taxPrice,
+      totalPrice: itemsPrice + taxPrice + shippingPrice,
+    };
+
+    // setCurrentStep(2);
+    console.log("Form values in parent:", order);
+  };
+
   const handleProceedToPayment = () => {
-    formRef?.current?.submit();
+    const test = formRef?.current?.submit();
+    console.log("test", test);
+  };
+
+  // doing this as we are using ref and imperative handler
+  const handleShippingPrice = (price: number) => {
+    setShippingPrice(price);
   };
 
   if (!mounted) return null;
@@ -55,7 +92,11 @@ const CheckoutPage = () => {
       <Separator className="my-8 md:my-12" />
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-2/4">
-          <CheckoutForm ref={formRef} />
+          <CheckoutForm
+            ref={formRef}
+            onSubmitForm={handleFormSubmit}
+            handleShippingPrice={handleShippingPrice}
+          />
         </div>
         <div className="w-full lg:w-2/4">
           <Card>
