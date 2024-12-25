@@ -55,7 +55,7 @@ const CheckoutPage = () => {
       0
     );
     const taxPrice = 0;
-    const order = {
+    const order: CreateOrderSchemaType = {
       orderItems: cart.map((item) => ({
         name: item.product.name,
         quantity: item.quantity,
@@ -74,27 +74,27 @@ const CheckoutPage = () => {
       taxPrice,
       totalPrice: itemsPrice + taxPrice + shippingPrice,
     };
+    // debugger;
 
     setError("");
-    // startTransition(() => {
-    // createOrder(order).then((data) => {
-    //   if ("error" in data) {
-    //     setError(data.error);
-    //     return;
-    //   }
-    //   setOrder(data);
-    //   setCurrentStep(1);
-    // });
-    // });
-    setOrder({
-      ...order,
-      createdAt: "test",
-      updatedAt: "test",
-      status: OrderStatus.Pending,
-      user: "test",
-      _id: "test",
+    startTransition(() => {
+      createOrder(order).then((data) => {
+        if ("error" in data) {
+          setError(data.error);
+        } else {
+          setOrder(data);
+          setCurrentStep(1);
+        }
+      });
     });
-    setCurrentStep(1);
+    // setOrder({
+    //   ...order,
+    //   createdAt: "test",
+    //   updatedAt: "test",
+    //   status: OrderStatus.Pending,
+    //   user: "test",
+    //   _id: "test",
+    // });
   };
 
   const handleProceedToPayment = () => {
@@ -121,6 +121,7 @@ const CheckoutPage = () => {
     <div className="container mx-auto py-10">
       <Stepper steps={steps} currentStep={currentStep} className="mb-4" />
       <Separator className="my-8 md:my-12" />
+      <ErrorComponent message={error} />
       {currentStep === 0 && (
         <StepZero
           formRef={formRef}
@@ -131,7 +132,7 @@ const CheckoutPage = () => {
           isPending={isPending}
         />
       )}
-      <ErrorComponent message={error} />
+
       {currentStep === 1 && <StepOne order={order!} />}
     </div>
   );

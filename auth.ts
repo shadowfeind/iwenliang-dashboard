@@ -6,7 +6,7 @@ import { authenticateUser } from "./features/users/user.query";
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;
+      _id: string;
       userName: string;
       fullName: string;
       role: string;
