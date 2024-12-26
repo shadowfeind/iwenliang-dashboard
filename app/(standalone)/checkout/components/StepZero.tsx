@@ -2,11 +2,11 @@ import React, { Ref } from "react";
 import CheckoutForm, { SubmitRef } from "./CheckoutForm";
 import { Card, CardContent } from "@/components/ui/card";
 import CheckoutCart from "./CheckoutCart";
-import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ShippingSchemaType } from "@/features/orders/order.schema";
 import { CartType } from "@/config/store/useCartSlice";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   formRef: Ref<SubmitRef>;

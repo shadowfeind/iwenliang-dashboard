@@ -12,11 +12,9 @@ export const createOrder = async (
   await connectDB();
   const session = await auth();
   if (!session) return { error: "Unauthorized" };
-  console.log("kek values", values);
-  console.log("kek session", session);
 
   const validateFields = createOrderSchema.safeParse(values);
-  console.log("kek validateFields", validateFields);
+
   if (!validateFields.success) return { error: "Validation Error" };
 
   const {
@@ -34,7 +32,6 @@ export const createOrder = async (
   } = validateFields.data;
 
   const user = session?.user?._id;
-  console.log("kek user", user);
   const status = "Pending";
 
   try {

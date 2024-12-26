@@ -20,6 +20,7 @@ import { OrderType } from "@/features/orders/order.types";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import { OrderStatus } from "@/features/orders/order.model";
 import StepOne from "./components/StepOne";
+import { toast } from "sonner";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -35,6 +36,7 @@ const CheckoutPage = () => {
   const [mounted, setMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const cart = useMainStore((state) => state.cart);
+  const emptyCart = useMainStore((state) => state.emptyCart);
   const router = useRouter();
   const formRef = useRef<SubmitRef>(null);
   const { data: session } = useSession();
@@ -74,7 +76,6 @@ const CheckoutPage = () => {
       taxPrice,
       totalPrice: itemsPrice + taxPrice + shippingPrice,
     };
-    // debugger;
 
     setError("");
     startTransition(() => {
@@ -82,19 +83,13 @@ const CheckoutPage = () => {
         if ("error" in data) {
           setError(data.error);
         } else {
+          toast("Product Ordered Successfully");
+          // emptyCart();
           setOrder(data);
           setCurrentStep(1);
         }
       });
     });
-    // setOrder({
-    //   ...order,
-    //   createdAt: "test",
-    //   updatedAt: "test",
-    //   status: OrderStatus.Pending,
-    //   user: "test",
-    //   _id: "test",
-    // });
   };
 
   const handleProceedToPayment = () => {
@@ -109,7 +104,7 @@ const CheckoutPage = () => {
 
   if (!mounted) return null;
 
-  if (cart.length === 0) {
+  if (currentStep === 0 && cart.length === 0) {
     return (
       <div className="h-4/5 flex justify-center items-center">
         <p> your cart is empty</p>

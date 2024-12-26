@@ -16,6 +16,7 @@ import {
   Link,
   SquareUser,
   UserRound,
+  Gem,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -25,6 +26,7 @@ import {
   COLR_ROUTE,
   CUSTOMER_ROUTE,
   MATERIAL_ROUTE,
+  ORDER_ROUTE,
   PRODUCT_ROUTE,
   SUBSCRIBER_ROUTE,
   USER_ROUTE,
@@ -36,7 +38,11 @@ const routes: SidebarRoutes[] = [
     icon: <LayoutDashboard className="w-5 h-5 ml-2" />,
     link: "/dashboard",
   },
-
+  {
+    name: "Order",
+    icon: <Gem className="w-5 h-5 ml-2" />,
+    link: ORDER_ROUTE,
+  },
   {
     name: "Product",
     icon: <ShoppingBasket className="w-5 h-5 ml-2" />,

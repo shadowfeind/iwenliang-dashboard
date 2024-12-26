@@ -14,6 +14,7 @@ export type CreateCartSliceType = {
   removeCart: (id: string) => void;
   incrementQuantity: (id: string) => void;
   decrementQuantity: (id: string) => void;
+  emptyCart: () => void;
 };
 
 export const createCartSlice = (set: any): CreateCartSliceType => {
@@ -79,5 +80,6 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
         }
         return { cart: updatedCart };
       }),
+    emptyCart: () => set({ cart: [] }),
   };
 };

@@ -12,13 +12,14 @@ import { Button } from "@/components/ui/button";
 
 type Props = {
   order: OrderType;
+  detailView?: boolean;
 };
 
 const StepOne = ({ order }: Props) => {
   return (
-    <div className="flex flex-col lg:flex-row gap-8">
-      <div className="w-full lg:w-2/4">
-        <Card className="w-full max-w-2xl mx-auto">
+    <div className="flex flex-col w-full lg:flex-row gap-4">
+      <div className="w-full">
+        <Card>
           <CardHeader>
             <CardTitle>Shipping Details</CardTitle>
           </CardHeader>
@@ -60,7 +61,7 @@ const StepOne = ({ order }: Props) => {
           </CardContent>
         </Card>
       </div>
-      <div className="w-full lg:w-2/4">
+      <div className="w-full">
         <Card>
           <CardContent>
             {order.orderItems.map((c) => (
