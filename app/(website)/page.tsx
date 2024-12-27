@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import BigButton from "@/components/BigButton";
 import { ErrorComponent } from "@/components/ErrorComponent";
 import CarouselLoading from "@/components/loading/carouselLoading";
@@ -11,7 +12,9 @@ import { isMobile } from "@/lib/utils";
 import { Suspense } from "react";
 
 const page = async () => {
-  const mobile = isMobile();
+  const headersList = await headers();
+  const userAgent = headersList.get("user-agent") || "";
+  const mobile = isMobile(userAgent);
   const result = await getProductsForFrontPage();
 
   if ("error" in result) return <ErrorComponent message={result.error} />;

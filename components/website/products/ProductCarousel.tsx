@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
-
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductCard from "./ProductCard";
@@ -35,38 +32,16 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const CustomPrevArrow = (props: any) => {
-    const { onClick } = props;
-    return (
-      <button
-        onClick={onClick}
-        className="absolute left-0 top-1/2 z-10 -translate-y-1/2 transform bg-white p-2 rounded-full shadow-md"
-      >
-        <ChevronLeft className="h-6 w-6 text-gray-600" />
-      </button>
-    );
-  };
-
-  const CustomNextArrow = (props: any) => {
-    const { onClick } = props;
-    return (
-      <button
-        onClick={onClick}
-        className="absolute right-0 top-1/2 z-10 -translate-y-1/2 transform bg-white p-2 rounded-full shadow-md"
-      >
-        <ChevronRight className="h-6 w-6 text-gray-600" />
-      </button>
-    );
-  };
-
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: false,
+    pauseOnFocus: false,
   };
 
   return (

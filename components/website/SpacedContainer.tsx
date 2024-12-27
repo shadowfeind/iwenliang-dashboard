@@ -8,7 +8,7 @@ type Props = {
 
 const SpacedContainer = ({ styles, children }: Props) => {
   return (
-    <div className={cn("w-full m-4 lg:w-10/12 lg:my-24 lg:mx-auto", styles)}>
+    <div className={cn("w-full p-4 lg:w-10/12 lg:my-24 lg:mx-auto", styles)}>
       {children}
     </div>
   );

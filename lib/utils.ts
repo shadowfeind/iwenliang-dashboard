@@ -17,8 +17,13 @@ export const multiSelectNameCreator = (result: any, errorToSet: any) => {
   });
 };
 
-export const isMobile = (breakpoint: number = 600): boolean => {
+export const isMobile = (userAgent?: string): boolean => {
+  const mobileRegex =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone/i;
+
+  if (userAgent) return mobileRegex.test(userAgent);
+
   if (typeof window === "undefined") return false;
 
-  return window.innerWidth < breakpoint;
+  return window.innerWidth < 600;
 };

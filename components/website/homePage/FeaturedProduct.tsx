@@ -2,7 +2,6 @@ import React from "react";
 import SpacedContainer from "../SpacedContainer";
 import TitleHeader from "../TitleHeader";
 import { ProductType } from "@/features/products/product.types";
-import ProductCard from "../products/ProductCard";
 import ProductCarousel from "../products/ProductCarousel";
 
 type Props = {
@@ -12,7 +11,9 @@ type Props = {
 const FeaturedProduct = ({ featured }: Props) => {
   return (
     <SpacedContainer>
-      <TitleHeader title="Featured Product" />
+      <div className="hidden md:block">
+        <TitleHeader title="Featured Product" />
+      </div>
       <ProductCarousel products={featured} />
     </SpacedContainer>
   );
