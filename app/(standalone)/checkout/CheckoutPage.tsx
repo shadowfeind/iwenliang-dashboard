@@ -49,7 +49,7 @@ const CheckoutPage = () => {
     if (!session) {
       router.push("/sign-in?redirect=/cart");
     }
-  }, [session]);
+  }, [session, router]);
 
   const handleShippingFormSubmitForStepZero = (values: ShippingSchemaType) => {
     const itemsPrice = cart.reduce(
@@ -84,7 +84,7 @@ const CheckoutPage = () => {
           setError(data.error);
         } else {
           toast("Product Ordered Successfully");
-          // emptyCart();
+          emptyCart();
           setOrder(data);
           setCurrentStep(1);
         }
