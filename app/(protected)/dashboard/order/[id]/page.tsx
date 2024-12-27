@@ -5,10 +5,7 @@ import { getOrderByIdQuery } from "@/features/orders/order.query";
 import React from "react";
 
 type Props = {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ id: string }>;
 };
 
 const breadcrumbs = [
@@ -17,7 +14,8 @@ const breadcrumbs = [
   { title: "Order Details" },
 ];
 
-const SingleOrderPage = async ({ params }: Props) => {
+const SingleOrderPage = async (props: Props) => {
+  const params = await props.params;
   const data = await getOrderByIdQuery(params.id);
   if ("error" in data) {
     return <h1 className="text-red-600">{data.error}</h1>;
