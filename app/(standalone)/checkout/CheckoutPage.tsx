@@ -21,6 +21,7 @@ import { ErrorComponent } from "@/components/ErrorComponent";
 import { OrderStatus } from "@/features/orders/order.model";
 import StepOne from "./components/StepOne";
 import { toast } from "sonner";
+import Thankyou from "./components/Thankyou";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -129,6 +130,8 @@ const CheckoutPage = () => {
       )}
 
       {currentStep === 1 && <StepOne order={order!} />}
+
+      {currentStep === 2 && <Thankyou />}
     </div>
   );
 };
