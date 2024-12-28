@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { XCircle } from "lucide-react";
+import Link from "next/link";
 export default function GlobalError({
   error,
   reset,
@@ -35,12 +36,12 @@ export default function GlobalError({
               >
                 Try Again
               </button>
-              <a
+              <Link
                 href="/"
                 className="block w-full border border-gray-700 hover:bg-gray-800 transition-colors duration-300 py-2 px-4 rounded font-semibold"
               >
                 Return Home
-              </a>
+              </Link>
             </div>
           </div>
           <div className="mt-16 text-gray-600 text-sm">
