@@ -3,11 +3,8 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useSession } from "next-auth/react";
 import { Stepper, Step } from "./components/Stepper";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useMainStore } from "@/config/store/useMainStore";
-import CheckoutCart from "./components/CheckoutCart";
-import CheckoutForm, { SubmitRef } from "./components/CheckoutForm";
+import { SubmitRef } from "./components/CheckoutForm";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -18,10 +15,12 @@ import StepZero from "./components/StepZero";
 import { createOrder } from "@/features/orders/order.action";
 import { OrderType } from "@/features/orders/order.types";
 import { ErrorComponent } from "@/components/ErrorComponent";
-import { OrderStatus } from "@/features/orders/order.model";
 import StepOne from "./components/StepOne";
 import { toast } from "sonner";
 import Thankyou from "./components/Thankyou";
+import { useQueryState, parseAsInteger } from "nuqs";
+import { ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -30,7 +29,10 @@ const steps: Step[] = [
 ];
 
 const CheckoutPage = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useQueryState(
+    "currentStep",
+    parseAsInteger.withDefault(0)
+  );
   const [error, setError] = useState("");
   const [order, setOrder] = useState<OrderType | null>(null);
   const [shippingPrice, setShippingPrice] = useState(0);
@@ -94,8 +96,7 @@ const CheckoutPage = () => {
   };
 
   const handleProceedToPayment = () => {
-    const test = formRef?.current?.submit();
-    console.log("test", test);
+    formRef?.current?.submit();
   };
 
   // doing this as we are using ref and imperative handler
@@ -107,10 +108,16 @@ const CheckoutPage = () => {
 
   if (currentStep === 0 && cart.length === 0) {
     return (
-      <div className="h-4/5 flex justify-center items-center">
-        <p> your cart is empty</p>
+      <div className="mt-20 md:mt-40 w-full flex flex-col justify-center items-center gap-y-6">
+        <ShoppingCart className="size-10 md:size-20 font-semibold" />
+        <p className="text-bold  "> your cart is empty</p>
+        <Button onClick={() => router.push("/")}>back to home</Button>
       </div>
     );
+  }
+
+  if (currentStep === 1 && !order) {
+    setCurrentStep(0);
   }
 
   return (
@@ -128,9 +135,7 @@ const CheckoutPage = () => {
           isPending={isPending}
         />
       )}
-
       {currentStep === 1 && <StepOne order={order!} />}
-
       {currentStep === 2 && <Thankyou />}
     </div>
   );

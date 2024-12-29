@@ -6,7 +6,7 @@ export const getAllOrdersQuery = async (): Promise<
   OrderType[] | { error: string }
 > => {
   await connectDB();
-  const orders = await Order.find().lean<OrderType[]>();
+  const orders = await Order.find().sort({ createdAt: -1 }).lean<OrderType[]>();
   if (!orders) {
     return { error: "No orders found" };
   }

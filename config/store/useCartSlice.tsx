@@ -80,6 +80,11 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
         }
         return { cart: updatedCart };
       }),
-    emptyCart: () => set({ cart: [] }),
+    emptyCart: () => {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("cart");
+      }
+      set({ cart: [] });
+    },
   };
 };

@@ -179,7 +179,7 @@ export function DataTable({ data }: { data: OrderType[] }) {
           placeholder="Filter By Order ID..."
           value={(table.getColumn("_id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("_id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

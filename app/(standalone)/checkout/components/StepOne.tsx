@@ -1,11 +1,5 @@
 import { OrderType } from "@/features/orders/order.types";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import CheckoutCart from "./CheckoutCart";
 import { Button } from "@/components/ui/button";
