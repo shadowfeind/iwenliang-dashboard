@@ -15,6 +15,7 @@ import { ColorType } from "@/features/colors/color.types";
 import { MaterialType } from "@/features/materials/material.types";
 import { BeadType } from "@/features/beadSize/beadSize.type";
 import { getAllFiltersForProductApiQuery } from "@/features/products/product.query";
+import { Button } from "@/components/ui/button";
 
 export type Filters = {
   categories: CategoryType[];
@@ -29,8 +30,11 @@ type Props = {
 };
 
 const BraceletClientPage = ({ products }: Props) => {
-  const [bracelets, setBracelets] = useState<ProductType[]>(products);
-
+  const [bracelets, setBracelets] = useState<ProductType[]>(
+    products?.slice(0, 8)
+  );
+  const [loading, setLoading] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   // this will have data that are filtered
   const [filtersData, setFiltersData] = useState<Filters>({
     categories: [],
@@ -47,17 +51,17 @@ const BraceletClientPage = ({ products }: Props) => {
     materials: [],
     beadSizes: [],
   });
-  const [showFilterButton, setShowFilterButton] = useState(false);
 
   const fetchFilters = useCallback(async () => {
+    setLoading(true);
     const data = await getAllFiltersForProductApiQuery();
     setDataForFilter(data);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       fetchFilters();
-      setShowFilterButton(true);
     }, 300);
     return () => clearTimeout(timeout);
   }, [fetchFilters]);
@@ -143,8 +147,9 @@ const BraceletClientPage = ({ products }: Props) => {
       materials: [],
       beadSizes: [],
     });
-    setBracelets(products);
+    setBracelets(products?.slice(0, 8));
     setOpen(false);
+    setShowAll(false);
   };
 
   return (
@@ -165,19 +170,33 @@ const BraceletClientPage = ({ products }: Props) => {
             <SelectItem value="oldest">Oldest</SelectItem>
           </SelectContent>
         </Select>
-        {showFilterButton && (
-          <BraceletFilters
-            filters={dataForFilter}
-            handleFilters={handleFilters}
-            setFilters={setFiltersData}
-            filtersData={filtersData}
-            handleResetFilters={handleResetFilters}
-            open={open}
-            setOpen={setOpen}
-          />
-        )}
+
+        <BraceletFilters
+          filters={dataForFilter}
+          handleFilters={handleFilters}
+          setFilters={setFiltersData}
+          filtersData={filtersData}
+          handleResetFilters={handleResetFilters}
+          open={open}
+          setOpen={setOpen}
+          loading={loading}
+        />
       </div>
       <ProductsGrid products={bracelets} />
+      {!showAll && (
+        <div className=" flex justify-center pt-10 md:pt-20">
+          <Button
+            variant="default"
+            size={"custom"}
+            onClick={() => {
+              setBracelets(products);
+              setShowAll(true);
+            }}
+          >
+            View All Bracelets
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
