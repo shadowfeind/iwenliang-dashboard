@@ -1,12 +1,19 @@
 import { auth } from "@/auth";
+import Unauthorized from "@/components/auth/Unauthorized";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
+import { allowedRoles } from "@/config/constant/allowedRoles";
 import { DashboardLoading } from "@/features/dashboard/component/DashboardLoading";
 import DashboardPage from "@/features/dashboard/DashboardPage";
 import { Suspense } from "react";
 
 export default async function Dashboard() {
   const breadcrumbs = [{ title: "Dashboard" }];
+  const session = await auth();
+
+  if (!session || !allowedRoles.includes(session.user.role)) {
+    return <Unauthorized />;
+  }
   return (
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
