@@ -3,6 +3,7 @@ import { allowedRoles } from "@/config/constant/allowedRoles";
 import User from "../users/user.model";
 import Order from "../orders/order.model";
 import Product from "../products/product.model";
+import connectDB from "@/config/db/connect";
 
 export const getDashboardData = async (): Promise<
   | {
@@ -16,6 +17,8 @@ export const getDashboardData = async (): Promise<
   const session = await auth();
   if (!session || !allowedRoles.includes(session?.user.role))
     return { error: "Unauthorized" };
+
+  await connectDB();
 
   const customerCount = User.countDocuments({ role: "customer" });
   const saleCount = Order.aggregate([
