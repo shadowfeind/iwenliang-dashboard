@@ -1,37 +1,13 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React, { useEffect } from "react";
-// import { getDashboardData } from "./dasboard.query";
+import React from "react";
+import { getDashboardData } from "./dasboard.query";
 
-const DashboardPage = () => {
-  // const data = await getDashboardData();
+const DashboardPage = async () => {
+  const data = await getDashboardData();
 
-  // if ("error" in data) {
-  //   return <h1 className="text-red-600">{data.error}</h1>;
-  // }
-  const [data, setData] = React.useState({
-    totalSales: 0,
-    totalOrders: 0,
-    totalProducts: 0,
-    totalCustomers: 0,
-  });
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_REST_URL}dashboard`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
-      return response.json();
-    }
-
-    fetchData()
-      .then((data) => setData(data))
-      .catch((err) => console.log(err));
-  }, []);
+  if ("error" in data) {
+    return <h1 className="text-red-600">{data.error}</h1>;
+  }
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

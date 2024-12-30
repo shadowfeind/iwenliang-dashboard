@@ -8,6 +8,9 @@
     "functions": {
     "app/(website)/bracelets/page.js": {
       "maxDuration": 30
+    },
+    "app/(protected)/dashboard/page.js": {
+      "maxDuration": 30
     }
   }
   }
