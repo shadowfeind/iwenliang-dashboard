@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMainStore } from "@/config/store/useMainStore";
 import { SidebarRoutes } from "@/config/types/sidenav.types";
@@ -24,6 +24,8 @@ import {
   CAROUSEL_ROUTE,
   CATEGORY_ROUTE,
   COLR_ROUTE,
+  CUSTOMER_ORDER_PROFILE,
+  CUSTOMER_ORDER_ROUTE,
   CUSTOMER_ROUTE,
   MATERIAL_ROUTE,
   ORDER_ROUTE,
@@ -32,7 +34,7 @@ import {
   USER_ROUTE,
 } from "@/config/constant/routes";
 
-const routes: SidebarRoutes[] = [
+const adminRoutes: SidebarRoutes[] = [
   {
     name: "Dashboard",
     icon: <LayoutDashboard className="w-5 h-5 ml-2" />,
@@ -90,8 +92,26 @@ const routes: SidebarRoutes[] = [
   },
 ];
 
-const SideNav = () => {
+const userRoutes: SidebarRoutes[] = [
+  {
+    name: "My Profile",
+    icon: <User className="w-5 h-5 ml-2" />,
+    link: CUSTOMER_ORDER_PROFILE,
+  },
+  {
+    name: "My Order",
+    icon: <Gem className="w-5 h-5 ml-2" />,
+    link: CUSTOMER_ORDER_ROUTE,
+  },
+];
+
+type SidenavProps = {
+  role: string;
+};
+
+const SideNav = ({ role }: SidenavProps) => {
   const [status, setStatus] = useState(false);
+  const [routes, setRoutes] = useState<SidebarRoutes[]>(adminRoutes);
   const toggle = useMainStore((state) => state.toggle);
   const isMinimized = useMainStore((state) => state.isMinimized);
 
@@ -100,6 +120,14 @@ const SideNav = () => {
     toggle();
     setTimeout(() => setStatus(false), 300);
   };
+
+  useEffect(() => {
+    if (role === "Customer") {
+      setRoutes(userRoutes);
+    } else {
+      setRoutes(adminRoutes);
+    }
+  }, [role]);
 
   return (
     <nav

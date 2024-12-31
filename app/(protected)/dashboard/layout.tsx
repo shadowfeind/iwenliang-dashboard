@@ -21,14 +21,14 @@ export default async function DashboardLayout({
     redirect("/");
   }
 
-  const user = session.user;
+  const role = session.user.role;
 
   return (
     <>
       <Header />
       <div className="flex h-screen overflow-hidden">
         <div className="hidden md:block">
-          <SideNav />
+          <SideNav role={role} />
         </div>
         <main className="flex-1 overflow-hidden pt-16">{children}</main>
       </div>

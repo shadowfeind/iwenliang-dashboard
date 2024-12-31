@@ -14,3 +14,6 @@ export const CAROUSEL_ROUTE = "/dashboard/carousel";
 export const BEAD_SIZE_ROUTE = "/dashboard/beadSize";
 export const SUBSCRIBER_ROUTE = "/dashboard/subscriber";
 export const ORDER_ROUTE = "/dashboard/order";
+
+export const CUSTOMER_ORDER_ROUTE = "/dashboard/my-order";
+export const CUSTOMER_ORDER_PROFILE = "/dashboard/my-profile";
