@@ -25,7 +25,7 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <Header />
+      <Header role={role} />
       <div className="flex h-screen overflow-hidden">
         <div className="hidden md:block">
           <SideNav role={role} />

@@ -6,10 +6,13 @@ import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import SideNav from "./SideNav";
+import { DialogTitle } from "@/components/ui/dialog";
 
-type Props = {};
+type Props = {
+  role: string;
+};
 
-export const MobileNav = (props: Props) => {
+export const MobileNav = ({ role }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
   const isOpen = useMainStore((state) => state.isOpen);
@@ -35,7 +38,8 @@ export const MobileNav = (props: Props) => {
       </div>
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent side={"left"} className="p-2 pt-10  bg-black text-white">
-          <SideNav />
+          <DialogTitle></DialogTitle>
+          <SideNav role={role} />
         </SheetContent>
       </Sheet>
     </>
