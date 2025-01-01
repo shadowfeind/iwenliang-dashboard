@@ -9,7 +9,7 @@ type Props = {
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Order", link: "/dashboard/order" },
+  { title: "My Order", link: "/dashboard/my-order" },
   { title: "Order Details" },
 ];
 

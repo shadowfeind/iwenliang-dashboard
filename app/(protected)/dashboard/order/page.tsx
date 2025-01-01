@@ -23,7 +23,7 @@ const page = async () => {
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
       <Suspense fallback={<TableLoading />}>
-        <OrderPage />
+        <OrderPage role={session.user.role} />
       </Suspense>
     </MainContainer>
   );

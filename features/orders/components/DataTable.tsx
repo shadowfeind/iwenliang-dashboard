@@ -38,7 +38,7 @@ import { OrderType } from "../order.types";
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 
-export function DataTable({ data }: { data: OrderType[] }) {
+export function DataTable({ data, role }: { data: OrderType[]; role: string }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -139,7 +139,9 @@ export function DataTable({ data }: { data: OrderType[] }) {
               <>
                 <DropdownMenuItem
                   onClick={() =>
-                    router.push(`/dashboard/order/${row.original._id}`)
+                    role === "Customer"
+                      ? router.push(`/dashboard/my-order/${row.original._id}`)
+                      : router.push(`/dashboard/order/${row.original._id}`)
                   }
                 >
                   View Details
