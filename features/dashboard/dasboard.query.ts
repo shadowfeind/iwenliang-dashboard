@@ -20,7 +20,7 @@ export const getDashboardData = async (): Promise<
 
   await connectDB();
 
-  const customerCount = User.countDocuments({ role: "customer" });
+  const customerCount = User.countDocuments({ role: "Customer" });
   const saleCount = Order.aggregate([
     {
       $group: {

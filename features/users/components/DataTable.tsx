@@ -301,20 +301,20 @@ export function DataTable({ data }: { data: UserTypes[] }) {
         </Table>
       </div>
       <AddEditUserModel
-        key={userId}
+        key={userId + "user"}
         isOpen={userModelOpen}
         setIsOpen={setUserModelOpen}
         mode={mode}
         userId={userId}
       />
-      {userId && (
-        <ChangePassword
-          key={userId}
-          isOpen={changePasswordOpen}
-          setIsOpenAction={setChangePasswordOpen}
-          userId={userId}
-        />
-      )}
+
+      <ChangePassword
+        key={userId + "password"}
+        isOpen={changePasswordOpen}
+        setIsOpenAction={setChangePasswordOpen}
+        userId={userId}
+      />
+
       <DeleteUser
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}

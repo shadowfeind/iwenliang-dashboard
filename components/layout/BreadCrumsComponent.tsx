@@ -16,7 +16,7 @@ type Props = {
 
 const BreadCrumbsComponent = ({ items }: Props) => {
   return (
-    <Breadcrumb className="pl-4 md:p-0">
+    <Breadcrumb>
       <BreadcrumbList>
         {items.map((item, index) => (
           <Fragment key={item.title}>

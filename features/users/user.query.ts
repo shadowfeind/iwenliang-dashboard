@@ -8,7 +8,7 @@ export const getAllUsers = cache(
   async (): Promise<UserTypes[] | { error: string }> => {
     try {
       await connectDB();
-      const users = await User.find()
+      const users = await User.find({ role: { $ne: "Customer" } })
         .select("-password")
         .sort({ createdAt: -1 })
         .lean<UserTypes[]>();

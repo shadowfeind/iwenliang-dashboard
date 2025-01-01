@@ -63,6 +63,13 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
 
   const form = useForm<z.infer<typeof formValidationSchema>>({
     resolver: zodResolver(formValidationSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      userName: "",
+      role: "User",
+      password: "",
+    },
   });
 
   const handleSubmit = (values: z.infer<typeof formValidationSchema>) => {

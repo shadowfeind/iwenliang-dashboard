@@ -144,7 +144,7 @@ export function DataTable({ data }: { data: MaterialType[] }) {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center pb-4">
+      <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between md:items-center md:gap-0 pb-4">
         <Input
           placeholder="Filter By Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
