@@ -8,11 +8,11 @@ import {
   updateUserSchema,
   UpdateUserType,
 } from "@/features/users/user.schema";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { UserTypes } from "@/features/users/users.types";
 import User from "@/features/users/user.model";
 
-import { USER_ROUTE } from "@/config/constant/routes";
+import { CUSTOMER_ORDER_ROUTE, USER_ROUTE } from "@/config/constant/routes";
 import { auth } from "@/auth";
 import { USER_TAG } from "@/config/constant/tags";
 import { allowedRoles } from "@/config/constant/allowedRoles";
@@ -85,8 +85,7 @@ export async function updateUser(
 
   const session = await auth();
 
-  if (!session || session.user?.role !== "Admin")
-    return { error: "Unauthorized" };
+  if (!session) return { error: "Unauthorized" };
 
   const validateFields = updateUserSchema.safeParse(user);
 
@@ -100,12 +99,20 @@ export async function updateUser(
     return { error: "User not found" };
   }
 
+  if (
+    session.user.role === "Customer" &&
+    userData._id.toString() !== session.user._id
+  ) {
+    return { error: "Unauthorized" };
+  }
+
   userData.fullName = fullName;
   userData.role = role;
 
   await userData.save();
 
   revalidateTag(USER_TAG);
+  revalidatePath(CUSTOMER_ORDER_ROUTE);
 }
 
 export async function changePassword(

@@ -1,5 +1,6 @@
 import { UserTypes } from "@/features/users/users.types";
-import { Mail, Calendar, Shield, Edit, Key } from "lucide-react";
+import { Mail, Calendar, Shield } from "lucide-react";
+import EditMyProfile from "./EditMyProfile";
 
 export const UserProfile = ({ userData }: { userData: UserTypes }) => {
   return (
@@ -34,16 +35,7 @@ export const UserProfile = ({ userData }: { userData: UserTypes }) => {
           </span>
         </div>
       </div>
-      <div className="flex flex-col  justify-center  mt-12 space-y-4">
-        <button className="flex w-full justify-center items-center px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors">
-          <Edit className="w-4 h-4 mr-2" />
-          Edit Profile
-        </button>
-        <button className="flex w-full justify-center items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors">
-          <Key className="w-4 h-4 mr-2" />
-          Change Password
-        </button>
-      </div>
+      <EditMyProfile userData={userData} />
     </div>
   );
 };
