@@ -26,11 +26,13 @@ export default async function DashboardLayout({
   return (
     <>
       <Header role={role} />
-      <div className="flex h-screen">
+      <div className="flex h-screen ">
         <div className="hidden md:block">
           <SideNav role={role} />
         </div>
-        <main className="flex-1 pt-16">{children}</main>
+        <main className="flex-1 overflow-x-hidden  overflow-y-auto pt-16">
+          {children}
+        </main>
       </div>
     </>
   );

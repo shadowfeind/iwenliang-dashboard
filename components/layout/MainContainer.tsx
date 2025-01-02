@@ -6,21 +6,9 @@ type Props = {
   scrollable?: boolean;
 };
 
-const MainContainer = ({ children, scrollable = true }: Props) => {
+const MainContainer = ({ children }: Props) => {
   return (
-    <>
-      {scrollable ? (
-        <ScrollArea className="h-[calc(100dvh-52px)]">
-          <div className="h-full w-full mb-8 p-4 md:px-8 space-y-4">
-            {children}
-          </div>
-        </ScrollArea>
-      ) : (
-        <div className="h-full w-full mb-8 p-4 md:px-8 space-y-4">
-          {children}
-        </div>
-      )}
-    </>
+    <div className="h-full w-full mb-8 p-4 md:px-8 space-y-4">{children}</div>
   );
 };
 

@@ -4,7 +4,7 @@ import { MobileNav } from "./side-nav/MobileNav";
 
 const Header = ({ role }: { role: string }) => {
   return (
-    <div className="w-full fixed left-0 right-0 top-0 border-b z-10">
+    <div className="w-full fixed right-0 top-0 border-b z-10 bg-white">
       <nav className="flex items-center justify-between px-4 h-12">
         <MobileNav role={role} />
         <Link href="/">iwenliang</Link>

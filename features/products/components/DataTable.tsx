@@ -49,7 +49,6 @@ import { useRouter } from "next/navigation";
 import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
 import { Badge } from "@/components/ui/badge";
 import Delete from "@/components/Delete";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function DataTable({ data }: { data: ProductType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -236,7 +235,7 @@ export function DataTable({ data }: { data: ProductType[] }) {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center pb-4">
+      <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between md:items-center md:gap-0 pb-4">
         <Input
           placeholder="Filter By Name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -280,65 +279,62 @@ export function DataTable({ data }: { data: ProductType[] }) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md border w-full">
-        <ScrollArea className=" w-full overflow-x-auto ">
-          <div className="w-full whitespace-nowrap">
-            <Table>
-              <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      );
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
                           )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </ScrollArea>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
         <div className="flex items-center justify-between px-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
+          <div className="hidden md:flex flex-1 text-sm text-muted-foreground">
             Showing {table.getFilteredRowModel().rows.length} row(s)
           </div>
           <div className="flex items-center space-x-6 lg:space-x-8">
-            <div className="flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-2">
               <p className="text-sm font-medium">Rows per page</p>
               <select
                 className="h-8 w-[70px] rounded-md border border-input bg-transparent px-2 py-1"
