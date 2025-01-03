@@ -9,8 +9,8 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-const page = async (prop: Props) => {
-  const params = await prop.params;
+const page = async (props: Props) => {
+  const params = await props.params;
   const breadcrumbs = [
     { title: "Home", link: "/" },
     { title: "Bracelets", link: "/bracelets" },

@@ -57,7 +57,7 @@ const SignInForm = () => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="mx-auto min-w-[400px]">
       <CardHeader>
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -118,6 +118,11 @@ const SignInForm = () => {
             </Button> */}
           </form>
         </Form>
+        <div className="mt-4 text-center text-sm">
+          <Link href="/forgot-password" className="underline">
+            Forgot Password
+          </Link>
+        </div>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/sign-up" className="underline">

@@ -1,15 +1,16 @@
 import { auth } from "@/auth";
+import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
 import SignInForm from "@/components/auth/SignInForm";
 import { redirect } from "next/navigation";
 
-const SignIn = async () => {
+const ForgotPassword = async () => {
   const session = await auth();
   if (session) redirect("/");
   return (
     <div className="w-full h-screen flex items-center justify-center bg-black">
-      <SignInForm />
+      <ForgotPasswordForm />
     </div>
   );
 };
 
-export default SignIn;
+export default ForgotPassword;
