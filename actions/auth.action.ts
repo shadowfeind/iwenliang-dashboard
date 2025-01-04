@@ -37,7 +37,7 @@ export async function forgotPassword(
     expiresIn: "20m",
   });
 
-  const resetLink = `${process.env.NEXT_PUBLIC_URL}forgot-password?token=${token}/reset-password`;
+  const resetLink = `${process.env.NEXT_PUBLIC_URL}forgot-password/${token}/reset-password`;
 
   const html = `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`;
 
