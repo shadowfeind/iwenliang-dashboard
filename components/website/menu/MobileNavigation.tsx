@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { MENU_ITEMS } from "@/config/db/constant";
+
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { MENU_ITEMS } from "@/config/constant/menu";
 
 export const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);

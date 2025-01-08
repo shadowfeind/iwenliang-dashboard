@@ -1,21 +1,3 @@
-export const MENU_ITEMS = [
-  {
-    title: "Home",
-    path: "/",
-  },
-  {
-    title: "Bracelets",
-    path: "/bracelets",
-  },
-  {
-    title: "Sizes",
-    path: "/sizes",
-  },
-  {
-    title: "About Us",
-    path: "/about-us",
-  },
-];
 export const COUNTRIES = [
   { name: "Afghanistan", dial_code: "+93", code: "AF" },
   { name: "Aland Islands", dial_code: "", code: "AX" },

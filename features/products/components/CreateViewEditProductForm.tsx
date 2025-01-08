@@ -126,7 +126,7 @@ const CreateViewEditProductForm = ({
   };
 
   return (
-    <>
+    <div className="pb-8">
       <div className="my-4">
         <ImageUpload
           size={2}
@@ -420,7 +420,7 @@ const CreateViewEditProductForm = ({
           ) : null}
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

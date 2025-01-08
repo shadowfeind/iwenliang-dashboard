@@ -1,6 +1,6 @@
 "use client";
 
-import { MENU_ITEMS } from "@/config/db/constant";
+import { MENU_ITEMS } from "@/config/constant/menu";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ErrorComponent } from "./ErrorComponent";
 import { mode } from "@/config/types/mode.types";
 import { uploadToS3 } from "@/actions/upload.action";
+import { AWS_IMAGE_LINK } from "@/config/constant/aws";
 
 type imagePropType = {
   size: number;
@@ -72,9 +73,7 @@ const ImageUpload = ({
       if (successful.length > 0) {
         let imgUrl: string[] = [];
         successful.forEach((img) =>
-          imgUrl.push(
-            `https://iwenliangv3.s3.ap-southeast-1.amazonaws.com/${img.uploadedName}`
-          )
+          imgUrl.push(`${AWS_IMAGE_LINK}${img.uploadedName}`)
         );
         setImages((prev) => [...prev, ...imgUrl]);
       }

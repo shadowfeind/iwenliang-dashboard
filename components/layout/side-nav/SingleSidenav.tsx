@@ -14,13 +14,13 @@ export const SingleSidenav = ({ items }: Props) => {
   const isMinimized = useMainStore((state) => state.isMinimized);
 
   return (
-    <div className="grid items-start gap-2">
+    <div>
       {items.map((item, index) => (
         <div key={index}>
           <Link
             href={item.link}
             className={cn(
-              "flex text-white items-center gap-2 overflow-hidden rounded-md py-3 text-sm font-medium hover:bg-accent hover:text-black",
+              "flex text-white items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-black",
               pathname === item.link ? "bg-accent text-black" : "transparent"
             )}
           >

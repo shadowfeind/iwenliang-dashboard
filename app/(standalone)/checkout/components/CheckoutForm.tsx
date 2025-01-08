@@ -17,8 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { COUNTRIES } from "@/config/db/constant";
-import { useMainStore } from "@/config/store/useMainStore";
+import { COUNTRIES } from "@/config/constant/countries";
 import {
   shippingSchema,
   ShippingSchemaType,

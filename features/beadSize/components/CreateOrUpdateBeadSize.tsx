@@ -53,8 +53,7 @@ const CreateOrUpdateBeadSize = ({
     setError("");
     startTransition(() => {
       if (mode === "create") {
-        const createValues = values;
-        createBeadSize(createValues).then((data) => {
+        createBeadSize(values).then((data) => {
           if (data?.error) {
             setError(data.error);
           } else {
@@ -64,8 +63,7 @@ const CreateOrUpdateBeadSize = ({
         });
       }
       if (mode === "edit") {
-        const updateValues = values as z.infer<typeof createBeadSizeSchema>;
-        updateBeadSize(updateValues, beadSizeId ?? "").then((data) => {
+        updateBeadSize(values, beadSizeId ?? "").then((data) => {
           if (data?.error) {
             setError(data.error);
           } else {

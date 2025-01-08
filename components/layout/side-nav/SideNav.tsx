@@ -55,6 +55,7 @@ const adminRoutes: SidebarRoutes[] = [
     icon: <ChartColumnStacked className="w-5 h-5 ml-2" />,
     link: CATEGORY_ROUTE,
   },
+
   {
     name: "Carousel",
     icon: <CarouselImage className="w-5 h-5 ml-2" />,
