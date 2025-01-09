@@ -1,7 +1,4 @@
-import {
-  getAllProductsQuery,
-  getFiltersForProduct,
-} from "@/features/products/product.query";
+import { getAllProductsQuery } from "@/features/products/product.query";
 import React from "react";
 import BraceletClientPage from "./BraceletClientPage";
 

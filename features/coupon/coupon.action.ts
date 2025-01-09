@@ -1,7 +1,11 @@
 "use server";
 
 import { auth } from "@/auth";
-import { createCouponSchema, CreateCouponSchemaType } from "./coupon.schema";
+import {
+  CouponType,
+  createCouponSchema,
+  CreateCouponSchemaType,
+} from "./coupon.schema";
 import { allowedRoles } from "@/config/constant/allowedRoles";
 import connectDB from "@/config/db/connect";
 import Coupon from "./coupon.model";
@@ -82,6 +86,23 @@ export async function deleteCoupon(
     revalidatePath(COUPON_ROUTE);
   } catch (error) {
     console.log("Error from deleteCoupon", error);
+    return { error: "Something went wrong" };
+  }
+}
+
+export async function checkCoupon(
+  code: string
+): Promise<CouponType | { error: string }> {
+  try {
+    await connectDB();
+    const coupon = await Coupon.findOne({
+      code,
+      isActive: true,
+    }).lean<CouponType>();
+    if (!coupon) return { error: "Coupon not found" };
+    return { ...coupon, _id: coupon._id?.toString() };
+  } catch (error) {
+    console.log("Error from checkCoupon", error);
     return { error: "Something went wrong" };
   }
 }

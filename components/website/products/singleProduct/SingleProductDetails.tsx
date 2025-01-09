@@ -102,16 +102,6 @@ const SingleProductDetails = ({ data }: Props) => {
             Add to Cart
           </Button>
         </div>
-        <div className="mt-4">
-          <Button
-            size="sm"
-            variant="outline"
-            className="w-full"
-            disabled={quantity < 1}
-          >
-            Buy Now
-          </Button>
-        </div>
       </div>
       <div className="mt-10">
         <div className="mt-4 text-sm">
