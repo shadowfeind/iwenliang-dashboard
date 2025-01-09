@@ -17,6 +17,7 @@ import {
   SquareUser,
   UserRound,
   Gem,
+  Ticket,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -24,6 +25,7 @@ import {
   CAROUSEL_ROUTE,
   CATEGORY_ROUTE,
   COLR_ROUTE,
+  COUPON_ROUTE,
   CUSTOMER_ORDER_PROFILE,
   CUSTOMER_ORDER_ROUTE,
   CUSTOMER_ROUTE,
@@ -90,6 +92,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Subscriber",
     icon: <UserRound className="w-5 h-5 ml-2" />,
     link: SUBSCRIBER_ROUTE,
+  },
+  {
+    name: "Coupon",
+    icon: <Ticket className="w-5 h-5 ml-2" />,
+    link: COUPON_ROUTE,
   },
 ];
 

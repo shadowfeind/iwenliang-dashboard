@@ -73,6 +73,7 @@ export async function updateColor(
 export async function deleteColor(
   id: string
 ): Promise<void | { error: string }> {
+  if (!id) return { error: "id is required" };
   await connectDB();
 
   const session = await auth();
