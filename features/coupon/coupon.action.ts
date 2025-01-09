@@ -1,8 +1,12 @@
+"use server";
+
 import { auth } from "@/auth";
 import { createCouponSchema, CreateCouponSchemaType } from "./coupon.schema";
 import { allowedRoles } from "@/config/constant/allowedRoles";
 import connectDB from "@/config/db/connect";
 import Coupon from "./coupon.model";
+import { revalidatePath } from "next/cache";
+import { COUPON_ROUTE } from "@/config/constant/routes";
 
 export async function createCoupon(
   values: CreateCouponSchemaType
@@ -15,11 +19,20 @@ export async function createCoupon(
   const validateFields = createCouponSchema.safeParse(values);
   if (!validateFields.success) return { error: "Validation error" };
 
-  const { code, isActive, validTill } = validateFields.data;
+  const { code, isActive, validTill, discountType, discountValue } =
+    validateFields.data;
 
   try {
     await connectDB();
-    await Coupon.create({ code, isActive, validTill });
+    const test = await Coupon.create({
+      code,
+      isActive,
+      validTill,
+      discountType,
+      discountValue,
+    });
+    console.log(test);
+    revalidatePath(COUPON_ROUTE);
   } catch (error) {
     console.log("Error from createCoupon action", error);
     return { error: "Something went wrong" };
@@ -38,16 +51,17 @@ export async function updateCoupon(
   const validateFields = createCouponSchema.safeParse(values);
   if (!validateFields.success) return { error: "Validation error" };
 
-  const { code, isActive, validTill } = validateFields.data;
+  const { code, isActive, validTill, discountType, discountValue } =
+    validateFields.data;
 
   try {
     await connectDB();
-    const coupon = await Coupon.findByIdAndUpdate(
+    await Coupon.findByIdAndUpdate(
       id,
-      { code, isActive, validTill },
+      { code, isActive, validTill, discountType, discountValue },
       { new: true }
     );
-    if (!coupon) return { error: "Cannot find coupon" };
+    revalidatePath(COUPON_ROUTE);
   } catch (error) {
     console.log("Error from updateCoupon", error);
     return { error: "Something went wrong" };
@@ -65,6 +79,7 @@ export async function deleteCoupon(
   try {
     await connectDB();
     await Coupon.findByIdAndDelete(id);
+    revalidatePath(COUPON_ROUTE);
   } catch (error) {
     console.log("Error from deleteCoupon", error);
     return { error: "Something went wrong" };

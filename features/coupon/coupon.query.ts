@@ -21,3 +21,27 @@ export async function getAllCoupon(): Promise<
     return { error: "Someting went wrong" };
   }
 }
+
+export const getCouponById = async (
+  id: string
+): Promise<CouponType | { error: string }> => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_REST_URL}coupon/${id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      return { error: response.statusText };
+    }
+
+    const { data } = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching coupon:", error);
+    return { error: "Failed to retrieve coupon" };
+  }
+};

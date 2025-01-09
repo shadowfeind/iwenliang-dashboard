@@ -155,7 +155,7 @@ const SideNav = ({ role }: SidenavProps) => {
       />
       <div className="space-y-4">
         <div className="px-3 py-2">
-          <div className="mt-3 space-y-1">
+          <div className="mt-3">
             <SingleSidenav items={routes} />
           </div>
         </div>

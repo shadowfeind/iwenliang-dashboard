@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DiscountType } from "./coupon.model";
 
 export const createCouponSchema = z.object({
   code: z.string().min(5),
@@ -6,6 +7,8 @@ export const createCouponSchema = z.object({
     .date()
     .min(new Date(), { message: "valid date must be in future" }),
   isActive: z.boolean(),
+  discountType: z.nativeEnum(DiscountType),
+  discountValue: z.coerce.number(),
 });
 
 const couponSchema = createCouponSchema.extend({
