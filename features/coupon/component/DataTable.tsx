@@ -136,7 +136,7 @@ export function DataTable({ data }: { data: CouponType[] }) {
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Value
+            Discount Value
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );

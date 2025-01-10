@@ -28,17 +28,27 @@ export enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
+interface Coupon {
+  code: string;
+  discountType: string;
+  discountValue: number;
+}
+
+interface GlobalDiscount {
+  name: string;
+  discountType: string;
+  discountValue: number;
+}
+
 export interface IOrder extends Document {
   orderItems: IOrderItem[];
   shippingAddress: IShippingAddress;
   paymentMethod: string;
   paymentId?: string;
   itemsPrice: number;
-  discountPrice?: number;
-  discountCode?: string;
-  discountPercentage?: number;
+  coupon?: Coupon;
+  globalDiscount?: GlobalDiscount;
   shippingPrice?: number;
-  discountType?: string;
   taxPrice?: number;
   totalPrice: number;
   user: IUser["_id"];
@@ -75,11 +85,17 @@ const orderSchema = new mongoose.Schema<IOrder>(
     paymentMethod: { type: String, required: true },
     paymentId: { type: String },
     itemsPrice: { type: Number, required: true },
-    discountPrice: { type: Number },
-    discountCode: { type: String },
-    discountPercentage: { type: Number },
+    coupon: {
+      code: { type: String },
+      discountType: { type: String },
+      discountValue: { type: Number },
+    },
+    globalDiscount: {
+      name: { type: String },
+      discountType: { type: String },
+      discountValue: { type: Number },
+    },
     shippingPrice: { type: Number },
-    discountType: { type: String },
     taxPrice: { type: Number },
     totalPrice: { type: Number, required: true },
     user: {

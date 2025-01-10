@@ -21,6 +21,7 @@ import Thankyou from "./components/Thankyou";
 import { useQueryState, parseAsInteger } from "nuqs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CouponType } from "@/features/coupon/coupon.schema";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -33,6 +34,7 @@ const CheckoutPage = () => {
     "currentStep",
     parseAsInteger.withDefault(0)
   );
+  const [coupon, setCoupon] = useState<CouponType | null>(null);
   const [error, setError] = useState("");
   const [order, setOrder] = useState<OrderType | null>(null);
   const [shippingPrice, setShippingPrice] = useState(0);
@@ -60,6 +62,29 @@ const CheckoutPage = () => {
       0
     );
     const taxPrice = 0;
+    const couponToSet = { code: "", discountType: "", discountValue: 0 };
+    if (coupon) {
+      couponToSet.code = coupon.code;
+      couponToSet.discountType = coupon.discountType;
+      couponToSet.discountValue = coupon.discountValue;
+    }
+
+    const couponDiscount =
+      couponToSet.discountType === "PERCENT"
+        ? (itemsPrice * couponToSet.discountValue) / 100
+        : couponToSet.discountValue;
+
+    const globalDiscountToSet = {
+      name: "",
+      discountType: "",
+      discountValue: 0,
+    };
+
+    const globalDiscount = 0;
+
+    const totalPrice =
+      itemsPrice + taxPrice + shippingPrice - couponDiscount - globalDiscount;
+
     const order: CreateOrderSchemaType = {
       orderItems: cart.map((item) => ({
         name: item.product.name,
@@ -71,13 +96,11 @@ const CheckoutPage = () => {
       shippingAddress: values,
       paymentMethod: "paypal",
       itemsPrice,
-      discountPrice: 0,
-      discountCode: "",
-      discountPercentage: 0,
-      discountType: "",
+      coupon: couponToSet,
+      globalDiscount: globalDiscountToSet,
       shippingPrice: shippingPrice,
       taxPrice,
-      totalPrice: itemsPrice + taxPrice + shippingPrice,
+      totalPrice: Number(totalPrice?.toFixed(2)),
     };
 
     setError("");
@@ -127,6 +150,8 @@ const CheckoutPage = () => {
       <ErrorComponent message={error} />
       {currentStep === 0 && (
         <StepZero
+          coupon={coupon}
+          setCoupon={setCoupon}
           formRef={formRef}
           handleFormSubmit={handleShippingFormSubmitForStepZero}
           handleShippingPrice={handleShippingPrice}

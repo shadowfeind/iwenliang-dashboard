@@ -10,6 +10,18 @@ export const shippingSchema = z.object({
   phone: z.string().optional(),
 });
 
+export const couponOrderSchema = z.object({
+  code: z.string(),
+  discountType: z.string(),
+  discountValue: z.coerce.number(),
+});
+
+export const globalDiscountOrderSchema = z.object({
+  name: z.string(),
+  discountType: z.string(),
+  discountValue: z.coerce.number(),
+});
+
 export const createOrderSchema = z.object({
   orderItems: z.array(
     z.object({
@@ -23,11 +35,9 @@ export const createOrderSchema = z.object({
   shippingAddress: shippingSchema,
   paymentMethod: z.string(),
   itemsPrice: z.number(),
-  discountPrice: z.number().optional(),
-  discountCode: z.string().optional(),
-  discountPercentage: z.number().optional(),
+  coupon: couponOrderSchema.optional(),
+  globalDiscount: globalDiscountOrderSchema.optional(),
   shippingPrice: z.number().optional(),
-  discountType: z.string().optional(),
   taxPrice: z.number().optional(),
   totalPrice: z.number(),
 });

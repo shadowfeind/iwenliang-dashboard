@@ -1,4 +1,11 @@
-import React, { Ref, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  Ref,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import CheckoutForm, { SubmitRef } from "./CheckoutForm";
 import { Card, CardContent } from "@/components/ui/card";
 import CheckoutCart from "./CheckoutCart";
@@ -8,8 +15,8 @@ import { CartType } from "@/config/store/useCartSlice";
 import { useRouter } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
-import { CouponType } from "@/features/coupon/coupon.schema";
 import { checkCoupon } from "@/features/coupon/coupon.action";
+import { CouponType } from "@/features/coupon/coupon.schema";
 
 type Props = {
   formRef: Ref<SubmitRef>;
@@ -18,6 +25,8 @@ type Props = {
   cart: CartType[];
   handleProceedToPayment: () => void;
   isPending: boolean;
+  coupon: CouponType | null;
+  setCoupon: Dispatch<SetStateAction<CouponType | null>>;
 };
 
 const StepZero = ({
@@ -27,11 +36,18 @@ const StepZero = ({
   cart,
   handleProceedToPayment,
   isPending,
+  coupon,
+  setCoupon,
 }: Props) => {
-  const [coupon, setCoupon] = useState<CouponType | null>(null);
   const [couponError, setCouponError] = useState("");
+  const [total, setTotal] = useState(0);
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTotal(cart.reduce((acc, i) => acc + i.product.price * i.quantity, 0));
+  }, [cart]);
+
   const handleCouponCheck = async () => {
     const code = ref.current?.value ?? "";
     if (!code) {
@@ -45,6 +61,19 @@ const StepZero = ({
     } else {
       setCouponError("");
       setCoupon(coupon);
+      const total = cart.reduce(
+        (acc, i) => acc + i.product.price * i.quantity,
+        0
+      );
+      setTotal((prev) => {
+        if (coupon.discountType === "FIXED") {
+          return total - coupon.discountValue;
+        } else {
+          return Number(
+            (total - (total * coupon.discountValue) / 100).toFixed(2)
+          );
+        }
+      });
     }
   };
 
@@ -99,10 +128,7 @@ const StepZero = ({
 
             <div className="flex justify-between items-center">
               <span className="text-md font-medium">Grand Total:</span>
-              <span className="text-md font-semibold">
-                USD{" "}
-                {cart.reduce((acc, i) => acc + i.product.price * i.quantity, 0)}
-              </span>
+              <span className="text-md font-semibold">USD {total}</span>
             </div>
 
             <div className="flex justify-end items-center gap-4">
