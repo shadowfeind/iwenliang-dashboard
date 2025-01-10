@@ -1,4 +1,10 @@
-import { IOrderItem, IShippingAddress, OrderStatus } from "./order.model";
+import {
+  Coupon,
+  GlobalDiscount,
+  IOrderItem,
+  IShippingAddress,
+  OrderStatus,
+} from "./order.model";
 
 export type OrderType = {
   _id: string;
@@ -6,11 +12,9 @@ export type OrderType = {
   shippingAddress: IShippingAddress;
   paymentMethod: string;
   itemsPrice: number;
-  discountPrice?: number;
-  discountCode?: string;
-  discountPercentage?: number;
+  coupon: Coupon;
+  globalDiscount: GlobalDiscount;
   shippingPrice?: number;
-  discountType?: string;
   taxPrice?: number;
   totalPrice: number;
   user: string;

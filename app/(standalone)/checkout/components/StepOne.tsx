@@ -62,16 +62,26 @@ const StepOne = ({ order }: Props) => {
               <CheckoutCart cart={c} key={c.name} />
             ))}
           </CardContent>
+
           <Separator />
+          {order.coupon.discountValue > 0 && (
+            <>
+              <div className="flex justify-between items-center p-4 my-2">
+                <span className="text-sm font-medium">Coupon Discount:</span>
+                <span className="text-sm font-semibold">
+                  {order.coupon.discountType === "FIXED"
+                    ? `- USD ${order.coupon.discountValue}`
+                    : `${order.coupon.discountValue}%`}
+                </span>
+              </div>
+              <Separator />
+            </>
+          )}
           <div className="mt-2 space-y-4 p-4">
-            <div className="flex justify-end items-baseline gap-2">
-              <span className="text-lg font-medium">Total:</span>
+            <div className="flex justify-between items-center">
+              <span className="text-md font-medium">Grand Total:</span>
               <span className="text-md font-semibold">
-                USD{" "}
-                {order.orderItems.reduce(
-                  (acc, i) => acc + i.price * i.quantity,
-                  0
-                )}
+                USD {order.totalPrice}
               </span>
             </div>
 

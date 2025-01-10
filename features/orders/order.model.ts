@@ -28,13 +28,13 @@ export enum OrderStatus {
   Cancelled = "Cancelled",
 }
 
-interface Coupon {
+export interface Coupon {
   code: string;
   discountType: string;
   discountValue: number;
 }
 
-interface GlobalDiscount {
+export interface GlobalDiscount {
   name: string;
   discountType: string;
   discountValue: number;
