@@ -18,6 +18,7 @@ import {
   UserRound,
   Gem,
   Ticket,
+  BadgeDollarSign,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -29,6 +30,7 @@ import {
   CUSTOMER_ORDER_PROFILE,
   CUSTOMER_ORDER_ROUTE,
   CUSTOMER_ROUTE,
+  PROMOTION_ROUTE,
   MATERIAL_ROUTE,
   ORDER_ROUTE,
   PRODUCT_ROUTE,
@@ -97,6 +99,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Coupon",
     icon: <Ticket className="w-5 h-5 ml-2" />,
     link: COUPON_ROUTE,
+  },
+  {
+    name: "Promotion",
+    icon: <BadgeDollarSign className="w-5 h-5 ml-2" />,
+    link: PROMOTION_ROUTE,
   },
 ];
 
