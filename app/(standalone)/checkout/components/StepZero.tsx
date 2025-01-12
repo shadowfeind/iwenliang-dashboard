@@ -17,6 +17,9 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { checkCoupon } from "@/features/coupon/coupon.action";
 import { CouponType } from "@/features/coupon/coupon.schema";
+import ZeroStepFormLoading from "./loading/ZeroStepFormLoading";
+import { GEO_LOCATION } from "@/config/constant/geoLocation";
+import { ShippingPriceType } from "@/features/shipping-price/shippingPrice.schema";
 
 type Props = {
   formRef: Ref<SubmitRef>;
@@ -29,6 +32,10 @@ type Props = {
   setCoupon: Dispatch<SetStateAction<CouponType | null>>;
 };
 
+export type GeoLocationType = {
+  iso_code: string;
+  dial_code: string;
+};
 const StepZero = ({
   formRef,
   handleFormSubmit,
@@ -40,13 +47,73 @@ const StepZero = ({
   setCoupon,
 }: Props) => {
   const [couponError, setCouponError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
+  const [shippingPrice, setShippingPrice] = useState<
+    ShippingPriceType[] | null
+  >(null);
+  const [geoLocation, setGeoLocation] = useState<GeoLocationType>({
+    iso_code: "",
+    dial_code: "",
+  });
   const router = useRouter();
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTotal(cart.reduce((acc, i) => acc + i.product.price * i.quantity, 0));
   }, [cart]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchData() {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [shippingPriceResponse, geoLocationResponse] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_REST_URL}shipping-price`, {
+            method: "GET",
+            credentials: "include",
+          }),
+          fetch(GEO_LOCATION),
+        ]);
+
+        if (!shippingPriceResponse.ok || !geoLocationResponse.ok) {
+          throw new Error("One or more API requests failed");
+        }
+
+        const [shippingPriceData, geoLocationData] = await Promise.all([
+          shippingPriceResponse.json(),
+          geoLocationResponse.json(),
+        ]);
+
+        if (isMounted) {
+          setShippingPrice(shippingPriceData.data);
+          setGeoLocation({
+            iso_code: geoLocationData.country.iso_code,
+            dial_code: geoLocationData.country.phone_code,
+          });
+        }
+      } catch (error) {
+        if (isMounted) {
+          setError("An error occurred");
+        }
+        console.error("Error fetching data:", error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleCouponCheck = async () => {
     const code = ref.current?.value ?? "";
@@ -80,11 +147,17 @@ const StepZero = ({
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       <div className="w-full lg:w-2/4">
-        <CheckoutForm
-          ref={formRef}
-          onSubmitForm={handleFormSubmit}
-          handleShippingPrice={handleShippingPrice}
-        />
+        {loading ? (
+          <ZeroStepFormLoading />
+        ) : (
+          <CheckoutForm
+            ref={formRef}
+            onSubmitForm={handleFormSubmit}
+            handleShippingPrice={handleShippingPrice}
+            shippingPrice={shippingPrice}
+            geoLocation={geoLocation}
+          />
+        )}
       </div>
       <div className="w-full lg:w-2/4">
         <Card>

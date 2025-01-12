@@ -23,10 +23,12 @@ import {
   shippingSchema,
   ShippingSchemaType,
 } from "@/features/orders/order.schema";
+import { ShippingPriceType } from "@/features/shipping-price/shippingPrice.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import React, { Ref, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
+import { GeoLocationType } from "./StepZero";
 
 export type SubmitRef = {
   submit: () => void;
@@ -35,9 +37,17 @@ type Props = {
   ref: Ref<SubmitRef>;
   onSubmitForm: (values: ShippingSchemaType) => void;
   handleShippingPrice: (price: number) => void;
+  shippingPrice: ShippingPriceType[] | null;
+  geoLocation: GeoLocationType;
 };
 
-const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
+const CheckoutForm = ({
+  ref,
+  onSubmitForm,
+  handleShippingPrice,
+  shippingPrice,
+  geoLocation,
+}: Props) => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -52,27 +62,22 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
   });
 
   useEffect(() => {
-    fetch(GEO_LOCATION)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        const country = COUNTRIES.find((c) => c.code === data.country.iso_code);
-        form.setValue("country", country?.name ?? "");
-        form.setValue("phone", country?.dial_code ?? "");
-        console.log("country", country);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  const handleCountryChange = (country: string) => {
-    const selectedCountry = COUNTRIES.find((c) => c.name === country);
-    form.setValue("country", country);
-    form.setValue("phone", selectedCountry?.dial_code ?? "");
-  };
+    if (shippingPrice && geoLocation) {
+      const country = shippingPrice?.find(
+        (c) => c.code === geoLocation.iso_code
+      );
+      console.log(country);
+      form.setValue("country", country?.name ?? "");
+      form.setValue("phone", country?.dial_code ?? "");
+    }
+  }, [geoLocation.dial_code, geoLocation.iso_code]);
+  //TODO : fix this
+  // const handleCountryChange = (country: any) => {
+  //   console.log({ country });
+  //   const selectedCountry = shippingPrice?.find((c) => c.name === country);
+  //   form.setValue("country", country);
+  //   form.setValue("phone", selectedCountry?.dial_code ?? "");
+  // };
 
   const handleSubmit = (values: ShippingSchemaType) => {
     onSubmitForm(values);
@@ -100,8 +105,7 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
                   </span>
                 </FormLabel>
                 <Select
-                  onValueChange={handleCountryChange}
-                  defaultValue={field.value}
+                  // onValueChange={(field) => handleCountryChange(field)}
                   value={field.value}
                 >
                   <FormControl>
@@ -110,7 +114,7 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {COUNTRIES.map((country) => (
+                    {shippingPrice?.map((country) => (
                       <SelectItem value={country.name} key={country.name}>
                         <div className="flex items-center gap-2">
                           <Image
