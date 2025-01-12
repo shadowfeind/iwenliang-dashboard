@@ -18,13 +18,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { COUNTRIES } from "@/config/constant/countries";
+import { GEO_LOCATION } from "@/config/constant/geoLocation";
 import {
   shippingSchema,
   ShippingSchemaType,
 } from "@/features/orders/order.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import React, { Ref, useImperativeHandle, useTransition } from "react";
+import React, { Ref, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 
 export type SubmitRef = {
@@ -49,6 +50,29 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
     },
     resolver: zodResolver(shippingSchema),
   });
+
+  useEffect(() => {
+    fetch(GEO_LOCATION)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const country = COUNTRIES.find((c) => c.code === data.country.iso_code);
+        form.setValue("country", country?.name ?? "");
+        form.setValue("phone", country?.dial_code ?? "");
+        console.log("country", country);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleCountryChange = (country: string) => {
+    const selectedCountry = COUNTRIES.find((c) => c.name === country);
+    form.setValue("country", country);
+    form.setValue("phone", selectedCountry?.dial_code ?? "");
+  };
 
   const handleSubmit = (values: ShippingSchemaType) => {
     onSubmitForm(values);
@@ -76,8 +100,9 @@ const CheckoutForm = ({ ref, onSubmitForm, handleShippingPrice }: Props) => {
                   </span>
                 </FormLabel>
                 <Select
-                  onValueChange={field.onChange}
+                  onValueChange={handleCountryChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
