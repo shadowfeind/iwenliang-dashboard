@@ -7,3 +7,4 @@ export const CAROUSEL_TAG = "Carousel";
 export const ORDER_TAG = "Order";
 export const PRODUCT_FILTER = "ProductFilter";
 export const BEAS_SIZE_TAG = "BeadSize";
+export const SHIPPING_PRICE_TAG = "Shipping Price";

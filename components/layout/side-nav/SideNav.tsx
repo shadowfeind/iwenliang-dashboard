@@ -19,6 +19,7 @@ import {
   Gem,
   Ticket,
   BadgeDollarSign,
+  Caravan,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -36,6 +37,7 @@ import {
   PRODUCT_ROUTE,
   SUBSCRIBER_ROUTE,
   USER_ROUTE,
+  SHIPPING_PRICE_ROUTE,
 } from "@/config/constant/routes";
 
 const adminRoutes: SidebarRoutes[] = [
@@ -104,6 +106,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Promotion",
     icon: <BadgeDollarSign className="w-5 h-5 ml-2" />,
     link: PROMOTION_ROUTE,
+  },
+  {
+    name: "Shipping Price",
+    icon: <Caravan className="w-5 h-5 ml-2" />,
+    link: SHIPPING_PRICE_ROUTE,
   },
 ];
 

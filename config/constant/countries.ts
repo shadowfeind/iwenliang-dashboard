@@ -7,7 +7,7 @@ export const COUNTRIES = [
   { name: "Andorra", dial_code: "+376", code: "AD" },
   { name: "Angola", dial_code: "+244", code: "AO" },
   { name: "Anguilla", dial_code: "+1 264", code: "AI" },
-  { name: "Antarctica", dial_code: null, code: "AQ" },
+  { name: "Antarctica", dial_code: "", code: "AQ" },
   { name: "Antigua and Barbuda", dial_code: "+1268", code: "AG" },
   { name: "Argentina", dial_code: "+54", code: "AR" },
   { name: "Armenia", dial_code: "+374", code: "AM" },
