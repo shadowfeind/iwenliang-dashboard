@@ -25,6 +25,7 @@ type Props = {
   formRef: Ref<SubmitRef>;
   handleFormSubmit: (values: ShippingSchemaType) => void;
   handleShippingPrice: (price: number) => void;
+  shippingPrice: number;
   cart: CartType[];
   handleProceedToPayment: () => void;
   isPending: boolean;
@@ -40,6 +41,7 @@ const StepZero = ({
   formRef,
   handleFormSubmit,
   handleShippingPrice,
+  shippingPrice: shipping,
   cart,
   handleProceedToPayment,
   isPending,
@@ -188,6 +190,10 @@ const StepZero = ({
                 {cart.reduce((acc, i) => acc + i.product.price * i.quantity, 0)}
               </span>
             </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium">Shipping:</span>
+              <span className="text-sm font-medium">USD {shipping}</span>
+            </div>
             {coupon && (
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium">Coupon Discount:</span>
@@ -201,7 +207,9 @@ const StepZero = ({
 
             <div className="flex justify-between items-center">
               <span className="text-md font-medium">Grand Total:</span>
-              <span className="text-md font-semibold">USD {total}</span>
+              <span className="text-md font-semibold">
+                USD {total + shipping}
+              </span>
             </div>
 
             <div className="flex justify-end items-center gap-4">

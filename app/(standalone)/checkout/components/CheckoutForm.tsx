@@ -69,6 +69,7 @@ const CheckoutForm = ({
       console.log(country);
       form.setValue("country", country?.name ?? "");
       form.setValue("phone", country?.dial_code ?? "");
+      handleShippingPrice(country?.price ?? 0);
     }
   }, [geoLocation.dial_code, geoLocation.iso_code]);
   //TODO : fix this

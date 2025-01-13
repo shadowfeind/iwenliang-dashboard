@@ -155,6 +155,7 @@ const CheckoutPage = () => {
           formRef={formRef}
           handleFormSubmit={handleShippingFormSubmitForStepZero}
           handleShippingPrice={handleShippingPrice}
+          shippingPrice={shippingPrice}
           cart={cart}
           handleProceedToPayment={handleProceedToPayment}
           isPending={isPending}
