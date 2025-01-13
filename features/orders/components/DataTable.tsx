@@ -77,7 +77,7 @@ export function DataTable({ data, role }: { data: OrderType[]; role: string }) {
       ),
     },
     {
-      accessorKey: "itemsPrice",
+      accessorKey: "totalPrice",
       header: ({ column }) => {
         return (
           <Button
@@ -89,7 +89,7 @@ export function DataTable({ data, role }: { data: OrderType[]; role: string }) {
           </Button>
         );
       },
-      cell: ({ row }) => <div>USD {row.getValue("itemsPrice")}</div>,
+      cell: ({ row }) => <div>USD {row.getValue("totalPrice")}</div>,
     },
     {
       accessorKey: "status",

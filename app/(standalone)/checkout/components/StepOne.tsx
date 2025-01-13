@@ -10,6 +10,7 @@ type Props = {
 };
 
 const StepOne = ({ order }: Props) => {
+  const showCoupon = order.coupon.discountValue > 0;
   return (
     <div className="flex flex-col w-full lg:flex-row gap-4">
       <div className="w-full">
@@ -64,11 +65,16 @@ const StepOne = ({ order }: Props) => {
           </CardContent>
 
           <Separator />
-          {order.coupon.discountValue > 0 && (
+
+          {showCoupon && (
             <>
               <div className="flex justify-between items-center p-4 my-2">
+                <span className="text-sm font-medium">Coupon Code:</span>
+                <span className="text-sm font-medium">{order.coupon.code}</span>
+              </div>
+              <div className="flex justify-between items-center p-4 my-2">
                 <span className="text-sm font-medium">Coupon Discount:</span>
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-medium">
                   {order.coupon.discountType === "FIXED"
                     ? `- USD ${order.coupon.discountValue}`
                     : `${order.coupon.discountValue}%`}
