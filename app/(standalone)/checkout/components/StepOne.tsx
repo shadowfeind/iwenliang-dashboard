@@ -77,6 +77,12 @@ const StepOne = ({ order }: Props) => {
               <Separator />
             </>
           )}
+          <div className="flex justify-between items-center  p-4 my-2">
+            <span className="text-sm font-medium">Shipping:</span>
+            <span className="text-sm font-medium">
+              USD {order.shippingPrice}
+            </span>
+          </div>
           <div className="mt-2 space-y-4 p-4">
             <div className="flex justify-between items-center">
               <span className="text-md font-medium">Grand Total:</span>

@@ -62,23 +62,26 @@ const CheckoutForm = ({
   });
 
   useEffect(() => {
-    if (shippingPrice && geoLocation) {
-      const country = shippingPrice?.find(
-        (c) => c.code === geoLocation.iso_code
-      );
-      console.log(country);
-      form.setValue("country", country?.name ?? "");
-      form.setValue("phone", country?.dial_code ?? "");
-      handleShippingPrice(country?.price ?? 0);
+    if (!shippingPrice?.length || !geoLocation?.iso_code) return;
+    const country = shippingPrice.find((c) => c.code === geoLocation.iso_code);
+
+    if (country) {
+      form.setValue("country", country.name);
+      form.setValue("phone", country.dial_code ?? "");
+      handleShippingPrice(country.price);
     }
-  }, [geoLocation.dial_code, geoLocation.iso_code]);
-  //TODO : fix this
-  // const handleCountryChange = (country: any) => {
-  //   console.log({ country });
-  //   const selectedCountry = shippingPrice?.find((c) => c.name === country);
-  //   form.setValue("country", country);
-  //   form.setValue("phone", selectedCountry?.dial_code ?? "");
-  // };
+  }, [geoLocation, shippingPrice]);
+
+  const handleCountryChange = (countryName: string) => {
+    const selectedCountry = shippingPrice?.find((c) => c.name === countryName);
+    // doing this as setValue is running this function and setting country value "" as the
+    // parameter countryName is empty. will look in details in future
+    if (selectedCountry?.dial_code) {
+      form.setValue("country", selectedCountry.name);
+      form.setValue("phone", selectedCountry.dial_code);
+      handleShippingPrice(selectedCountry.price);
+    }
+  };
 
   const handleSubmit = (values: ShippingSchemaType) => {
     onSubmitForm(values);
@@ -106,7 +109,8 @@ const CheckoutForm = ({
                   </span>
                 </FormLabel>
                 <Select
-                  // onValueChange={(field) => handleCountryChange(field)}
+                  onValueChange={handleCountryChange}
+                  defaultValue={field.value}
                   value={field.value}
                 >
                   <FormControl>
