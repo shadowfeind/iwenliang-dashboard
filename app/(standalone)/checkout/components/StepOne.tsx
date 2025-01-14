@@ -19,40 +19,60 @@ const StepOne = ({ order }: Props) => {
             <CardTitle>Shipping Details</CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="grid gap-4 text-sm">
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">Country</dt>
-                <dd>{order.shippingAddress.country}</dd>
+            <div className="grid gap-4 text-sm">
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">Country</div>
+                <div className="text-right">
+                  {order.shippingAddress.country}
+                </div>
               </div>
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">Email</dt>
-                <dd>{order.shippingAddress.email}</dd>
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">Email</div>
+                <div className="text-right">{order.shippingAddress.email}</div>
               </div>
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">Full Name</dt>
-                <dd>{order.shippingAddress.fullName}</dd>
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">
+                  Full Name
+                </div>
+                <div className="text-right">
+                  {order.shippingAddress.fullName}
+                </div>
               </div>
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">Address</dt>
-                <dd>{order.shippingAddress.address}</dd>
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">Address</div>
+                <div className="text-right">
+                  {order.shippingAddress.address}
+                </div>
               </div>
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">
                   Postal Code
-                </dt>
-                <dd>{order.shippingAddress.postalCode}</dd>
+                </div>
+                <div className="text-right">
+                  {order.shippingAddress.postalCode}
+                </div>
               </div>
-              <div className="grid grid-cols-[120px_1fr] items-center">
-                <dt className="font-medium text-muted-foreground">City</dt>
-                <dd>{order.shippingAddress.city}</dd>
+              <div className="grid grid-cols-2 items-center">
+                <div className="font-medium text-muted-foreground">City</div>
+                <div className="text-right">{order.shippingAddress.city}</div>
               </div>
               {order.shippingAddress.phone && (
-                <div className="grid grid-cols-[120px_1fr] items-center">
-                  <dt className="font-medium text-muted-foreground">Phone</dt>
-                  <dd>{order.shippingAddress.phone}</dd>
+                <div className="grid grid-cols-2 items-center">
+                  <div className="font-medium text-muted-foreground">Phone</div>
+                  <div className="text-right">
+                    {order.shippingAddress.phone}
+                  </div>
                 </div>
               )}
-            </dl>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="mt-4">
+          <CardContent>
+            <div className="flex justify-between items-center pt-5">
+              <dt className="font-medium text-muted-foreground">Status</dt>
+              <div className="text-right">{order.status}</div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -83,29 +103,35 @@ const StepOne = ({ order }: Props) => {
               <Separator />
             </>
           )}
-          <div className="flex justify-between items-center  p-4 my-2">
-            <span className="text-sm font-medium">Shipping:</span>
-            <span className="text-sm font-medium">
-              USD {order.shippingPrice}
-            </span>
-          </div>
-          <div className="mt-2 space-y-4 p-4">
-            <div className="flex justify-between items-center">
-              <span className="text-md font-medium">Grand Total:</span>
-              <span className="text-md font-semibold">
-                USD {order.totalPrice}
+          <div className="space-y-3 py-4">
+            <div className="flex justify-between items-center  px-4 ">
+              <span className="text-sm font-medium">Shipping:</span>
+              <span className="text-sm font-medium">
+                USD {order.shippingPrice}
               </span>
             </div>
-
-            <div className="flex justify-end items-center gap-4">
-              <Button
-                variant="default"
-                className="bg-zinc-800 hover:bg-zinc-900"
-              >
-                Paypal
-              </Button>
+            <div className="mt-2 space-y-4 px-4 ">
+              <div className="flex justify-between items-center">
+                <span className="text-md font-medium">Grand Total:</span>
+                <span className="text-md font-semibold">
+                  USD {order.totalPrice}
+                </span>
+              </div>
             </div>
           </div>
+          {order.status === "Pending" && (
+            <>
+              <Separator />
+              <div className="flex justify-end items-center gap-4 p-4 my-2">
+                <Button
+                  variant="default"
+                  className="bg-zinc-800 hover:bg-zinc-900 w-full"
+                >
+                  Pay now
+                </Button>
+              </div>
+            </>
+          )}
         </Card>
       </div>
     </div>
