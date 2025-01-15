@@ -22,6 +22,7 @@ import { useQueryState, parseAsInteger } from "nuqs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CouponType } from "@/features/coupon/coupon.schema";
+import { AuthType } from "@/config/schemas/auth.schema";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -29,7 +30,7 @@ const steps: Step[] = [
   { id: "confirmation", name: "Confirmation" },
 ];
 
-const CheckoutPage = () => {
+const CheckoutPage = ({ session }: { session: any }) => {
   const [currentStep, setCurrentStep] = useQueryState(
     "currentStep",
     parseAsInteger.withDefault(0)
@@ -44,7 +45,6 @@ const CheckoutPage = () => {
   const emptyCart = useMainStore((state) => state.emptyCart);
   const router = useRouter();
   const formRef = useRef<SubmitRef>(null);
-  const { data: session } = useSession();
 
   useEffect(() => {
     setMounted(true);
