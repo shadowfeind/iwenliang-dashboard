@@ -22,7 +22,6 @@ import { useQueryState, parseAsInteger } from "nuqs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CouponType } from "@/features/coupon/coupon.schema";
-import { AuthType } from "@/config/schemas/auth.schema";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },

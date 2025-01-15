@@ -5,7 +5,8 @@ import Link from "next/link";
 import { auth } from "@/auth";
 
 const page = async () => {
-  const session = auth();
+  const session = await auth();
+  console.log(session);
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-8 flex flex-col justify-center items-center">
       <Link href={"/"}>

@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -42,6 +43,7 @@ export const Cart = () => {
       </SheetTrigger>
       <SheetContent className="p-0 overflow-scroll">
         <SheetHeader className="p-3">
+          <SheetDescription></SheetDescription>
           <SheetTitle>Cart</SheetTitle>
         </SheetHeader>
         <Separator />
