@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { useSession } from "next-auth/react";
 import { Stepper, Step } from "./components/Stepper";
 import { useMainStore } from "@/config/store/useMainStore";
 import { SubmitRef } from "./components/CheckoutForm";
@@ -22,6 +21,7 @@ import { useQueryState, parseAsInteger } from "nuqs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CouponType } from "@/features/coupon/coupon.schema";
+import Cancelled from "./components/Cancelled";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -162,6 +162,7 @@ const CheckoutPage = ({ session }: { session: any }) => {
       )}
       {currentStep === 1 && <StepOne order={order!} />}
       {currentStep === 2 && <Thankyou />}
+      {/* {currentStep === 0 && <Cancelled />} */}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import { useMainStore } from "@/config/store/useMainStore";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -18,22 +17,15 @@ export const CartPage = () => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const cart = useMainStore((state) => state.cart);
-  const setCartOpen = useMainStore((state) => state.setCartOpen);
   const removeCart = useMainStore((state) => state.removeCart);
   const incrementQuantity = useMainStore((state) => state.incrementQuantity);
   const decrementQuantity = useMainStore((state) => state.decrementQuantity);
-  const { data: session } = useSession();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleCheckout = () => {
-    if (!session) {
-      router.push("/sign-in?redirect=cart");
-      return;
-    }
-
     router.push("/checkout");
   };
 
@@ -125,11 +117,11 @@ export const CartPage = () => {
         <p className="text-sm text-muted-foreground text-right">
           (Shipping and Taxes Excluded)
         </p>
-        <div className="flex justify-end items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-end md:items-center gap-4">
           <Button onClick={() => router.push("/bracelets")} variant="outline">
             Continue Shopping
           </Button>
-          <span className="text-muted-foreground">OR</span>
+          <span className="hidden md:block text-muted-foreground">OR</span>
           <Button
             variant="default"
             onClick={handleCheckout}

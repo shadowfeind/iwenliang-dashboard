@@ -9,7 +9,7 @@ const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Sizes" }];
 const SizePage = () => {
   return (
     <>
-      <Container style="mt-3">
+      <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
         {/* <div className="video-container relative mx-auto aspect-video w-full translate-y-8 overflow-hidden">
           <div className="video-foreground">
