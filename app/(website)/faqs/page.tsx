@@ -14,7 +14,7 @@ const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Faq" }];
 const page = () => {
   return (
     <>
-      <Container style="p-3">
+      <Container style="mt-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <StaticContentContainer>

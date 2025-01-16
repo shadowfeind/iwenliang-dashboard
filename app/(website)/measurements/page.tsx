@@ -9,7 +9,7 @@ const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Measurements" }];
 const Page = () => {
   return (
     <>
-      <Container style="p-3">
+      <Container style="mt-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <StaticContentContainer>

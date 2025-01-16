@@ -12,7 +12,7 @@ const page = async () => {
   if (!session) redirect("/sign-in?redirect=cart");
   return (
     <>
-      <Container style="p-3">
+      <Container style="mt-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <SpacedContainer>
