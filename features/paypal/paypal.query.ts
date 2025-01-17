@@ -11,13 +11,17 @@ export async function getPaypalAccessToken(): Promise<
           Authorization:
             "Basic " +
             Buffer.from(
-              `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
+              `${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET_KEY}`
             ).toString("base64"),
         },
         body: "grant_type=client_credentials",
       }
     );
+
+    if (!response.ok) return { error: "Failed to get access token" };
+
     const data = await response.json();
+    console.log({ token: data.access_token });
     return { access_token: data.access_token };
   } catch (error) {
     console.log("Error from getPaypalAccessToken", error);

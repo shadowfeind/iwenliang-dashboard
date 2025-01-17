@@ -2,7 +2,7 @@ import { OrderType } from "@/features/orders/order.types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import CheckoutCart from "./CheckoutCart";
-import { Button } from "@/components/ui/button";
+import PaypalButton from "@/features/paypal/Paypal";
 
 type Props = {
   order: OrderType;
@@ -122,13 +122,8 @@ const StepOne = ({ order }: Props) => {
           {order.status === "Pending" && (
             <>
               <Separator />
-              <div className="flex justify-end items-center gap-4 p-4 my-2">
-                <Button
-                  variant="default"
-                  className="bg-zinc-800 hover:bg-zinc-900 w-full"
-                >
-                  Pay now
-                </Button>
+              <div className="w-full p-4">
+                <PaypalButton order={order} />
               </div>
             </>
           )}
