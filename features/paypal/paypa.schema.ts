@@ -3,6 +3,7 @@ import { z } from "zod";
 const OrderItemSchema = z.object({
   name: z.string().min(1),
   quantity: z.string().min(1),
+  image: z.string(),
   unit_amount: z.object({
     currency_code: z.string().length(3),
     value: z.string(),

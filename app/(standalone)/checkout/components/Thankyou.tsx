@@ -1,14 +1,12 @@
+"use client";
+
 import { CheckCircle, Package, Truck, CreditCard } from "lucide-react";
 
 import BigButton from "@/components/BigButton";
+import { useMainStore } from "@/config/store/useMainStore";
 
 const Thankyou = () => {
-  const orderDetails = {
-    orderNumber: "#12345",
-    total: "$129.99",
-    estimatedDelivery: "June 15, 2023",
-  };
-
+  const thankyouData = useMainStore((state) => state.thankyouData);
   return (
     <div className="bg-white rounded-lg shadow-2xl w-full max-w-3xl mx-auto overflow-hidden">
       <div className="bg-gradient-to-r from-gray-950 to-gray-700 p-6 text-white">
@@ -29,11 +27,11 @@ const Thankyou = () => {
             <h2 className="text-xl font-semibold text-gray-800">
               Order Summary
             </h2>
-            <p className="text-gray-900">Order {orderDetails.orderNumber}</p>
+            <p className="text-gray-900">Order {thankyouData.orderId}</p>
           </div>
           <div className="text-right">
             <p className="text-2xl font-bold text-gray-900">
-              {orderDetails.total}
+              {thankyouData.total}
             </p>
             <p className="text-sm text-gray-900">Total Amount</p>
           </div>
@@ -52,7 +50,7 @@ const Thankyou = () => {
             <div>
               <p className="font-semibold text-gray-800">Estimated Delivery</p>
               <p className="text-sm text-gray-900">
-                {orderDetails.estimatedDelivery}
+                {thankyouData.estimatedDelivery}
               </p>
             </div>
           </div>

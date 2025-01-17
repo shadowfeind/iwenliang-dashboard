@@ -6,6 +6,7 @@ import {
   CreatePaypalOrderSchemaType,
 } from "./paypa.schema";
 import { getPaypalAccessToken } from "./paypal.query";
+import Order from "../orders/order.model";
 
 export async function createPaypalOrder(
   data: CreatePaypalOrderSchemaType
@@ -27,6 +28,12 @@ export async function createPaypalOrder(
           items,
         },
       ],
+      application_context: {
+        brand_name: "Iwenliang fashion jewellery",
+        landing_page: "NO_PREFERENCE",
+        user_action: "PAY_NOW",
+        shipping_preference: "NO_SHIPPING",
+      },
     });
 
     console.log(body);
@@ -55,8 +62,8 @@ export async function createPaypalOrder(
 }
 
 export async function captureOrder(
-  paypalOrderId: string
-  // orderId: string
+  paypalOrderId: string,
+  orderId: string
 ): Promise<void | { error: string }> {
   try {
     const accessToken = await getPaypalAccessToken();
@@ -80,12 +87,13 @@ export async function captureOrder(
 
     const captureData = await response.json();
 
-    console.log({ captureData });
-
-    //todo save order to database
-    //   await saveOrderToDatabase(captureData);
-
-    //   revalidatePath('/orders');
+    if (captureData.status === "COMPLETED") {
+      await Order.findByIdAndUpdate(orderId, {
+        status: "Paid",
+        paymentId: captureData.id,
+        paymentMethod: "PayPal",
+      });
+    }
   } catch (error) {
     console.error("Capture order error:", error);
     return { error: "something went wrong" };

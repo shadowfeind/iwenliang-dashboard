@@ -8,6 +8,9 @@ import { captureOrder, createPaypalOrder } from "./paypal.action";
 import { CreatePaypalOrderSchemaType } from "./paypa.schema";
 import { useState, useTransition } from "react";
 import { ErrorComponent } from "@/components/ErrorComponent";
+import { Loader2 } from "lucide-react";
+import { useMainStore } from "@/config/store/useMainStore";
+import { redirect } from "next/navigation";
 
 type Props = {
   order: OrderType;
@@ -30,12 +33,14 @@ const Paypal = ({ order }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const [orderStatus, setOrderStatus] = useState("");
+  const setThankyouData = useMainStore((state) => state.setThankyouData);
 
   const handleCreateOrder = async (value: OrderType) => {
     setError(null);
     const items = value.orderItems.map((item) => ({
       name: item.name,
       quantity: item.quantity?.toString(),
+      image: item.image,
       unit_amount: {
         currency_code: "USD",
         value: item.price?.toFixed(2),
@@ -80,10 +85,18 @@ const Paypal = ({ order }: Props) => {
     setOrderStatus("processing");
 
     startTransition(async () => {
-      const result = await captureOrder(data.orderID);
+      const result = await captureOrder(data.orderID, order._id);
       if (result?.error) {
         setError(result.error);
+        return;
       }
+      setOrderStatus("success");
+      setThankyouData({
+        orderId: order._id,
+        total: order.totalPrice,
+        estimatedDelivery: "with in a week",
+      });
+      redirect("/checkout?currentStep=2");
     });
   };
   return (
@@ -93,12 +106,19 @@ const Paypal = ({ order }: Props) => {
           <ErrorComponent message={error} />
         </div>
       )}
-      <PayPalButtons
-        createOrder={() => handleCreateOrder(order)}
-        onApprove={handleApprove}
-        style={{ layout: "vertical" }}
-        disabled={isPending}
-      />
+      {orderStatus === "processing" ? (
+        <div className="flex items-center justify-center">
+          <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
+          Processing Payment
+        </div>
+      ) : (
+        <PayPalButtons
+          createOrder={() => handleCreateOrder(order)}
+          onApprove={handleApprove}
+          style={{ layout: "vertical" }}
+          disabled={isPending}
+        />
+      )}
     </PayPalScriptProvider>
   );
 };

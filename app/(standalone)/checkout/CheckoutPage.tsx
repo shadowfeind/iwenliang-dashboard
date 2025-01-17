@@ -35,6 +35,7 @@ const CheckoutPage = ({ session }: { session: any }) => {
     parseAsInteger.withDefault(0)
   );
   const [coupon, setCoupon] = useState<CouponType | null>(null);
+
   const [error, setError] = useState("");
   const [order, setOrder] = useState<OrderType | null>(null);
   const [shippingPrice, setShippingPrice] = useState(0);
@@ -44,6 +45,7 @@ const CheckoutPage = ({ session }: { session: any }) => {
   const emptyCart = useMainStore((state) => state.emptyCart);
   const router = useRouter();
   const formRef = useRef<SubmitRef>(null);
+  const thankyouData = useMainStore((state) => state.thankyouData);
 
   useEffect(() => {
     setMounted(true);
@@ -139,6 +141,10 @@ const CheckoutPage = ({ session }: { session: any }) => {
   }
 
   if (currentStep === 1 && !order) {
+    setCurrentStep(0);
+  }
+
+  if (currentStep === 2 && !thankyouData.orderId) {
     setCurrentStep(0);
   }
 
