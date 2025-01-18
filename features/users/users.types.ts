@@ -5,6 +5,7 @@ export type UserTypes = {
   userName: string;
   password: string;
   role: string;
+  phone?: string;
   createdAt?: string;
   updatedAt?: string;
 };

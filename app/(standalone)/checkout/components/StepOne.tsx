@@ -1,8 +1,13 @@
+"use client";
+
 import { OrderType } from "@/features/orders/order.types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import CheckoutCart from "./CheckoutCart";
 import PaypalButton from "@/features/paypal/Paypal";
+import { useEffect, useState } from "react";
+import { UserTypes } from "@/features/users/users.types";
+import CustomerFetchLoading from "./CustomerFetchLoading";
 
 type Props = {
   order: OrderType;
@@ -10,7 +15,40 @@ type Props = {
 };
 
 const StepOne = ({ order }: Props) => {
+  const [customer, setCustomer] = useState<UserTypes | null>(null);
+  const [loading, setLoading] = useState(false);
   const showCoupon = order.coupon.discountValue > 0;
+  useEffect(() => {
+    if (typeof order.user === "string") {
+      const fetchCustomer = async () => {
+        console.log({ order: order.user });
+        if (order?.user) {
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_REST_URL}customer/${order.user}`
+            );
+            if (!response.ok) {
+              setCustomer(null);
+              return;
+            }
+            const data = await response.json();
+            setCustomer(data.data);
+          } catch (error) {
+            console.error(error);
+          } finally {
+            setLoading(false);
+          }
+        } else {
+          setLoading(false);
+        }
+      };
+
+      fetchCustomer();
+    } else {
+      // @ts-ignore
+      setCustomer(order.user as UserTypes);
+    }
+  }, [order?.user]);
   return (
     <div className="flex flex-col w-full lg:flex-row gap-4">
       <div className="w-full">
@@ -73,8 +111,42 @@ const StepOne = ({ order }: Props) => {
               <dt className="font-medium text-muted-foreground">Status</dt>
               <div className="text-right">{order.status}</div>
             </div>
+            {order.paymentMethod && (
+              <div className="flex justify-between items-center pt-5">
+                <dt className="font-medium text-muted-foreground">
+                  Payment method
+                </dt>
+                <div className="text-right">{order.paymentMethod}</div>
+              </div>
+            )}
           </CardContent>
         </Card>
+        {loading && <CustomerFetchLoading />}
+        {customer && (
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle>Customer Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-center pt-5">
+                <dt className="font-medium text-muted-foreground">Fullname</dt>
+                <div className="text-right">{customer.fullName}</div>
+              </div>
+              <div className="flex justify-between items-center pt-5">
+                <dt className="font-medium text-muted-foreground">Email</dt>
+                <div className="text-right">{customer.email}</div>
+              </div>
+              <div className="flex justify-between items-center pt-5">
+                <dt className="font-medium text-muted-foreground">Phone</dt>
+                <div className="text-right">{customer.phone || "-"}</div>
+              </div>
+              <div className="flex justify-between items-center pt-5">
+                <dt className="font-medium text-muted-foreground">Username</dt>
+                <div className="text-right">{customer.userName || "-"}</div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
       <div className="w-full">
         <Card>
