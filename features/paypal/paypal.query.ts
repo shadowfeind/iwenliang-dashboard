@@ -21,7 +21,7 @@ export async function getPaypalAccessToken(): Promise<
     if (!response.ok) return { error: "Failed to get access token" };
 
     const data = await response.json();
-    console.log({ token: data.access_token });
+    // console.log({ token: data.access_token });
     return { access_token: data.access_token };
   } catch (error) {
     console.log("Error from getPaypalAccessToken", error);

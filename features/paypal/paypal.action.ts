@@ -34,10 +34,6 @@ export async function createPaypalOrder(
         user_action: "PAY_NOW",
         shipping_preference: "NO_SHIPPING",
       },
-      payment_method: {
-        payee_preferred: "IMMEDIATE_PAYMENT_REQUIRED", // This line ensures immediate payment
-        // payer_selected: "PAYPAL", // This line specifies that only PayPal should be used
-      },
     });
 
     const order = await fetch(
