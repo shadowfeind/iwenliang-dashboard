@@ -19,6 +19,7 @@ const CheckoutCart = ({ cart }: Props) => {
         name: cart.product.name,
         image: cart.product.images[0],
         price: cart.product.price * cart.quantity,
+        wristSize: cart.wristSize,
         quantity: cart.quantity,
       };
     }
@@ -26,11 +27,12 @@ const CheckoutCart = ({ cart }: Props) => {
       name: cart.name,
       image: cart.image,
       price: cart.price * cart.quantity,
+      wristSize: cart.wristSize,
       quantity: cart.quantity,
     };
   };
 
-  const { name, image, price, quantity } = getDisplayValues();
+  const { name, image, price, quantity, wristSize } = getDisplayValues();
 
   return (
     <div className="w-full p-4 border-b border-gray-200 last:border-b-0">
@@ -46,6 +48,11 @@ const CheckoutCart = ({ cart }: Props) => {
             />
           </div>
           <p className="text-sm text-center line-clamp-2">{name}</p>
+          {wristSize && (
+            <p className="text-sm text-center line-clamp-2">
+              Wrist Size: <strong>{wristSize}</strong>
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-4">
           <p className="text-sm px-2">Qty: {quantity}</p>

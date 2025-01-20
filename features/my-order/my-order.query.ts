@@ -14,6 +14,8 @@ export const getOrderByCustomerId = async (
 
   await connectDB();
 
-  const order = await Order.find({ user: userId }).lean<OrderType>();
+  const order = await Order.find({ user: userId })
+    .sort({ createdAt: -1 })
+    .lean<OrderType>();
   return JSON.parse(JSON.stringify(order));
 };

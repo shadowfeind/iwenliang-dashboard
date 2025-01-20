@@ -29,6 +29,7 @@ export const createOrderSchema = z.object({
       quantity: z.number(),
       price: z.number(),
       image: z.string(),
+      wristSize: z.string().optional(),
       product: z.string(),
     })
   ),

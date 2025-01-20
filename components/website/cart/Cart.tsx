@@ -61,6 +61,11 @@ export const Cart = () => {
                         className="rounded-md"
                       />
                       <p className="text-sm px-2">{c.product.name}</p>
+                      {c.wristSize && (
+                        <p className="text-sm px-2">
+                          Wrist Size: <strong>{c.wristSize}</strong>
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

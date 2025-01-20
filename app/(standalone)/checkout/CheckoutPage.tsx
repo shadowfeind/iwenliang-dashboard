@@ -92,6 +92,7 @@ const CheckoutPage = ({ session }: { session: any }) => {
         quantity: item.quantity,
         price: item.product.price,
         image: item.product.images[0],
+        wristSize: item.wristSize,
         product: item.product._id,
       })),
       shippingAddress: values,
