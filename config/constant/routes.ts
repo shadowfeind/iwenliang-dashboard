@@ -21,3 +21,4 @@ export const CUSTOMER_ORDER_PROFILE = "/dashboard/my-profile";
 export const CUSTOMER_ROUTE = "/dashboard/customer";
 export const PROMOTION_ROUTE = "/dashboard/promotion";
 export const SHIPPING_PRICE_ROUTE = "/dashboard/shipping-price";
+export const BLOG_ROUTE = "/dashboard/blog";

@@ -20,6 +20,7 @@ import {
   Ticket,
   BadgeDollarSign,
   Caravan,
+  NotebookPen,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -38,6 +39,7 @@ import {
   SUBSCRIBER_ROUTE,
   USER_ROUTE,
   SHIPPING_PRICE_ROUTE,
+  BLOG_ROUTE,
 } from "@/config/constant/routes";
 
 const adminRoutes: SidebarRoutes[] = [
@@ -111,6 +113,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Shipping Price",
     icon: <Caravan className="w-5 h-5 ml-2" />,
     link: SHIPPING_PRICE_ROUTE,
+  },
+  {
+    name: "Blogs",
+    icon: <NotebookPen className="w-5 h-5 ml-2" />,
+    link: BLOG_ROUTE,
   },
 ];
 
