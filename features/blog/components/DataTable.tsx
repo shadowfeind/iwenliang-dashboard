@@ -82,7 +82,7 @@ export function DataTable({ data }: { data: BlogTYpe[] }) {
       },
       cell: ({ row }) => (
         <div className="lowercase">
-          {row.getValue("title")?.toString()?.slice(0, 12)}...
+          {row.getValue("title")?.toString()?.slice(0, 50)}
         </div>
       ),
     },

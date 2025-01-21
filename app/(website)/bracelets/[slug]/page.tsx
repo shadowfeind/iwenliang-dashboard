@@ -1,5 +1,4 @@
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
-import { Separator } from "@/components/ui/separator";
 import Container from "@/components/website/Container";
 import SingleProduct from "@/components/website/products/singleProduct/SingleProduct";
 import SingleProductLoading from "@/components/website/products/singleProduct/SingleProductLoading";
