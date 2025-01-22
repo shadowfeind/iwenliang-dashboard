@@ -16,14 +16,12 @@ const page = async (props: Props) => {
     { title: params.slug },
   ];
   return (
-    <>
-      <Container style="mt-3">
-        <BreadCrumbsComponent items={breadcrumbs} />
-        <Suspense fallback={<SingleProductLoading />}>
-          <SingleProduct slug={params.slug} />
-        </Suspense>
-      </Container>
-    </>
+    <Container style="mt-3">
+      <BreadCrumbsComponent items={breadcrumbs} />
+      <Suspense fallback={<SingleProductLoading />}>
+        <SingleProduct slug={params.slug} />
+      </Suspense>
+    </Container>
   );
 };
 

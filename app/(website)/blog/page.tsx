@@ -1,5 +1,4 @@
 import { getAllBlogs } from "@/features/blog/blog.query";
-import Loading from "./loading";
 import BlogCard from "@/components/website/blog/BlogCard";
 
 const page = async () => {

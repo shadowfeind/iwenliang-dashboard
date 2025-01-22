@@ -24,6 +24,9 @@ const FooterMenu = () => {
               {/* Gift Voucher */}
               Shop
             </Link>
+            <Link href="/blog" className="text-sm hover:text-gray-300">
+              Our Blogs
+            </Link>
           </nav>
         </div>
 

@@ -15,4 +15,8 @@ export const MENU_ITEMS = [
     title: "About Us",
     path: "/about-us",
   },
+  {
+    title: "Contact Us",
+    path: "/contact-us",
+  },
 ];

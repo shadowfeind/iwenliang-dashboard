@@ -27,6 +27,7 @@ export const getBlogBySlug = async (
   await connectDB();
   try {
     const blog = await Blog.findOne({ slug }).lean<BlogTYpe>();
+    if (!blog) return { error: "Blog not found" };
     return JSON.parse(JSON.stringify(blog));
   } catch (error) {
     console.log("Error from getBlogBySlug", error);
