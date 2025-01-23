@@ -62,6 +62,12 @@ export function DataTable({ data }: { data: PromoHeaderType[] }) {
   const [mode, setMode] = React.useState<mode>("create");
   const [promoHeaderId, setPromoHeaderId] = React.useState<string | null>(null);
 
+  const handleView = (id: string, mode: mode) => {
+    setMode(mode);
+    setModelOpen(true);
+    setPromoHeaderId(id);
+  };
+
   const handleEdit = (id: string, mode: mode) => {
     setMode(mode);
     setModelOpen(true);
@@ -136,6 +142,11 @@ export function DataTable({ data }: { data: PromoHeaderType[] }) {
               <DropdownMenuSeparator />
               {/* {session?.data?.user?.role === "Admin" && ( */}
               <>
+                <DropdownMenuItem
+                  onClick={() => handleView(row.original._id, "view")}
+                >
+                  View
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => handleEdit(row.original._id, "edit")}
                 >

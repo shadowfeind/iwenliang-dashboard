@@ -2,15 +2,15 @@ import { getSinglePromoHeaerForWebsite } from "@/features/promo-header/promoHead
 import Menu from "./menu/Menu";
 
 const SiteHeader = async () => {
-  // const data = await getSinglePromoHeaerForWebsite();
+  const data = await getSinglePromoHeaerForWebsite();
 
   return (
     <>
-      {/* {data && (
+      {data && (
         <h6 className="w-full py-1.5 md:py-2 text-sm bg-red-800 text-center text-white">
           {data.title}
         </h6>
-      )} */}
+      )}
       <h6 className="w-full py-1.5 md:py-2 text-xs bg-neutral-800  text-center text-white">
         IN BELOVED MEMORY OF THE PERSON WHO SEEN FIRST
       </h6>

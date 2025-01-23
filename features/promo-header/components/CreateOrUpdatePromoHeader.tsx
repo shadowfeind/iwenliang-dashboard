@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -105,6 +106,7 @@ const CreateOrUpdatePromoHeader = ({
               ? "Update promo Header"
               : "View Promo Header"}
           </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <ErrorComponent message={error} />

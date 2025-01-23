@@ -26,8 +26,10 @@ export const getSinglePromoHeaerForWebsite = async (): Promise<
     await connectDB();
     const promoHeader = await PromoHeader.find({ isActive: true })
       .sort({ createdAt: -1 })
-      .lean<PromoHeaderType>();
-    return JSON.parse(JSON.stringify(promoHeader));
+      .lean<PromoHeaderType[]>();
+    if (promoHeader.length > 0)
+      return JSON.parse(JSON.stringify(promoHeader[0]));
+    return undefined;
   } catch (error) {
     console.error("Error fetching promoHeader:", error);
   }
