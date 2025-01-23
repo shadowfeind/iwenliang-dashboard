@@ -4,12 +4,12 @@ import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { TableLoading } from "@/components/loading/tableLoading";
 import { allowedRoles } from "@/config/constant/allowedRoles";
-import { BeadSizePage } from "@/features/beadSize/beadSizePage";
+import PromoHeader from "@/features/promo-header/PromoHeader";
 import { Suspense } from "react";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Bead Size" },
+  { title: "Promo Header" },
 ];
 
 const page = async () => {
@@ -22,7 +22,7 @@ const page = async () => {
     <MainContainer>
       <BreadCrumbsComponent items={breadcrumbs} />
       <Suspense fallback={<TableLoading />}>
-        <BeadSizePage />
+        <PromoHeader />
       </Suspense>
     </MainContainer>
   );

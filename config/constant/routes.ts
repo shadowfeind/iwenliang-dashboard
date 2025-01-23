@@ -20,6 +20,7 @@ export const CUSTOMER_ORDER_ROUTE = "/dashboard/my-order";
 export const CUSTOMER_ORDER_PROFILE = "/dashboard/my-profile";
 export const CUSTOMER_ROUTE = "/dashboard/customer";
 export const PROMOTION_ROUTE = "/dashboard/promotion";
+export const PROMO_HEADER_ROUTE = "/dashboard/promo-header";
 export const SHIPPING_PRICE_ROUTE = "/dashboard/shipping-price";
 export const BLOG_ROUTE = "/dashboard/blog";
 export const BLOG_ADD_ROUTE = "/dashboard/blog/add";

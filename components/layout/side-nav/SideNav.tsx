@@ -21,6 +21,7 @@ import {
   BadgeDollarSign,
   Caravan,
   NotebookPen,
+  Cuboid,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -40,6 +41,7 @@ import {
   USER_ROUTE,
   SHIPPING_PRICE_ROUTE,
   BLOG_ROUTE,
+  PROMO_HEADER_ROUTE,
 } from "@/config/constant/routes";
 
 const adminRoutes: SidebarRoutes[] = [
@@ -108,6 +110,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Promotion",
     icon: <BadgeDollarSign className="w-5 h-5 ml-2" />,
     link: PROMOTION_ROUTE,
+  },
+  {
+    name: "Promo Header",
+    icon: <Cuboid className="w-5 h-5 ml-2" />,
+    link: PROMO_HEADER_ROUTE,
   },
   {
     name: "Shipping Price",

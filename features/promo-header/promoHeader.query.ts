@@ -9,7 +9,7 @@ export const getAllPromoHeader = cache(async (): Promise<
 > => {
   try {
     await connectDB();
-    const promoHeader = await PromoHeader.find()
+    const promoHeader = await PromoHeader.find({})
       .sort({ createdAt: -1 })
       .lean<PromoHeaderType[]>();
     return JSON.parse(JSON.stringify(promoHeader));
@@ -20,7 +20,7 @@ export const getAllPromoHeader = cache(async (): Promise<
 }, [PROMO_HEADER_TAG]);
 
 export const getSinglePromoHeaerForWebsite = async (): Promise<
-  PromoHeaderType | { error: string }
+  PromoHeaderType | undefined
 > => {
   try {
     await connectDB();
@@ -30,7 +30,6 @@ export const getSinglePromoHeaerForWebsite = async (): Promise<
     return JSON.parse(JSON.stringify(promoHeader));
   } catch (error) {
     console.error("Error fetching promoHeader:", error);
-    return { error: "Failed to retrieve promoHeader" };
   }
 };
 
