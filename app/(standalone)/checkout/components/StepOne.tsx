@@ -8,7 +8,6 @@ import PaypalButton from "@/features/paypal/Paypal";
 import { useEffect, useState } from "react";
 import { UserTypes } from "@/features/users/users.types";
 import CustomerFetchLoading from "./CustomerFetchLoading";
-import { useSession } from "next-auth/react";
 
 type Props = {
   order: OrderType;
@@ -19,7 +18,6 @@ type Props = {
 const StepOne = ({ order, fromDashboard = false }: Props) => {
   const [customer, setCustomer] = useState<UserTypes | null>(null);
   const [loading, setLoading] = useState(false);
-  const { data: session } = useSession();
 
   const showCoupon = order.coupon.discountValue > 0;
   useEffect(() => {

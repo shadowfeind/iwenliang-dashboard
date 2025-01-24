@@ -22,6 +22,7 @@ import {
   Caravan,
   NotebookPen,
   Cuboid,
+  Ship,
 } from "lucide-react";
 import { SingleSidenav } from "./SingleSidenav";
 import {
@@ -42,6 +43,7 @@ import {
   SHIPPING_PRICE_ROUTE,
   BLOG_ROUTE,
   PROMO_HEADER_ROUTE,
+  SHIPPING_ROUTE,
 } from "@/config/constant/routes";
 
 const adminRoutes: SidebarRoutes[] = [
@@ -54,6 +56,11 @@ const adminRoutes: SidebarRoutes[] = [
     name: "Order",
     icon: <Gem className="w-5 h-5 ml-2" />,
     link: ORDER_ROUTE,
+  },
+  {
+    name: "Shipping",
+    icon: <Ship className="w-5 h-5 ml-2" />,
+    link: SHIPPING_ROUTE,
   },
   {
     name: "Product",

@@ -10,3 +10,4 @@ export const BEAS_SIZE_TAG = "BeadSize";
 export const SHIPPING_PRICE_TAG = "Shipping Price";
 export const BLOG_TAG = "Blog";
 export const PROMO_HEADER_TAG = "Promo Header";
+export const SHIPPING_TAG = "Shipping";
