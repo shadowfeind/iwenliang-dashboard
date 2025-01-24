@@ -17,7 +17,9 @@ export const getOrderByIdQuery = async (
   id: string
 ): Promise<OrderType | { error: string }> => {
   await connectDB();
-  const order = await Order.findById(id).populate("user").lean<OrderType>();
+  const order = await Order.findById(id)
+    .populate("user", "-password")
+    .lean<OrderType>();
   if (!order) {
     return { error: "No order found" };
   }

@@ -24,7 +24,7 @@ const SingleOrderPage = async (props: Props) => {
       <BreadCrumbsComponent items={breadcrumbs} />
       <div className="max-w-5xl mx-auto p-4 md:p-8 flex flex-col justify-center items-center">
         {" "}
-        <StepOne order={data} />
+        <StepOne order={data} fromDashboard={true} />
       </div>
     </MainContainer>
   );

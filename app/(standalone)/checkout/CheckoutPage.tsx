@@ -21,7 +21,6 @@ import { useQueryState, parseAsInteger } from "nuqs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CouponType } from "@/features/coupon/coupon.schema";
-import Cancelled from "./components/Cancelled";
 
 const steps: Step[] = [
   { id: "shipping", name: "Shipping" },
@@ -167,7 +166,9 @@ const CheckoutPage = ({ session }: { session: any }) => {
           isPending={isPending}
         />
       )}
-      {currentStep === 1 && <StepOne order={order!} />}
+      {currentStep === 1 && (
+        <StepOne userId={session.user._id} order={order!} />
+      )}
       {currentStep === 2 && <Thankyou />}
       {/* {currentStep === 0 && <Cancelled />} */}
     </div>
