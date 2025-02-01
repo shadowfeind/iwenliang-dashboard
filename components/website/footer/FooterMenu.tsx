@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 const FooterMenu = () => {
   return (
-    <footer className="bg-black text-white py-12 px-4">
+    <footer className="bg-black text-white pb-16 pt-8 md:py-12  px-4">
       <div className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Customer Service Column */}
         <div className="space-y-4">
@@ -45,7 +45,7 @@ const FooterMenu = () => {
             >
               Shipping Guide
             </Link>
-            <Link href="/refund-policy" className="text-sm hover:text-gray-300">
+            <Link href="/return-policy" className="text-sm hover:text-gray-300">
               Return Policy
             </Link>
             <Link

@@ -60,7 +60,7 @@ const Page = () => {
 
   return (
     <>
-      <Container style="mt-3">
+      <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <StaticContentContainer>

@@ -153,8 +153,8 @@ const StepOne = ({ order, fromDashboard = false }: Props) => {
       <div className="w-full">
         <Card>
           <CardContent>
-            {order.orderItems.map((c) => (
-              <CheckoutCart cart={c} key={c.name} />
+            {order.orderItems.map((c, i) => (
+              <CheckoutCart cart={c} key={i} />
             ))}
           </CardContent>
 

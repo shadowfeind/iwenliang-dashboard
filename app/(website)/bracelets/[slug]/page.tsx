@@ -17,7 +17,9 @@ const page = async (props: Props) => {
   ];
   return (
     <Container style="mt-3">
-      <BreadCrumbsComponent items={breadcrumbs} />
+      <Container style="p-3">
+        <BreadCrumbsComponent items={breadcrumbs} />
+      </Container>
       <Suspense fallback={<SingleProductLoading />}>
         <SingleProduct slug={params.slug} />
       </Suspense>

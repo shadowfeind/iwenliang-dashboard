@@ -33,7 +33,7 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
   }, []);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: slidesToShow,
@@ -45,7 +45,7 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
   };
 
   return (
-    <div className="relative px-4 py-16">
+    <div className="relative px-0 md:px-4 py-0 md:py-16">
       <Slider {...settings}>
         {products.map((product) => (
           <div key={product._id} className="px-2">

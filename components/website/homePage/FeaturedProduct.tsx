@@ -10,7 +10,7 @@ type Props = {
 
 const FeaturedProduct = ({ featured }: Props) => {
   return (
-    <SpacedContainer>
+    <SpacedContainer styles="mb-4 md:mb-0">
       <div className="hidden md:block">
         <TitleHeader title="Featured Product" />
       </div>

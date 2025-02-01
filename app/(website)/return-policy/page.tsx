@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 
-const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Refund Policy" }];
+const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Return Policy" }];
 
 const page = () => {
   return (
     <>
-      <Container style="mt-3">
+      <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
       <StaticContentContainer>
