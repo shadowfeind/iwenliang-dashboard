@@ -6,7 +6,7 @@ import {
   CreatePaypalOrderSchemaType,
 } from "./paypa.schema";
 import { getPaypalAccessToken } from "./paypal.query";
-import Order from "../orders/order.model";
+import Order, { OrderStatus } from "../orders/order.model";
 
 export async function createPaypalOrder(
   data: CreatePaypalOrderSchemaType
@@ -88,7 +88,7 @@ export async function captureOrder(
 
     if (captureData.status === "COMPLETED") {
       await Order.findByIdAndUpdate(orderId, {
-        status: "Paid",
+        status: OrderStatus.Paid,
         paymentId: captureData.id,
         paymentMethod: "PayPal",
       });

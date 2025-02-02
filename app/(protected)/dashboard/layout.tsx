@@ -24,15 +24,14 @@ export default async function DashboardLayout({
   const role = session.user.role;
 
   return (
-    <>
+    <div className="min-h-screen">
       <Header role={role} />
-      <div className="flex h-screen ">
-        <div className="hidden md:block">
+      <div className="flex pt-12">
+        <div className="hidden md:block fixed top-0 left-0">
           <SideNav role={role} />
         </div>
-        {/* <main className="flex-1 overflow-x-hidden  overflow-y-auto pt-16"> */}
-        <main className="flex-1 overflow-hidden pt-16">{children}</main>
+        <main className="flex-1 ml-0 md:ml-[288px] pt-16">{children}</main>
       </div>
-    </>
+    </div>
   );
 }

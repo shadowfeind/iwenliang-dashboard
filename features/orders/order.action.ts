@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { createOrderSchema, CreateOrderSchemaType } from "./order.schema";
 import { OrderType } from "./order.types";
-import Order from "./order.model";
+import Order, { OrderStatus } from "./order.model";
 import connectDB from "@/config/db/connect";
 
 export const createOrder = async (
@@ -30,7 +30,7 @@ export const createOrder = async (
   } = validateFields.data;
 
   const user = session?.user?._id;
-  const status = "Pending";
+  const status = OrderStatus.Pending;
 
   try {
     const order = await Order.create({

@@ -8,6 +8,8 @@ import PaypalButton from "@/features/paypal/Paypal";
 import { useEffect, useState } from "react";
 import { UserTypes } from "@/features/users/users.types";
 import CustomerFetchLoading from "./CustomerFetchLoading";
+import { OrderStatus } from "@/features/orders/order.model";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   order: OrderType;
@@ -193,13 +195,19 @@ const StepOne = ({ order, fromDashboard = false }: Props) => {
               </div>
             </div>
           </div>
-          {order.status === "Pending" && !fromDashboard && (
+          {order.status === OrderStatus.Pending && !fromDashboard && (
             <>
               <Separator />
               <div className="w-full p-4">
                 <PaypalButton order={order} />
               </div>
             </>
+          )}
+
+          {order.status === OrderStatus.Paid && (
+            <div className="flex justify-between items-center p-4 my-2">
+              <Button className="w-full">Start Shipping</Button>
+            </div>
           )}
         </Card>
       </div>

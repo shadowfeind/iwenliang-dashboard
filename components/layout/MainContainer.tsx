@@ -8,12 +8,7 @@ type Props = {
 
 const MainContainer = ({ children, style }: Props) => {
   return (
-    <div
-      className={cn(
-        "h-full w-full mb-8 p-4 overflow-auto md:px-8 space-y-4",
-        style
-      )}
-    >
+    <div className={cn("h-full w-full p-4 md:px-8 space-y-4", style)}>
       {children}
     </div>
   );
