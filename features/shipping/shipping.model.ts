@@ -20,6 +20,11 @@ const shippingSchema = new mongoose.Schema(
       ref: "Order",
       required: true,
     },
+    CustomerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     dispatchedTo: {
       type: String,
       required: true,
