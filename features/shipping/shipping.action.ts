@@ -22,6 +22,7 @@ export const createShipping = async (
     if (!validateFields.success) return { error: "Validation Error" };
     const {
       orderId,
+      customerId,
       dispatchedTo,
       dispatchedBy,
       trackingNo,
@@ -35,6 +36,7 @@ export const createShipping = async (
 
     await Shipping.create({
       orderId,
+      customerId,
       dispatchedTo,
       dispatchedBy,
       trackingNo,
@@ -65,7 +67,6 @@ export const updateShipping = async (
     const validateFields = createShippingSchema.safeParse(data);
     if (!validateFields.success) return { error: "Validation Error" };
     const {
-      orderId,
       dispatchedTo,
       dispatchedBy,
       trackingNo,
@@ -77,7 +78,6 @@ export const updateShipping = async (
 
     await connectDB();
     await Shipping.findByIdAndUpdate(id, {
-      orderId,
       dispatchedTo,
       dispatchedBy,
       trackingNo,

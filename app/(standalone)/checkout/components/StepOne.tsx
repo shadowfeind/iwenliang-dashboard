@@ -10,6 +10,8 @@ import { UserTypes } from "@/features/users/users.types";
 import CustomerFetchLoading from "./CustomerFetchLoading";
 import { OrderStatus } from "@/features/orders/order.model";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 type Props = {
   order: OrderType;
@@ -20,8 +22,11 @@ type Props = {
 const StepOne = ({ order, fromDashboard = false }: Props) => {
   const [customer, setCustomer] = useState<UserTypes | null>(null);
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
+  const isCustomer = session?.user.role === "Customer" || null;
 
   const showCoupon = order.coupon.discountValue > 0;
+
   useEffect(() => {
     if (typeof order.user === "string") {
       const fetchCustomer = async () => {
@@ -204,9 +209,18 @@ const StepOne = ({ order, fromDashboard = false }: Props) => {
             </>
           )}
 
-          {order.status === OrderStatus.Paid && (
+          {order.status === OrderStatus.Paid && !isCustomer && (
             <div className="flex justify-between items-center p-4 my-2">
-              <Button className="w-full">Start Shipping</Button>
+              <Button
+                onClick={() =>
+                  redirect(
+                    `/dashboard/shipping/add?customerId=${customer?._id}&orderId=${order._id}`
+                  )
+                }
+                className="w-full"
+              >
+                Start Shipping
+              </Button>
             </div>
           )}
         </Card>

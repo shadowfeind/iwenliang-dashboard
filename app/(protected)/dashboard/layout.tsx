@@ -4,6 +4,7 @@ import SideNav from "@/components/layout/side-nav/SideNav";
 
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import Main from "./Main";
 
 export const metadata: Metadata = {
   title: "Iwenliang | Dashboard",
@@ -30,7 +31,7 @@ export default async function DashboardLayout({
         <div className="hidden md:block fixed top-0 left-0">
           <SideNav role={role} />
         </div>
-        <main className="flex-1 ml-0 md:ml-[288px] pt-16">{children}</main>
+        <Main>{children}</Main>
       </div>
     </div>
   );

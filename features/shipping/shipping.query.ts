@@ -10,11 +10,6 @@ export const getAllShipping = cache(async (): Promise<
   ShippingType[] | { error: string }
 > => {
   try {
-    const session = await auth();
-
-    if (!session || !allowedRoles.includes(session?.user.role))
-      return { error: "Unauthorized" };
-
     await connectDB();
     const shipping = await Shipping.find({})
       .sort({ createdAt: -1 })

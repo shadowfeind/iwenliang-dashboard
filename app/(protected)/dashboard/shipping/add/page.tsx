@@ -7,7 +7,8 @@ import ShippingAddPage from "@/features/shipping/add/ShippingAddPage";
 
 const breadcrumbs = [
   { title: "Dashboard", link: "/dashboard" },
-  { title: "Promotion" },
+  { title: "Shipping", link: "/dashboard/shipping" },
+  { title: "Add shipping" },
 ];
 
 const page = async () => {
