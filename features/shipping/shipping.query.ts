@@ -6,20 +6,24 @@ import { allowedRoles } from "@/config/constant/allowedRoles";
 import { ShippingType } from "./shipping.schema";
 import { SHIPPING_TAG } from "@/config/constant/tags";
 
-export const getAllShipping = cache(async (): Promise<
-  ShippingType[] | { error: string }
-> => {
-  try {
-    await connectDB();
-    const shipping = await Shipping.find({})
-      .sort({ createdAt: -1 })
-      .lean<ShippingType[]>();
-    return JSON.parse(JSON.stringify(shipping));
-  } catch (error) {
-    console.error("Error fetching shipping:", error);
-    return { error: "Failed to retrieve shipping" };
+export const getAllShipping = cache(
+  async (): Promise<ShippingType[] | { error: string }> => {
+    try {
+      await connectDB();
+      const shipping = await Shipping.find({})
+        .sort({ createdAt: -1 })
+        .lean<ShippingType[]>();
+      return JSON.parse(JSON.stringify(shipping));
+    } catch (error) {
+      console.error("Error fetching shipping:", error);
+      return { error: "Failed to retrieve shipping" };
+    }
+  },
+  [SHIPPING_TAG],
+  {
+    tags: [SHIPPING_TAG],
   }
-}, [SHIPPING_TAG]);
+);
 
 export const getShippingById = async (
   id: string

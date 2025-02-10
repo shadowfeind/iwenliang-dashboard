@@ -43,12 +43,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { deleteProduct } from "@/features/products/product.action";
 import { useRouter } from "next/navigation";
-import { PRODUCT_ADD_ROUTE, PRODUCT_ROUTE } from "@/config/constant/routes";
-import { Badge } from "@/components/ui/badge";
 import Delete from "@/components/Delete";
 import { ShippingType } from "../shipping.schema";
+import { ORDER_ROUTE, SHIPPING_ROUTE } from "@/config/constant/routes";
+import { deleteShipping } from "../shipping.action";
 
 export function DataTable({ data }: { data: ShippingType[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -134,7 +133,9 @@ export function DataTable({ data }: { data: ShippingType[] }) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("dispatchedDate")}</div>
+        <div className="lowercase">
+          {new Date(row.getValue("dispatchedDate")).toDateString()}
+        </div>
       ),
     },
     {
@@ -151,7 +152,9 @@ export function DataTable({ data }: { data: ShippingType[] }) {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("arrivalDate")}</div>
+        <div className="lowercase">
+          {new Date(row.getValue("arrivalDate")).toDateString()}
+        </div>
       ),
     },
     {
@@ -170,16 +173,16 @@ export function DataTable({ data }: { data: ShippingType[] }) {
               <DropdownMenuSeparator />
               <>
                 <DropdownMenuItem
-                //   onClick={() =>
-                //     router.push(`${PRODUCT_ROUTE}/${row.original.slug}`)
-                //   }
+                  onClick={() =>
+                    router.push(`${ORDER_ROUTE}/${row.original.orderId}`)
+                  }
                 >
-                  View
+                  View Order
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                //   onClick={() =>
-                //     router.push(`${PRODUCT_ROUTE}/${row.original.slug}/edit`)
-                //   }
+                  onClick={() =>
+                    router.push(`${SHIPPING_ROUTE}/${row.original._id}/edit`)
+                  }
                 >
                   Edit
                 </DropdownMenuItem>
@@ -233,12 +236,6 @@ export function DataTable({ data }: { data: ShippingType[] }) {
           className="max-w-sm"
         />
         <div>
-          <Button
-            className="mr-2"
-            onClick={() => router.push(PRODUCT_ADD_ROUTE)}
-          >
-            Add Product
-          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
@@ -387,7 +384,7 @@ export function DataTable({ data }: { data: ShippingType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={shippingId}
-        action={deleteProduct}
+        action={deleteShipping}
       />
     </div>
   );

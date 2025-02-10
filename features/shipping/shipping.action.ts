@@ -8,6 +8,7 @@ import Shipping from "./shipping.model";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { SHIPPING_TAG } from "@/config/constant/tags";
 import { SHIPPING_ROUTE } from "@/config/constant/routes";
+import Order, { OrderStatus } from "../orders/order.model";
 
 export const createShipping = async (
   data: CreateShippingType
@@ -34,7 +35,7 @@ export const createShipping = async (
 
     await connectDB();
 
-    await Shipping.create({
+    const success = await Shipping.create({
       orderId,
       customerId,
       dispatchedTo,
@@ -45,6 +46,12 @@ export const createShipping = async (
       arrivalDate,
       remarks,
     });
+
+    if (success) {
+      await Order.findByIdAndUpdate(orderId, {
+        status: OrderStatus.Shipped,
+      });
+    }
 
     revalidateTag(SHIPPING_TAG);
     revalidatePath(SHIPPING_ROUTE);
