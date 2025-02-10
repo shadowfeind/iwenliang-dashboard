@@ -49,7 +49,14 @@ import { ShippingType } from "../shipping.schema";
 import { ORDER_ROUTE, SHIPPING_ROUTE } from "@/config/constant/routes";
 import { deleteShipping } from "../shipping.action";
 
-export function DataTable({ data }: { data: ShippingType[] }) {
+export function DataTable({
+  data,
+  role,
+}: {
+  data: ShippingType[];
+  role: string;
+}) {
+  const isAdmin = role === "Admin";
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -171,28 +178,29 @@ export function DataTable({ data }: { data: ShippingType[] }) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <>
-                <DropdownMenuItem
-                  onClick={() =>
-                    router.push(`${ORDER_ROUTE}/${row.original.orderId}`)
-                  }
-                >
-                  View Order
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() =>
-                    router.push(`${SHIPPING_ROUTE}/${row.original._id}/edit`)
-                  }
-                >
-                  Edit
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleDelete(row.original._id)}
-                >
-                  Delete
-                </DropdownMenuItem>
-              </>
-              {/* )} */}
+              {isAdmin ? (
+                <>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(`${ORDER_ROUTE}/${row.original.orderId}`)
+                    }
+                  >
+                    View Order
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(`${SHIPPING_ROUTE}/${row.original._id}/edit`)
+                    }
+                  >
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleDelete(row.original._id)}
+                  >
+                    Delete
+                  </DropdownMenuItem>
+                </>
+              ) : null}
             </DropdownMenuContent>
           </DropdownMenu>
         );

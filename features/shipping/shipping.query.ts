@@ -44,3 +44,21 @@ export const getShippingById = async (
     return { error: "Failed to retrieve shipping" };
   }
 };
+
+export const getShipingForCustomer = async (
+  id: string
+): Promise<ShippingType[] | { error: string }> => {
+  try {
+    const session = await auth();
+    if (!session || session?.user._id?.toString() !== id.toString())
+      return { error: "Unauthorized" };
+    await connectDB();
+    const shipping = await Shipping.find({ customerId: id }).lean<
+      ShippingType[]
+    >();
+    return JSON.parse(JSON.stringify(shipping));
+  } catch (error) {
+    console.error("Error fetching shipping:", error);
+    return { error: "Failed to retrieve shipping" };
+  }
+};

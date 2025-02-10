@@ -20,6 +20,7 @@ export const COUPON_ROUTE = "/dashboard/coupon";
 export const CUSTOMER_ORDER_ROUTE = "/dashboard/my-order";
 export const CUSTOMER_ORDER_PROFILE = "/dashboard/my-profile";
 export const CUSTOMER_ROUTE = "/dashboard/customer";
+export const CUSTOMER_SHIPPING_ROUTE = "/dashboard/my-shipping";
 
 export const PROMOTION_ROUTE = "/dashboard/promotion";
 export const PROMO_HEADER_ROUTE = "/dashboard/promo-header";

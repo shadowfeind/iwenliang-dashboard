@@ -44,6 +44,7 @@ import {
   BLOG_ROUTE,
   PROMO_HEADER_ROUTE,
   SHIPPING_ROUTE,
+  CUSTOMER_SHIPPING_ROUTE,
 } from "@/config/constant/routes";
 
 const adminRoutes: SidebarRoutes[] = [
@@ -145,6 +146,11 @@ const userRoutes: SidebarRoutes[] = [
     name: "My Order",
     icon: <Gem className="w-5 h-5 ml-2" />,
     link: CUSTOMER_ORDER_ROUTE,
+  },
+  {
+    name: "My Shipping",
+    icon: <Ship className="w-5 h-5 ml-2" />,
+    link: CUSTOMER_SHIPPING_ROUTE,
   },
 ];
 
