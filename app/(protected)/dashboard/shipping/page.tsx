@@ -4,7 +4,6 @@ import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { TableLoading } from "@/components/loading/tableLoading";
 import { allowedRoles } from "@/config/constant/allowedRoles";
-import { DataTable } from "@/features/shipping/components/DataTable";
 import { ShippingPage } from "@/features/shipping/ShippingPage";
 import { Suspense } from "react";
 

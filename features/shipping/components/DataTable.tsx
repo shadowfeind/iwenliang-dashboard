@@ -46,7 +46,11 @@ import {
 import { useRouter } from "next/navigation";
 import Delete from "@/components/Delete";
 import { ShippingType } from "../shipping.schema";
-import { ORDER_ROUTE, SHIPPING_ROUTE } from "@/config/constant/routes";
+import {
+  CUSTOMER_SHIPPING_ROUTE,
+  ORDER_ROUTE,
+  SHIPPING_ROUTE,
+} from "@/config/constant/routes";
 import { deleteShipping } from "../shipping.action";
 
 export function DataTable({
@@ -200,7 +204,19 @@ export function DataTable({
                     Delete
                   </DropdownMenuItem>
                 </>
-              ) : null}
+              ) : (
+                <>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      router.push(
+                        `${CUSTOMER_SHIPPING_ROUTE}/${row.original._id}`
+                      )
+                    }
+                  >
+                    View Order
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );

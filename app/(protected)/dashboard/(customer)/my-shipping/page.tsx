@@ -6,7 +6,10 @@ import { TableLoading } from "@/components/loading/tableLoading";
 import MyShipping from "@/features/my-shipping/MyShipping";
 import { Suspense } from "react";
 
-const breadcrumbs = [{ title: "Dashboard" }, { title: "My Shipping" }];
+const breadcrumbs = [
+  { title: "Dashboard", link: "/dashboard" },
+  { title: "My Shipping" },
+];
 
 const page = async () => {
   const session = await auth();
