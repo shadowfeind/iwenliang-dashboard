@@ -26,7 +26,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
           <button
             key={index}
             onClick={() => setCurrentImage(index)}
-            className={`flex-shrink-0 px-2 ${
+            className={`shrink-0 px-2 ${
               index === currentImage ? "border-2 border-gray-500" : ""
             }`}
           >

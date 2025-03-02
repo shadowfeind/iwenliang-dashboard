@@ -31,7 +31,7 @@ export const Subscribe = () => {
           <h5 className="text-xs font-bold tracking-wider">
             FOR NEWS LETTER AND UPDATES
           </h5>
-          <div className="flex w-10/12 md:w-3/12 rounded-lg shadow-sm shadow-black/5">
+          <div className="flex w-10/12 md:w-3/12 rounded-lg shadow-xs shadow-black/5">
             <Input
               id="input-21"
               className="-me-px flex-1 rounded-e-none shadow-none focus-visible:z-10"

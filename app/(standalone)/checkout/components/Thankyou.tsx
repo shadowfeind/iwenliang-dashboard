@@ -9,7 +9,7 @@ const Thankyou = () => {
   const thankyouData = useMainStore((state) => state.thankyouData);
   return (
     <div className="bg-white rounded-lg shadow-2xl w-full max-w-3xl mx-auto overflow-hidden">
-      <div className="bg-gradient-to-r from-gray-950 to-gray-700 p-6 text-white">
+      <div className="bg-linear-to-r from-gray-950 to-gray-700 p-6 text-white">
         <div className="flex items-center justify-center mb-4">
           <CheckCircle className="h-16 w-16" />
         </div>

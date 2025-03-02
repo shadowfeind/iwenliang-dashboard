@@ -7,6 +7,7 @@ import connectDB from "@/config/db/connect";
 import User from "@/features/users/user.model";
 import { UserTypes } from "@/features/users/users.types";
 import { sendEmail } from "@/lib/sendEmail";
+import { signOut as authSignOut } from "@/auth";
 
 export async function login(
   values: AuthType
@@ -42,4 +43,14 @@ export async function forgotPassword(
   const html = `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`;
 
   sendEmail(email, "Reset your password", html);
+}
+
+export async function signOut() {
+  try {
+    console.log("running----------");
+    return await authSignOut();
+  } catch (error) {
+    console.error("Logout failed:", error);
+    throw error;
+  }
 }

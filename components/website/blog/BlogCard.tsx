@@ -29,7 +29,7 @@ const BlogCard = ({ blog }: Props) => {
             className="w-full h-48 object-cover rounded-t-lg"
           />
         </CardHeader>
-        <CardContent className="flex-grow p-4">
+        <CardContent className="grow p-4">
           <CardTitle className="mb-2">
             <Link
               href={`/blog/${blog.slug}`}

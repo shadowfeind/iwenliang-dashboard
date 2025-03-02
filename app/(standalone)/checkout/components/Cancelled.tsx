@@ -5,7 +5,7 @@ import BigButton from "@/components/BigButton";
 const Cancelled = () => {
   return (
     <div className="bg-white rounded-lg shadow-2xl w-full max-w-3xl mx-auto overflow-hidden">
-      <div className="bg-gradient-to-r from-red-800 to-red-600 p-6 text-white">
+      <div className="bg-linear-to-r from-red-800 to-red-600 p-6 text-white">
         <div className="flex items-center justify-center mb-4">
           <CircleX className="h-16 w-16" />
         </div>
