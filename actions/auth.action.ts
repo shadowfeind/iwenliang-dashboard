@@ -45,12 +45,4 @@ export async function forgotPassword(
   sendEmail(email, "Reset your password", html);
 }
 
-export async function signOut() {
-  try {
-    console.log("running----------");
-    return await authSignOut();
-  } catch (error) {
-    console.error("Logout failed:", error);
-    throw error;
-  }
-}
+
