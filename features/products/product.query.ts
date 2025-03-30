@@ -77,6 +77,7 @@ export const getProductsForFrontPage = cache(
 export const getAllProductsQuery = cache(
   async (): Promise<ProductType[] | { error: string }> => {
     await connectDB();
+    console.log("hit");
 
     const products = await Product.find()
       .sort({ createdAt: -1 })
@@ -93,7 +94,6 @@ export const getAllProductsQuery = cache(
   [PRODUCT_TAG],
   {
     tags: [PRODUCT_TAG],
-    revalidate: false,
   }
 );
 
