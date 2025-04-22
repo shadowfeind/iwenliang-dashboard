@@ -97,17 +97,21 @@ export const getAllProductsQuery = cache(
   }
 );
 
-export const getProductBySlugQuery = async (
-  slug: string
-): Promise<ProductType | { error: string }> => {
-  await connectDB();
+export const getProductBySlugQuery = cache(
+  async (slug: string): Promise<ProductType | { error: string }> => {
+    await connectDB();
 
-  const product = await Product.findOne({ slug }).lean<ProductType>();
+    const product = await Product.findOne({ slug }).lean<ProductType>();
 
-  if (!product) return { error: "Product not found" };
+    if (!product) return { error: "Product not found" };
 
-  return JSON.parse(JSON.stringify(product));
-};
+    return JSON.parse(JSON.stringify(product));
+  },
+  [(slug) => [PRODUCT_TAG, slug]],
+  {
+    tags: [PRODUCT_TAG],
+  }
+);
 
 export const getFiltersForProduct = cache(
   async (): Promise<{
