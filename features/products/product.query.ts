@@ -107,7 +107,7 @@ export const getProductBySlugQuery = cache(
 
     return JSON.parse(JSON.stringify(product));
   },
-  [(slug) => [PRODUCT_TAG, slug]],
+  [PRODUCT_TAG],
   {
     tags: [PRODUCT_TAG],
   }
