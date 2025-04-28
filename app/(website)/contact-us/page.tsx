@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import Container from "@/components/website/Container";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import StaticContentContainer from "@/components/website/StaticContentContainer";
+import { FadeIn } from "@/components/animation/FadeIn";
 
 const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Contact Us" }];
 
@@ -59,7 +60,7 @@ const Page = () => {
   }
 
   return (
-    <>
+    <FadeIn>
       <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
@@ -146,7 +147,7 @@ const Page = () => {
           </CardContent>
         </Card>
       </StaticContentContainer>
-    </>
+    </FadeIn>
   );
 };
 

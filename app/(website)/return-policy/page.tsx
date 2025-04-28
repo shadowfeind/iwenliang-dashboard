@@ -1,15 +1,17 @@
+"use client";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import Container from "@/components/website/Container";
 import StaticContentContainer from "@/components/website/StaticContentContainer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
+import { FadeIn } from "@/components/animation/FadeIn";
 
 const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Return Policy" }];
 
 const page = () => {
   return (
-    <>
+    <FadeIn>
       <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
@@ -89,7 +91,7 @@ const page = () => {
           </CardContent>
         </Card>
       </StaticContentContainer>
-    </>
+    </FadeIn>
   );
 };
 

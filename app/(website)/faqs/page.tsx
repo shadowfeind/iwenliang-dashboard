@@ -1,3 +1,4 @@
+"use client";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import {
   Accordion,
@@ -9,11 +10,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Container from "@/components/website/Container";
 import StaticContentContainer from "@/components/website/StaticContentContainer";
 import { faqs } from "./faqData";
+import { FadeIn } from "@/components/animation/FadeIn";
 
 const breadcrumbs = [{ title: "Home", link: "/" }, { title: "Faq" }];
 const page = () => {
   return (
-    <>
+    <FadeIn>
       <Container style="p-3">
         <BreadCrumbsComponent items={breadcrumbs} />
       </Container>
@@ -36,7 +38,7 @@ const page = () => {
           </CardContent>
         </Card>
       </StaticContentContainer>
-    </>
+    </FadeIn>
   );
 };
 

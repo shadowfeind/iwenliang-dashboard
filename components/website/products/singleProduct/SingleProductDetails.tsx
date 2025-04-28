@@ -9,6 +9,7 @@ import { DrawerDialog } from "../../DrawerDialog";
 import Image from "next/image";
 import { isMobile } from "@/lib/utils";
 import { useMainStore } from "@/config/store/useMainStore";
+import { SlideInRight } from "@/components/animation/SlideInRight";
 
 type Props = {
   data: ProductType;
@@ -42,7 +43,7 @@ const SingleProductDetails = ({ data }: Props) => {
   };
 
   return (
-    <>
+    <SlideInRight>
       <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">
         {data.name}
       </h1>
@@ -122,7 +123,7 @@ const SingleProductDetails = ({ data }: Props) => {
           <h5 className="mt-4 text-sm">STYLE ID: 123456</h5>
         </div>
       </div>
-    </>
+    </SlideInRight>
   );
 };
 

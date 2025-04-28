@@ -19,7 +19,6 @@ export default async function SingleProduct({ slug }: Props) {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
         <ImageGallery images={data.images} />
-
         <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
           <SingleProductDetails data={data} />
         </div>
