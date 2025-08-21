@@ -1,5 +1,6 @@
 import connectDB from "@/config/db/connect";
 import { unstable_cache as cache } from "next/cache";
+import { serializeDocument } from "@/lib/utils";
 import { BlogTYpe } from "./blog.schema";
 import Blog from "./blog.model";
 import { BLOG_TAG } from "@/config/constant/tags";
@@ -9,7 +10,7 @@ export const getAllBlogs = cache(
     await connectDB();
     try {
       const blog = await Blog.find().sort({ createdAt: -1 }).lean<BlogTYpe[]>();
-      return JSON.parse(JSON.stringify(blog));
+      return serializeDocument(blog);
     } catch (error) {
       console.log("Error from getAllBlogs", error);
       return { error: "Something went wrong" };
@@ -28,7 +29,7 @@ export const getBlogBySlug = async (
   try {
     const blog = await Blog.findOne({ slug }).lean<BlogTYpe>();
     if (!blog) return { error: "Blog not found" };
-    return JSON.parse(JSON.stringify(blog));
+    return serializeDocument(blog);
   } catch (error) {
     console.log("Error from getBlogBySlug", error);
     return { error: "Something went wrong" };

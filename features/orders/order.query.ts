@@ -1,6 +1,7 @@
 import connectDB from "@/config/db/connect";
 import Order from "./order.model";
 import { OrderType } from "./order.types";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllOrdersQuery = async (): Promise<
   OrderType[] | { error: string }
@@ -10,7 +11,7 @@ export const getAllOrdersQuery = async (): Promise<
   if (!orders) {
     return { error: "No orders found" };
   }
-  return JSON.parse(JSON.stringify(orders));
+  return serializeDocument(orders);
 };
 
 export const getOrderByIdQuery = async (
@@ -23,5 +24,5 @@ export const getOrderByIdQuery = async (
   if (!order) {
     return { error: "No order found" };
   }
-  return JSON.parse(JSON.stringify(order));
+  return serializeDocument(order);
 };

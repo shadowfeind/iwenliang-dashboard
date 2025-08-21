@@ -27,3 +27,7 @@ export const isMobile = (userAgent?: string): boolean => {
 
   return window.innerWidth < 600;
 };
+
+export const serializeDocument = <T>(doc: T): T => {
+  return JSON.parse(JSON.stringify(doc));
+};

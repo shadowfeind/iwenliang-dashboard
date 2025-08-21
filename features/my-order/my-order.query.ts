@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { OrderType } from "../orders/order.types";
 import connectDB from "@/config/db/connect";
 import Order from "../orders/order.model";
+import { serializeDocument } from "@/lib/utils";
 
 export const getOrderByCustomerId = async (
   userId: string
@@ -17,5 +18,5 @@ export const getOrderByCustomerId = async (
   const order = await Order.find({ user: userId })
     .sort({ createdAt: -1 })
     .lean<OrderType>();
-  return JSON.parse(JSON.stringify(order));
+  return serializeDocument(order);
 };

@@ -3,6 +3,7 @@ import Material from "./material.model";
 import { MATERIAL_TAG } from "@/config/constant/tags";
 import connectDB from "@/config/db/connect";
 import { unstable_cache as cache } from "next/cache";
+import { serializeDocument } from "@/lib/utils";
 
 // for client side only
 export async function getAllMaterials(): Promise<
@@ -32,7 +33,7 @@ export const getAllMaterialsQuery = cache(
     try {
       await connectDB();
       const materials = await Material.find().lean<MaterialType[]>();
-      return JSON.parse(JSON.stringify(materials));
+      return serializeDocument(materials);
     } catch (error) {
       console.error("Error fetching materials:", error);
       return { error: "Failed to retrieve materials" };

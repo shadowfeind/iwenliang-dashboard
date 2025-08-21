@@ -11,6 +11,7 @@ import { MaterialType } from "../materials/material.types";
 import { CategoryType } from "../categories/category.types";
 import { BeadType } from "../beadSize/beadSize.type";
 import BeadSize from "../beadSize/beadSize.model";
+import { serializeDocument } from "@/lib/utils";
 
 //testing api will remove in future
 export async function getAllProducts(): Promise<
@@ -62,8 +63,8 @@ export const getProductsForFrontPage = cache(
     if (!products) return { error: "No products found" };
     const featured = products.filter((product) => product.featured);
 
-    const response = JSON.parse(
-      JSON.stringify({ featured, products: products?.slice(0, 8) })
+    const response = serializeDocument(
+      { featured, products: products?.slice(0, 8) }
     );
     return response;
   },
@@ -89,7 +90,7 @@ export const getAllProductsQuery = cache(
 
     if (!products) return { error: "No products found" };
 
-    return JSON.parse(JSON.stringify(products));
+    return serializeDocument(products);
   },
   [PRODUCT_TAG],
   {
@@ -105,7 +106,7 @@ export const getProductBySlugQuery = cache(
 
     if (!product) return { error: "Product not found" };
 
-    return JSON.parse(JSON.stringify(product));
+    return serializeDocument(product);
   },
   [PRODUCT_TAG],
   {
@@ -129,13 +130,12 @@ export const getFiltersForProduct = cache(
           BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
         ]);
 
-      const response = JSON.parse(
-        JSON.stringify({
+      const response = serializeDocument({
           colors: colorData,
           materials: materialData,
           categories: categoryData,
           beadSizes: beadSizeData,
-        })
+        }
       );
 
       return {

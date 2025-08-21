@@ -2,6 +2,7 @@ import { CATEGORY_TAG } from "@/config/constant/tags";
 import connectDB from "@/config/db/connect";
 import { CategoryType } from "@/features/categories/category.types";
 import { unstable_cache as cache } from "next/cache";
+import { serializeDocument } from "@/lib/utils";
 import Category from "./category.model";
 
 //will be used for client side only
@@ -24,7 +25,7 @@ export const getAllCategoriesQuery = cache(
     try {
       await connectDB();
       const categories = await Category.find().lean<CategoryType[]>();
-      return JSON.parse(JSON.stringify(categories));
+      return serializeDocument(categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
       return { error: "Failed to retrieve categories" };

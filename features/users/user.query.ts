@@ -3,6 +3,7 @@ import User from "./user.model";
 import { UserTypes } from "./users.types";
 import { unstable_cache as cache } from "next/cache";
 import { USER_TAG } from "@/config/constant/tags";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllUsers = cache(
   async (): Promise<UserTypes[] | { error: string }> => {
@@ -12,7 +13,7 @@ export const getAllUsers = cache(
         .select("-password")
         .sort({ createdAt: -1 })
         .lean<UserTypes[]>();
-      return JSON.parse(JSON.stringify(users));
+      return serializeDocument(users);
     } catch (error) {
       console.error("Error fetching users:", error);
       return { error: "Failed to retrieve users" };
@@ -30,7 +31,7 @@ export async function getUserByUsername(
 ): Promise<UserTypes | null> {
   await connectDB();
   const user = await User.findOne({ userName }).lean<UserTypes>();
-  return JSON.parse(JSON.stringify(user));
+  return serializeDocument(user);
 }
 
 export async function authenticateUser(

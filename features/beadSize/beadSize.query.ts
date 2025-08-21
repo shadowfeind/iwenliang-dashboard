@@ -3,13 +3,14 @@ import { BeadType } from "./beadSize.type";
 import BeadSize from "./beadSize.model";
 import { BEAS_SIZE_TAG } from "@/config/constant/tags";
 import { unstable_cache as cache } from "next/cache";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllBeadSizeQuery = cache(
   async (): Promise<BeadType[] | { error: string }> => {
     try {
       await connectDB();
       const beadSize = await BeadSize.find().lean<BeadType[]>();
-      return JSON.parse(JSON.stringify(beadSize));
+      return serializeDocument(beadSize);
     } catch (error) {
       console.error("Error fetching beadSize:", error);
       return { error: "Failed to retrieve beadSize" };

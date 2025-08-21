@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import { CarouselType } from "./carousel.type";
 import { CAROUSEL_TAG } from "@/config/constant/tags";
 import { allowedRoles } from "@/config/constant/allowedRoles";
+import { serializeDocument } from "@/lib/utils";
 
 export async function createCarousel(
   values: z.infer<typeof carouselSchema>
@@ -68,7 +69,7 @@ export async function getCarouselById(
     return { error: "Carousel not found" };
   }
 
-  return JSON.parse(JSON.stringify(carousel));
+  return serializeDocument(carousel);
 }
 
 export async function deleteCarousel(

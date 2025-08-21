@@ -3,6 +3,7 @@ import { PromoHeaderType } from "./promoHeader.schema";
 import PromoHeader from "./promoHeader.model";
 import { PROMO_HEADER_TAG } from "@/config/constant/tags";
 import connectDB from "@/config/db/connect";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllPromoHeader = cache(async (): Promise<
   PromoHeaderType[] | { error: string }
@@ -12,7 +13,7 @@ export const getAllPromoHeader = cache(async (): Promise<
     const promoHeader = await PromoHeader.find({})
       .sort({ createdAt: -1 })
       .lean<PromoHeaderType[]>();
-    return JSON.parse(JSON.stringify(promoHeader));
+    return serializeDocument(promoHeader);
   } catch (error) {
     console.error("Error fetching promoHeader:", error);
     return { error: "Failed to retrieve promoHeader" };
@@ -28,7 +29,7 @@ export const getSinglePromoHeaerForWebsite = async (): Promise<
       .sort({ createdAt: -1 })
       .lean<PromoHeaderType[]>();
     if (promoHeader.length > 0)
-      return JSON.parse(JSON.stringify(promoHeader[0]));
+      return serializeDocument(promoHeader[0]);
     return undefined;
   } catch (error) {
     console.error("Error fetching promoHeader:", error);
@@ -53,7 +54,7 @@ export const getPromoHeaderById = async (
 
     const data = await response.json();
 
-    return JSON.parse(JSON.stringify(data.data));
+    return serializeDocument(data.data);
   } catch (error) {
     console.error("Error fetching promoHeader:", error);
     return { error: "Failed to retrieve promoHeader" };

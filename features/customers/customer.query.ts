@@ -1,6 +1,7 @@
 import connectDB from "@/config/db/connect";
 import User from "../users/user.model";
 import { CustomerTypes } from "./customer.type";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllCustomersQuery = async (): Promise<
   CustomerTypes[] | { error: string }
@@ -13,5 +14,5 @@ export const getAllCustomersQuery = async (): Promise<
   if (!customers) {
     return { error: "No customers found" };
   }
-  return JSON.parse(JSON.stringify(customers));
+  return serializeDocument(customers);
 };

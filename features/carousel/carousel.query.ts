@@ -3,6 +3,7 @@ import { CarouselType } from "./carousel.type";
 import Carousel from "./carousel.model";
 import { unstable_cache as cache } from "next/cache";
 import { CAROUSEL_TAG } from "@/config/constant/tags";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllCarousel = cache(
   async (): Promise<CarouselType[] | { error: string }> => {
@@ -14,7 +15,7 @@ export const getAllCarousel = cache(
       return { error: "No Carousels Found" };
     }
 
-    return JSON.parse(JSON.stringify(carousels));
+    return serializeDocument(carousels);
   },
   [CAROUSEL_TAG],
   {

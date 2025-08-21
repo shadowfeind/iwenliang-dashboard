@@ -5,6 +5,7 @@ import { createOrderSchema, CreateOrderSchemaType } from "./order.schema";
 import { OrderType } from "./order.types";
 import Order, { OrderStatus } from "./order.model";
 import connectDB from "@/config/db/connect";
+import { serializeDocument } from "@/lib/utils";
 
 export const createOrder = async (
   values: CreateOrderSchemaType
@@ -47,7 +48,7 @@ export const createOrder = async (
       status,
     });
 
-    return JSON.parse(JSON.stringify(order));
+    return serializeDocument(order);
   } catch (error) {
     console.log("Error from createOrder", error);
     return { error: "Something went wrong" };

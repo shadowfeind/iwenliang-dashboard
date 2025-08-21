@@ -1,6 +1,7 @@
 import connectDB from "@/config/db/connect";
 import Subscriber from "./subscriber.model";
 import { SubscriberType } from "./subscriber.type";
+import { serializeDocument } from "@/lib/utils";
 
 export const getAllSubscriberQuery = async (): Promise<
   SubscriberType[] | { error: string }
@@ -11,7 +12,7 @@ export const getAllSubscriberQuery = async (): Promise<
     if (!response) {
       return { error: "No data found" };
     }
-    return JSON.parse(JSON.stringify(response));
+    return serializeDocument(response);
   } catch (error) {
     console.log("getAllSubscriberQuery error: ", error);
     return { error: "Error fetching data" };

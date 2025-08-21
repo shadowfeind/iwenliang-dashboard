@@ -16,6 +16,7 @@ import { CUSTOMER_ORDER_ROUTE, USER_ROUTE } from "@/config/constant/routes";
 import { auth } from "@/auth";
 import { USER_TAG } from "@/config/constant/tags";
 import { allowedRoles } from "@/config/constant/allowedRoles";
+import { serializeDocument } from "@/lib/utils";
 
 export async function createUser(
   user: CreateUserType
@@ -74,7 +75,7 @@ export async function getUserByIdAction(
     return { error: "User not found" };
   }
 
-  return JSON.parse(JSON.stringify(user));
+  return serializeDocument(user);
 }
 
 export async function updateUser(

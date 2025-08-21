@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { UserTypes } from "../users/users.types";
 import connectDB from "@/config/db/connect";
 import User from "../users/user.model";
+import { serializeDocument } from "@/lib/utils";
 
 export const getMyProfile = async (): Promise<
   UserTypes | { error: string }
@@ -21,5 +22,5 @@ export const getMyProfile = async (): Promise<
       return { error: "Unauthorized" };
   }
 
-  return JSON.parse(JSON.stringify(profile));
+  return serializeDocument(profile);
 };
