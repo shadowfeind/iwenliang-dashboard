@@ -63,9 +63,10 @@ export const getProductsForFrontPage = cache(
     if (!products) return { error: "No products found" };
     const featured = products.filter((product) => product.featured);
 
-    const response = serializeDocument(
-      { featured, products: products?.slice(0, 8) }
-    );
+    const response = serializeDocument({
+      featured,
+      products: products?.slice(0, 8),
+    });
     return response;
   },
   [PRODUCT_TAG],
@@ -114,49 +115,48 @@ export const getProductBySlugQuery = cache(
   }
 );
 
-export const getFiltersForProduct = cache(
-  async (): Promise<{
-    colors: ColorType[];
-    materials: MaterialType[];
-    categories: CategoryType[];
-    beadSizes: BeadType[];
-  }> => {
-    try {
-      const [colorData, materialData, categoryData, beadSizeData] =
-        await Promise.all([
-          Color.find().sort({ createdAt: -1 }).lean().exec(),
-          Material.find().sort({ createdAt: -1 }).lean().exec(),
-          Category.find().sort({ createdAt: -1 }).lean().exec(),
-          BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
-        ]);
+// export const getFiltersForProduct = cache(
+//   async (): Promise<{
+//     colors: ColorType[];
+//     materials: MaterialType[];
+//     categories: CategoryType[];
+//     beadSizes: BeadType[];
+//   }> => {
+//     try {
+//       const [colorData, materialData, categoryData, beadSizeData] =
+//         await Promise.all([
+//           Color.find().sort({ createdAt: -1 }).lean().exec(),
+//           Material.find().sort({ createdAt: -1 }).lean().exec(),
+//           Category.find().sort({ createdAt: -1 }).lean().exec(),
+//           BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
+//         ]);
 
-      const response = serializeDocument({
-          colors: colorData,
-          materials: materialData,
-          categories: categoryData,
-          beadSizes: beadSizeData,
-        }
-      );
+//       const response = serializeDocument({
+//         colors: colorData,
+//         materials: materialData,
+//         categories: categoryData,
+//         beadSizes: beadSizeData,
+//       });
 
-      return {
-        ...response,
-      };
-    } catch (error) {
-      console.error("Error fetching product filters:", error);
+//       return {
+//         ...response,
+//       };
+//     } catch (error) {
+//       console.error("Error fetching product filters:", error);
 
-      return {
-        colors: [],
-        materials: [],
-        categories: [],
-        beadSizes: [],
-      };
-    }
-  },
-  [PRODUCT_FILTER],
-  {
-    tags: [PRODUCT_FILTER],
-  }
-);
+//       return {
+//         colors: [],
+//         materials: [],
+//         categories: [],
+//         beadSizes: [],
+//       };
+//     }
+//   },
+//   [PRODUCT_FILTER],
+//   {
+//     tags: [PRODUCT_FILTER],
+//   }
+// );
 
 // i created a api route as vercel serverless function was timing out
 // i will remove this api route in future if i use vps
