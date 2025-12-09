@@ -39,6 +39,7 @@ export const getShippingById = async (
     const shipping = await Shipping.findById(id)
       .populate("orderId")
       .lean<ShippingType>();
+    if (!shipping) return { error: "Shipping not found" };
     return serializeDocument(shipping);
   } catch (error) {
     console.error("Error fetching shipping:", error);

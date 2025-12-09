@@ -8,7 +8,7 @@ export const getAllSubscriberQuery = async (): Promise<
 > => {
   try {
     await connectDB();
-    const response = await Subscriber.find().lean();
+    const response = await Subscriber.find().lean<SubscriberType[]>();
     if (!response) {
       return { error: "No data found" };
     }

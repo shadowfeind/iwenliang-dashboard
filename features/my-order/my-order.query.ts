@@ -17,6 +17,6 @@ export const getOrderByCustomerId = async (
 
   const order = await Order.find({ user: userId })
     .sort({ createdAt: -1 })
-    .lean<OrderType>();
+    .lean<OrderType[]>();
   return serializeDocument(order);
 };

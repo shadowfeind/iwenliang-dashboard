@@ -9,7 +9,7 @@ export const getAllCustomersQuery = async (): Promise<
   await connectDB();
   const customers = await User.find({ role: "Customer" })
     .select("-password")
-    .lean()
+    .lean<CustomerTypes[]>()
     .sort({ createdAt: -1 });
   if (!customers) {
     return { error: "No customers found" };
