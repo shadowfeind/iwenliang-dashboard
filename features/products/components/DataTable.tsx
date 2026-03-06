@@ -399,7 +399,11 @@ export function DataTable({ data }: { data: ProductType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={productId}
-        action={deleteProduct}
+        action={async (id: string) => {
+          const res = await deleteProduct({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

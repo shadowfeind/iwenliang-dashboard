@@ -49,15 +49,16 @@ export const ChangePassword = ({
   });
 
   const handleSubmit = (value: ChangePasswordType) => {
-    startTransition(() => {
-      changePassword(value.password, userId ?? "").then((data) => {
-        if (data?.error) {
-          setError(data.error);
-        } else {
-          form.reset();
-          setIsOpenAction(false);
-        }
-      });
+    startTransition(async () => {
+      const res = await changePassword({ password: value.password, id: userId ?? "" });
+      if (res?.data?.error) {
+        setError(res.data.error);
+      } else if (res?.serverError) {
+        setError(res.serverError);
+      } else if (res?.data?.success) {
+        form.reset();
+        setIsOpenAction(false);
+      }
     });
   };
 

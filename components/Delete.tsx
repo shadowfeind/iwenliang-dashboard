@@ -14,9 +14,7 @@ type Props = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
-  action: (userId: string) => Promise<void | {
-    error: string;
-  }>;
+  action: (userId: string) => Promise<any>;
 };
 
 const Delete = ({ isOpen, setIsOpen, userId, action }: Props) => {

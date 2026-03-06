@@ -14,7 +14,7 @@ import { CategoryType } from "@/features/categories/category.types";
 import { ColorType } from "@/features/colors/color.types";
 import { MaterialType } from "@/features/materials/material.types";
 import { BeadType } from "@/features/beadSize/beadSize.type";
-import { getAllFiltersForProductApiQuery } from "@/features/products/product.query";
+
 import { Button } from "@/components/ui/button";
 
 export type Filters = {
@@ -26,10 +26,10 @@ export type Filters = {
 
 type Props = {
   products: ProductType[];
-  // filters: Filters;
+  filters: Filters;
 };
 
-const BraceletClientPage = ({ products }: Props) => {
+const BraceletClientPage = ({ products, filters }: Props) => {
   const [bracelets, setBracelets] = useState<ProductType[]>(
     products?.slice(0, 8)
   );
@@ -45,26 +45,7 @@ const BraceletClientPage = ({ products }: Props) => {
   const [open, setOpen] = useState(false);
 
   // this will have data that are fetched
-  const [dataForFilter, setDataForFilter] = useState<Filters>({
-    categories: [],
-    colors: [],
-    materials: [],
-    beadSizes: [],
-  });
-
-  const fetchFilters = useCallback(async () => {
-    setLoading(true);
-    const data = await getAllFiltersForProductApiQuery();
-    setDataForFilter(data);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      fetchFilters();
-    }, 300);
-    return () => clearTimeout(timeout);
-  }, [fetchFilters]);
+  const [dataForFilter, setDataForFilter] = useState<Filters>(filters);
 
   const handleSort = (value: string) => {
     let sortedBracelets = [...products];

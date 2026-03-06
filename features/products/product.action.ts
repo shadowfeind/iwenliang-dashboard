@@ -8,47 +8,40 @@ import {
 import { slugify } from "@/lib/slugify";
 import Product from "./product.model";
 import { revalidateTag } from "next/cache";
-import { auth } from "@/auth";
 import { PRODUCT_TAG } from "@/config/constant/tags";
-import { allowedRoles } from "@/config/constant/allowedRoles";
+import { authActionClient } from "@/lib/safe-action";
+import { z } from "zod";
 
-export async function createProduct(
-  values: ProductSchamaType
-): Promise<{ success: boolean } | { error: string }> {
-  await connectDB();
-  const session = await auth();
+export const createProduct = authActionClient
+  .schema(productSchema)
+  .action(async ({ parsedInput }) => {
+    await connectDB();
 
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
+    const {
+      name,
+      images,
+      description,
+      price,
+      salePrice,
+      stock,
+      category,
+      color,
+      material,
+      beadSize,
+      featured,
+      isActive,
+      styleId,
+      videoUrl,
+    } = parsedInput;
 
-  const validateFields = productSchema.safeParse(values);
+    const productNameExists = await Product.findOne({ name }).lean();
 
-  if (!validateFields.success) return { error: "Validation error" };
+    if (productNameExists) {
+      return { error: "Product name already exists" };
+    }
 
-  const {
-    name,
-    images,
-    description,
-    price,
-    salePrice,
-    stock,
-    category,
-    color,
-    material,
-    beadSize,
-    featured,
-    isActive,
-    styleId,
-    videoUrl,
-  } = validateFields.data;
+    const slug = slugify(name);
 
-  const productNameExists = await Product.findOne({ name }).lean();
-
-  if (productNameExists) return { error: "Product name already exists" };
-
-  const slug = slugify(name);
-
-  try {
     await Product.create({
       name,
       slug,
@@ -68,55 +61,41 @@ export async function createProduct(
     });
     revalidateTag(PRODUCT_TAG);
     return { success: true };
-  } catch (error) {
-    console.log(error);
-    return { error: "Something went wrong" };
-  }
-}
+  });
 
-export async function updateProduct(
-  values: ProductSchamaType,
-  id: string
-): Promise<{ success: boolean } | { error: string }> {
-  await connectDB();
-  const session = await auth();
+export const updateProduct = authActionClient
+  .schema(productSchema.extend({ id: z.string() }))
+  .action(async ({ parsedInput }) => {
+    await connectDB();
 
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
+    const {
+      id,
+      name,
+      images,
+      description,
+      price,
+      salePrice,
+      stock,
+      category,
+      color,
+      material,
+      beadSize,
+      featured,
+      isActive,
+      styleId,
+      videoUrl,
+    } = parsedInput;
 
-  const product = await Product.findById(id).exec();
+    const product = await Product.findById(id).exec();
 
-  if (!product) return { error: "Product not found" };
+    if (!product) return { error: "Product not found" };
 
-  const validateFields = productSchema.safeParse(values);
+    if (name !== product.name) {
+      const productNameExists = await Product.findOne({ name }).lean();
 
-  if (!validateFields.success) return { error: "Validation error" };
+      if (productNameExists) return { error: "Product name already exists" };
+    }
 
-  const {
-    name,
-    images,
-    description,
-    price,
-    salePrice,
-    stock,
-    category,
-    color,
-    material,
-    beadSize,
-    featured,
-    isActive,
-    styleId,
-    videoUrl,
-  } = validateFields.data;
-
-  // checking if the name has been changed
-  if (name !== product.name) {
-    const productNameExists = await Product.findOne({ name }).lean();
-
-    if (productNameExists) return { error: "Product name already exists" };
-  }
-
-  try {
     product.name = name;
     product.slug = slugify(name);
     product.images = images;
@@ -137,26 +116,13 @@ export async function updateProduct(
 
     revalidateTag(PRODUCT_TAG);
     return { success: true };
-  } catch (error) {
-    console.log(error);
-    return { error: "Something went wrong" };
-  }
-}
+  });
 
-export async function deleteProduct(
-  id: string
-): Promise<void | { error: string }> {
-  await connectDB();
-
-  const session = await auth();
-
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
-
-  try {
+export const deleteProduct = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id } }) => {
+    await connectDB();
     await Product.findByIdAndDelete(id);
     revalidateTag(PRODUCT_TAG);
-  } catch (error) {
-    return { error: "Something went wrong" };
-  }
-}
+    return { success: true };
+  });

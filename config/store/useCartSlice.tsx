@@ -18,39 +18,19 @@ export type CreateCartSliceType = {
 };
 
 export const createCartSlice = (set: any): CreateCartSliceType => {
-  const getInitialCart = (): CartType[] => {
-    if (typeof window !== "undefined") {
-      const savedCart = localStorage.getItem("cart");
-      return savedCart ? JSON.parse(savedCart) : [];
-    }
-    return [];
-  };
-
   return {
     cartOpen: false,
     setCartOpen: (cartOpen: boolean) => set({ cartOpen }),
-    cart: getInitialCart(),
+    cart: [],
     addCart: (cart: CartType) =>
-      set((state: any) => {
-        const updatedCart = [...state.cart, cart];
-        if (typeof window !== "undefined") {
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        }
-        return { cart: updatedCart };
-      }),
+      set((state: any) => ({ cart: [...state.cart, cart] })),
     removeCart: (id: string) =>
-      set((state: any) => {
-        const updatedCart = state.cart.filter(
-          (c: CartType) => c.product._id !== id
-        );
-        if (typeof window !== "undefined") {
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        }
-        return { cart: updatedCart };
-      }),
+      set((state: any) => ({
+        cart: state.cart.filter((c: CartType) => c.product._id !== id),
+      })),
     incrementQuantity: (id: string) =>
-      set((state: any) => {
-        const updatedCart = state.cart.map((c: CartType) => {
+      set((state: any) => ({
+        cart: state.cart.map((c: CartType) => {
           if (c.product._id === id) {
             if (c.product.stock < c.quantity + 1) {
               return c;
@@ -58,15 +38,11 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
             return { ...c, quantity: c.quantity + 1 };
           }
           return c;
-        });
-        if (typeof window !== "undefined") {
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        }
-        return { cart: updatedCart };
-      }),
+        }),
+      })),
     decrementQuantity: (id: string) =>
-      set((state: any) => {
-        const updatedCart = state.cart.map((c: CartType) => {
+      set((state: any) => ({
+        cart: state.cart.map((c: CartType) => {
           if (c.product._id === id) {
             if (c.quantity - 1 < 1) {
               return c;
@@ -74,17 +50,8 @@ export const createCartSlice = (set: any): CreateCartSliceType => {
             return { ...c, quantity: c.quantity - 1 };
           }
           return c;
-        });
-        if (typeof window !== "undefined") {
-          localStorage.setItem("cart", JSON.stringify(updatedCart));
-        }
-        return { cart: updatedCart };
-      }),
-    emptyCart: () => {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("cart");
-      }
-      set({ cart: [] });
-    },
+        }),
+      })),
+    emptyCart: () => set({ cart: [] }),
   };
 };

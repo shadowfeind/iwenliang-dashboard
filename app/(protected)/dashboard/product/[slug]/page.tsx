@@ -3,7 +3,7 @@ import { ErrorComponent } from "@/components/ErrorComponent";
 import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
 import { getAllCategories } from "@/features/categories/category.query";
-import { getProductBySlug } from "@/features/products/product.query";
+import { getProductBySlugQuery } from "@/features/products/product.query";
 import ProductSlugPage from "../../../../../features/products/productSlugPage";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import { getAllColors } from "@/features/colors/color.query";
@@ -26,7 +26,7 @@ const Page = async (props: Props) => {
   let error = "";
   const [productData, categoryData, colorsData, materialsData, beadSizeData] =
     await Promise.all([
-      getProductBySlug(params.slug),
+      getProductBySlugQuery(params.slug),
       getAllCategories(),
       getAllColors(),
       getAllMaterials(),

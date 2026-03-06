@@ -53,30 +53,31 @@ const CreateOrUpdateCategory = ({
 
   const handleSubmit = (values: z.infer<typeof categorySchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       if (mode === "create") {
         const createValues = values;
         createValues.image = images[0];
-        createCategory(createValues).then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await createCategory(createValues);
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof categorySchema>;
         updateValues.image = images[0];
-        updateCategory(updateValues, categoryId ?? "").then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
+        const res = await updateCategory({
+          ...updateValues,
+          id: categoryId ?? "",
         });
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
     });
   };

@@ -264,7 +264,11 @@ export function DataTable({ data }: { data: CategoryType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={categoryId}
-        action={deleteCategory}
+        action={async (id: string) => {
+          const res = await deleteCategory({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

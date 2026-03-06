@@ -319,7 +319,11 @@ export function DataTable({ data }: { data: UserTypes[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={userId}
-        action={deleteUser}
+        action={async (id: string) => {
+          const res = await deleteUser({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

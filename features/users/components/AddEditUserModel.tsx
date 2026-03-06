@@ -74,39 +74,44 @@ const AddEditUserModel = ({ isOpen, setIsOpen, mode, userId }: Props) => {
 
   const handleSubmit = (values: z.infer<typeof formValidationSchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       if (mode === "create") {
         const createValues = values as CreateUserType;
-        createUser(createValues).then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await createUser(createValues);
+        if (res?.data?.error) {
+          setError(res.data.error);
+        } else if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof updateUserSchema>;
-        console.log(updateValues);
-        updateUser(updateValues, userId ?? "").then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
+        const res = await updateUser({
+          ...updateValues,
+          id: userId ?? "",
         });
+        if (res?.data?.error) {
+          setError(res.data.error);
+        } else if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
     });
   };
 
   useEffect(() => {
     if (userId && mode === "edit") {
-      getUserByIdAction(userId).then((data) => {
-        if ("error" in data) {
+      getUserByIdAction({ id: userId }).then((res) => {
+        const data = res?.data;
+        if (data && "error" in data) {
           setError(data.error);
-        } else {
+        } else if (data) {
           form.setValue("fullName", data.fullName ?? "");
           form.setValue("email", data.email ?? "");
           form.setValue("userName", data.userName ?? "");

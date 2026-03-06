@@ -3,7 +3,7 @@ import MainContainer from "@/components/layout/MainContainer";
 import { PRODUCT_ROUTE } from "@/config/constant/routes";
 import { CategoryType } from "@/features/categories/category.types";
 import { getAllCategories } from "@/features/categories/category.query";
-import { getProductBySlug } from "@/features/products/product.query";
+import { getProductBySlugQuery } from "@/features/products/product.query";
 import BreadCrumbsComponent from "@/components/layout/BreadCrumsComponent";
 import ProductEditPage from "@/features/products/productEditPage";
 import { getAllColors } from "@/features/colors/color.query";
@@ -31,7 +31,7 @@ const Page = async (props: Props) => {
 
   const [productData, categoriesData, colorsData, materialsData, beadSizeData] =
     await Promise.all([
-      getProductBySlug(params.slug),
+      getProductBySlugQuery(params.slug),
       getAllCategories(),
       getAllColors(),
       getAllMaterials(),

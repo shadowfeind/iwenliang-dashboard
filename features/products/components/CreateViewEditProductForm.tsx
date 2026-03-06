@@ -94,33 +94,36 @@ const CreateViewEditProductForm = ({
         return;
       }
       createvalues.images = [...images];
-      startTransition(() => {
-        createProduct(createvalues).then((data) => {
-          if ("error" in data) {
-            setError(data.error);
-          }
-          if ("success" in data) {
-            form.reset();
-            setError("");
-            router.push(PRODUCT_ROUTE);
-          }
-        });
+      startTransition(async () => {
+        const res = await createProduct(createvalues);
+        if (res?.data?.error) {
+          setError(res.data.error);
+        } else if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setError("");
+          router.push(PRODUCT_ROUTE);
+        }
       });
     }
     if (mode === "edit") {
-      startTransition(() => {
+      startTransition(async () => {
         const updateValues = values as ProductSchamaType;
         updateValues.images = [...images];
-        updateProduct(updateValues, productData?._id ?? "").then((data) => {
-          if ("error" in data) {
-            setError(data.error);
-          }
-          if ("success" in data) {
-            form.reset();
-            setError("");
-            router.push(PRODUCT_ROUTE);
-          }
+        const res = await updateProduct({
+          ...updateValues,
+          id: productData?._id ?? "",
         });
+        if (res?.data?.error) {
+          setError(res.data.error);
+        } else if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setError("");
+          router.push(PRODUCT_ROUTE);
+        }
       });
     }
   };

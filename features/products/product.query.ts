@@ -13,40 +13,7 @@ import { BeadType } from "../beadSize/beadSize.type";
 import BeadSize from "../beadSize/beadSize.model";
 import { serializeDocument } from "@/lib/utils";
 
-//testing api will remove in future
-export async function getAllProducts(): Promise<
-  ProductType[] | { error: any }
-> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_REST_URL}product`, {
-    method: "GET",
-    credentials: "include",
-  });
-  if (!response.ok) {
-    return { error: response.statusText };
-  }
-  const { data } = await response.json();
-  return data;
-}
 
-//testing api will remove in future
-export async function getProductBySlug(
-  slug: string
-): Promise<ProductType | { error: any }> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_REST_URL}product/${slug}`,
-    {
-      method: "GET",
-      credentials: "include",
-    }
-  );
-
-  if (!response.ok) {
-    return { error: response.statusText };
-  }
-
-  const { data } = await response.json();
-  return data;
-}
 
 type ProductForFrontPageType = {
   featured: ProductType[];
@@ -115,68 +82,48 @@ export const getProductBySlugQuery = cache(
   }
 );
 
-// export const getFiltersForProduct = cache(
-//   async (): Promise<{
-//     colors: ColorType[];
-//     materials: MaterialType[];
-//     categories: CategoryType[];
-//     beadSizes: BeadType[];
-//   }> => {
-//     try {
-//       const [colorData, materialData, categoryData, beadSizeData] =
-//         await Promise.all([
-//           Color.find().sort({ createdAt: -1 }).lean().exec(),
-//           Material.find().sort({ createdAt: -1 }).lean().exec(),
-//           Category.find().sort({ createdAt: -1 }).lean().exec(),
-//           BeadSize.find().sort({ createdAt: -1 }).lean().exec(),
-//         ]);
+export const getFiltersForProduct = cache(
+  async (): Promise<{
+    colors: ColorType[];
+    materials: MaterialType[];
+    categories: CategoryType[];
+    beadSizes: BeadType[];
+  }> => {
+    await connectDB(); // Missing connectDB was causing the timeout!
+    try {
+      const [colorData, materialData, categoryData, beadSizeData] =
+        await Promise.all([
+          Color.find().sort({ createdAt: -1 }).lean<ColorType[]>(),
+          Material.find().sort({ createdAt: -1 }).lean<MaterialType[]>(),
+          Category.find().sort({ createdAt: -1 }).lean<CategoryType[]>(),
+          BeadSize.find().sort({ createdAt: -1 }).lean<BeadType[]>(),
+        ]);
 
-//       const response = serializeDocument({
-//         colors: colorData,
-//         materials: materialData,
-//         categories: categoryData,
-//         beadSizes: beadSizeData,
-//       });
+      const response = serializeDocument({
+        colors: colorData,
+        materials: materialData,
+        categories: categoryData,
+        beadSizes: beadSizeData,
+      });
 
-//       return {
-//         ...response,
-//       };
-//     } catch (error) {
-//       console.error("Error fetching product filters:", error);
+      return {
+        ...response,
+      };
+    } catch (error) {
+      console.error("Error fetching product filters:", error);
 
-//       return {
-//         colors: [],
-//         materials: [],
-//         categories: [],
-//         beadSizes: [],
-//       };
-//     }
-//   },
-//   [PRODUCT_FILTER],
-//   {
-//     tags: [PRODUCT_FILTER],
-//   }
-// );
-
-// i created a api route as vercel serverless function was timing out
-// i will remove this api route in future if i use vps
-export const getAllFiltersForProductApiQuery = async (): Promise<{
-  colors: ColorType[];
-  materials: MaterialType[];
-  categories: CategoryType[];
-  beadSizes: BeadType[];
-}> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_REST_URL}bracelet-filters`,
-    {
-      method: "GET",
-      credentials: "include",
+      return {
+        colors: [],
+        materials: [],
+        categories: [],
+        beadSizes: [],
+      };
     }
-  );
-  if (!response.ok) {
-    return { colors: [], materials: [], categories: [], beadSizes: [] };
+  },
+  [PRODUCT_FILTER],
+  {
+    tags: [PRODUCT_FILTER],
   }
-  const data = await response.json();
+);
 
-  return data;
-};
+// removed unused API queries

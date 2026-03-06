@@ -41,17 +41,20 @@ const Edit = ({ isOpen, setIsOpen, user }: Props) => {
 
   const handleSubmit = (values: z.infer<typeof updateUserSchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       const updateValues = values as z.infer<typeof updateUserSchema>;
-      console.log(updateValues);
-      updateUser(updateValues, user._id).then((data) => {
-        if (data?.error) {
-          setError(data.error);
-        } else {
-          form.reset();
-          setIsOpen(false);
-        }
+      const res = await updateUser({
+        ...updateValues,
+        id: user._id,
       });
+      if (res?.data?.error) {
+        setError(res.data.error);
+      } else if (res?.serverError) {
+        setError(res.serverError);
+      } else if (res?.data?.success) {
+        form.reset();
+        setIsOpen(false);
+      }
     });
   };
 

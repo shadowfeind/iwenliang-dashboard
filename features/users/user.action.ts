@@ -17,34 +17,29 @@ import { auth } from "@/auth";
 import { USER_TAG } from "@/config/constant/tags";
 import { allowedRoles } from "@/config/constant/allowedRoles";
 import { serializeDocument } from "@/lib/utils";
+import { authActionClient } from "@/lib/safe-action";
+import { z } from "zod";
 
-export async function createUser(
-  user: CreateUserType
-): Promise<void | { error: string }> {
-  await connectDB();
+export const createUser = authActionClient
+  .schema(createUserSchema)
+  .action(async ({ parsedInput, ctx }) => {
+    if (ctx.session.user?.role !== "Admin") {
+      throw new Error("Unauthorized");
+    }
+    await connectDB();
 
-  const session = await auth();
+    const { userName, fullName, email, password, role } = parsedInput;
 
-  if (!session || session.user?.role !== "Admin")
-    return { error: "Unauthorized" };
+    const userEmailExists = await User.findOne({ email }).lean();
 
-  const validateFields = createUserSchema.safeParse(user);
+    if (userEmailExists) return { error: "email already exists" };
 
-  if (!validateFields.success) return { error: "Invalid Fields" };
+    const userNameExists = await User.findOne({ userName }).lean();
 
-  const { userName, fullName, email, password, role } = validateFields.data;
+    if (userNameExists) return { error: "UserName already exists" };
 
-  const userEmailExists = await User.findOne({ email }).lean();
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  if (userEmailExists) return { error: "email already exists" };
-
-  const userNameExists = await User.findOne({ userName }).lean();
-
-  if (userNameExists) return { error: "UserName already exists" };
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  try {
     await User.create({
       fullName,
       userName,
@@ -54,96 +49,77 @@ export async function createUser(
     });
 
     revalidateTag(USER_TAG);
-  } catch (error) {
-    return { error: "Something went wrong" };
-  }
-}
+    return { success: true };
+  });
 
-export async function getUserByIdAction(
-  id: string
-): Promise<UserTypes | { error: string }> {
-  await connectDB();
+export const getUserByIdAction = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id } }) => {
+    await connectDB();
 
-  const session = await auth();
+    const user = await User.findById(id).exec();
 
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
+    if (!user) {
+      return { error: "User not found" };
+    }
 
-  const user = await User.findById(id).exec();
+    return serializeDocument(user) as UserTypes;
+  });
 
-  if (!user) {
-    return { error: "User not found" };
-  }
+export const updateUser = authActionClient
+  .schema(updateUserSchema.extend({ id: z.string() }))
+  .action(async ({ parsedInput, ctx }) => {
+    await connectDB();
 
-  return serializeDocument(user);
-}
+    const { fullName, role, id } = parsedInput;
 
-export async function updateUser(
-  user: UpdateUserType,
-  userId: string
-): Promise<void | { error: string }> {
-  await connectDB();
+    const userData = await User.findById(id);
 
-  const session = await auth();
+    if (!userData) {
+      return { error: "User not found" };
+    }
 
-  if (!session) return { error: "Unauthorized" };
+    if (
+      ctx.session.user.role === "Customer" &&
+      userData._id.toString() !== ctx.session.user._id
+    ) {
+      return { error: "Unauthorized" };
+    }
 
-  const validateFields = updateUserSchema.safeParse(user);
+    userData.fullName = fullName;
+    userData.role = role;
 
-  if (!validateFields.success) return { error: "Failed to update" };
+    await userData.save();
 
-  const { fullName, role } = validateFields.data;
+    revalidateTag(USER_TAG);
+    revalidatePath(CUSTOMER_ORDER_ROUTE);
+    return { success: true };
+  });
 
-  const userData = await User.findById(userId);
+export const changePassword = authActionClient
+  .schema(z.object({ password: z.string(), id: z.string() }))
+  .action(async ({ parsedInput: { password, id } }) => {
+    await connectDB();
 
-  if (!userData) {
-    return { error: "User not found" };
-  }
+    const user = await User.findById(id);
 
-  if (
-    session.user.role === "Customer" &&
-    userData._id.toString() !== session.user._id
-  ) {
-    return { error: "Unauthorized" };
-  }
+    if (!user) return { error: "User not found" };
 
-  userData.fullName = fullName;
-  userData.role = role;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  await userData.save();
+    user.password = hashedPassword;
+    await user.save();
+    return { success: true };
+  });
 
-  revalidateTag(USER_TAG);
-  revalidatePath(CUSTOMER_ORDER_ROUTE);
-}
-
-export async function changePassword(
-  password: string,
-  id: string
-): Promise<void | { error: string }> {
-  await connectDB();
-
-  const user = await User.findById(id);
-
-  if (!user) return { error: "User not found" };
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  user.password = hashedPassword;
-  await user.save();
-}
-
-export async function deleteUser(
-  id: string
-): Promise<void | { error: string }> {
-  await connectDB();
-  const session = await auth();
-
-  if (!session || session.user?.role !== "Admin")
-    return { error: "Unauthorized" };
-  try {
+export const deleteUser = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id }, ctx }) => {
+    if (ctx.session.user?.role !== "Admin") {
+      throw new Error("Unauthorized");
+    }
+    await connectDB();
     await User.findByIdAndDelete(id);
     revalidateTag(USER_TAG);
-  } catch (error) {
-    return { error: "Failed to delete" };
-  }
-}
+    return { success: true };
+  });
