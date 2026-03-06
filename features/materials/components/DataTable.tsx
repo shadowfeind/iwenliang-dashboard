@@ -246,7 +246,11 @@ export function DataTable({ data }: { data: MaterialType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={materialId}
-        action={deleteMaterial}
+        action={async (id: string) => {
+          const res = await deleteMaterial({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/table";
 import Delete from "@/components/Delete";
 import { mode } from "@/config/types/mode.types";
-import { deleteColor } from "@/features/colors/color.action";
+import { deleteBeadSize } from "@/features/beadSize/beadSize.action";
 import CreateOrUpdateBeadSize from "./CreateOrUpdateBeadSize";
 import { BeadType } from "../beadSize.type";
 
@@ -246,7 +246,11 @@ export function DataTable({ data }: { data: BeadType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={beadSizeId}
-        action={deleteColor}
+        action={async (id: string) => {
+          const res = await deleteBeadSize({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

@@ -3,87 +3,51 @@
 import connectDB from "@/config/db/connect";
 import {
   createBeadSizeSchema,
-  CreateBeadSizeSchemaType,
 } from "./beadSize.schema";
-import { auth } from "@/auth";
 import BeadSize from "./beadSize.model";
 import { BEAS_SIZE_TAG, PRODUCT_FILTER } from "@/config/constant/tags";
 import { revalidateTag } from "next/cache";
-import { allowedRoles } from "@/config/constant/allowedRoles";
+import { authActionClient } from "@/lib/safe-action";
+import { z } from "zod";
 
-export async function createBeadSize(
-  values: CreateBeadSizeSchemaType
-): Promise<void | { error: string }> {
-  await connectDB();
+export const createBeadSize = authActionClient
+  .schema(createBeadSizeSchema)
+  .action(async ({ parsedInput }) => {
+    await connectDB();
 
-  const session = await auth();
+    const { name } = parsedInput;
 
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
-
-  const validateFields = createBeadSizeSchema.safeParse(values);
-
-  if (!validateFields.success) return { error: "Validation error" };
-
-  const { name } = validateFields.data;
-
-  try {
     await BeadSize.create({ name });
     revalidateTag(BEAS_SIZE_TAG);
     revalidateTag(PRODUCT_FILTER);
-  } catch (error) {
-    console.log("Error from createBeadSize action", error);
-    return { error: "Something went wrong" };
-  }
-}
+    return { success: true };
+  });
 
-export async function deleteBeadSize(
-  id: string
-): Promise<void | { error: string }> {
-  await connectDB();
+export const deleteBeadSize = authActionClient
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ parsedInput: { id } }) => {
+    await connectDB();
 
-  const session = await auth();
-
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
-
-  try {
     await BeadSize.findByIdAndDelete(id);
     revalidateTag(BEAS_SIZE_TAG);
     revalidateTag(PRODUCT_FILTER);
-  } catch (error) {
-    console.log("Error from deleteBeadSize", error);
-    return { error: "Something went wrong" };
-  }
-}
+    return { success: true };
+  });
 
-export async function updateBeadSize(
-  value: CreateBeadSizeSchemaType,
-  id: string
-): Promise<void | { error: string }> {
-  await connectDB();
-  const session = await auth();
+export const updateBeadSize = authActionClient
+  .schema(createBeadSizeSchema.extend({ id: z.string() }))
+  .action(async ({ parsedInput }) => {
+    await connectDB();
 
-  if (!session || !allowedRoles.includes(session?.user.role))
-    return { error: "Unauthorized" };
+    const { name, id } = parsedInput;
 
-  const validateFields = createBeadSizeSchema.safeParse(value);
+    const beadSize = await BeadSize.findById(id);
 
-  if (!validateFields.success) return { error: "Validation Error" };
+    if (!beadSize) return { error: "BeadSize not found" };
 
-  const { name } = validateFields.data;
-
-  const beadSize = await BeadSize.findById(id);
-
-  if (!beadSize) return { error: "BeadSize not found" };
-
-  try {
     beadSize.name = name;
     await beadSize.save();
     revalidateTag(BEAS_SIZE_TAG);
     revalidateTag(PRODUCT_FILTER);
-  } catch (error) {
-    console.log("Error from updateBeadSize", error);
-    return { error: "Something went wrong" };
-  }
-}
+    return { success: true };
+  });

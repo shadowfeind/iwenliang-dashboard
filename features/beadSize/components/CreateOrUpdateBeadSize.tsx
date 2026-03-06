@@ -51,26 +51,24 @@ const CreateOrUpdateBeadSize = ({
 
   const handleSubmit = (values: z.infer<typeof createBeadSizeSchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       if (mode === "create") {
-        createBeadSize(values).then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await createBeadSize(values);
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
       if (mode === "edit") {
-        updateBeadSize(values, beadSizeId ?? "").then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await updateBeadSize({ ...values, id: beadSizeId ?? "" });
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
     });
   };

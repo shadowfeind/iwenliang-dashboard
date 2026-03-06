@@ -47,28 +47,26 @@ const CreateOrUpdateColor = ({ isOpen, setIsOpen, mode, colorId }: Props) => {
 
   const handleSubmit = (values: z.infer<typeof createColorSchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       if (mode === "create") {
         const createValues = values;
-        createColor(createValues).then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await createColor(createValues);
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof createColorSchema>;
-        updateColor(updateValues, colorId ?? "").then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await updateColor({ ...updateValues, id: colorId ?? "" });
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
     });
   };

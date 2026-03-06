@@ -348,7 +348,11 @@ export function DataTable({ data }: { data: ColorType[] }) {
         isOpen={deleteOpen}
         setIsOpen={setDeleteOpen}
         userId={colorId}
-        action={deleteColor}
+        action={async (id: string) => {
+          const res = await deleteColor({ id });
+          if (res?.data?.success) return { success: true };
+          return { error: res?.serverError || "Error" };
+        }}
       />
     </div>
   );

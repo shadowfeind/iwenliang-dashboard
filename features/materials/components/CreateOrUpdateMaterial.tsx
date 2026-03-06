@@ -54,28 +54,26 @@ const CreateOrUpdateMaterial = ({
 
   const handleSubmit = (values: z.infer<typeof materialSchema>) => {
     setError("");
-    startTransition(() => {
+    startTransition(async () => {
       if (mode === "create") {
         const createValues = values;
-        createMaterial(createValues).then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await createMaterial(createValues);
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
       if (mode === "edit") {
         const updateValues = values as z.infer<typeof materialSchema>;
-        updateMaterial(updateValues, materialId ?? "").then((data) => {
-          if (data?.error) {
-            setError(data.error);
-          } else {
-            form.reset();
-            setIsOpen(false);
-          }
-        });
+        const res = await updateMaterial({ ...updateValues, id: materialId ?? "" });
+        if (res?.serverError) {
+          setError(res.serverError);
+        } else if (res?.data?.success) {
+          form.reset();
+          setIsOpen(false);
+        }
       }
     });
   };
