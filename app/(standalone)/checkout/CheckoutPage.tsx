@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { Stepper, Step } from "./components/Stepper";
 import { useMainStore } from "@/config/store/useMainStore";
 import { SubmitRef } from "./components/CheckoutForm";
@@ -31,7 +31,7 @@ const steps: Step[] = [
 const CheckoutPage = ({ session }: { session: any }) => {
   const [currentStep, setCurrentStep] = useQueryState(
     "currentStep",
-    parseAsInteger.withDefault(0)
+    parseAsInteger.withDefault(0),
   );
   const [coupon, setCoupon] = useState<CouponType | null>(null);
 
@@ -59,7 +59,7 @@ const CheckoutPage = ({ session }: { session: any }) => {
   const handleShippingFormSubmitForStepZero = (values: ShippingSchemaType) => {
     const itemsPrice = cart.reduce(
       (acc, item) => acc + item.product.price * item.quantity,
-      0
+      0,
     );
     const taxPrice = 0;
     const couponToSet = { code: "", discountType: "", discountValue: 0 };
@@ -124,9 +124,9 @@ const CheckoutPage = ({ session }: { session: any }) => {
   };
 
   // doing this as we are using ref and imperative handler
-  const handleShippingPrice = (price: number) => {
+  const handleShippingPrice = useCallback((price: number) => {
     setShippingPrice(price);
-  };
+  }, []);
 
   if (!mounted) return null;
 

@@ -70,7 +70,7 @@ const CheckoutForm = ({
       form.setValue("phone", country.dial_code ?? "");
       handleShippingPrice(country.price);
     }
-  }, [geoLocation, shippingPrice]);
+  }, [geoLocation, shippingPrice, form, handleShippingPrice]);
 
   const handleCountryChange = (countryName: string) => {
     const selectedCountry = shippingPrice?.find((c) => c.name === countryName);

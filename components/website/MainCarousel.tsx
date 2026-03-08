@@ -19,12 +19,12 @@ const MainCarousel = async () => {
       <CarouselContent>
         {data.map((caro: CarouselType) => (
           <CarouselItem key={caro._id}>
-            <div className="w-full h-screen min-h-[600px] max-h-[1080px] relative">
+            <div className="w-full h-[50vh] md:h-screen min-h-[400px] md:min-h-[600px] max-h-[1080px] relative">
               <Image
                 alt={caro.image}
                 src={caro.image}
                 fill
-                className="object-cover"
+                className="object-cover max-md:object-contain"
               />
             </div>
           </CarouselItem>

@@ -19,17 +19,25 @@ const ProductCard = ({ product }: Props) => {
           sizes="(min-width: 1540px) 348px, (min-width: 1280px) 284px, (min-width: 1040px) 309px, (min-width: 780px) 348px, (min-width: 640px) 284px, calc(100vw - 32px)"
         />
       </div>
-      <h3 className="mt-4 text-sm text-gray-700 truncate text-center font-semibold">
+      <h3 className="mt-4 text-[13px] md:text-sm text-gray-800 tracking-wide uppercase truncate text-center font-medium transition-colors group-hover:text-black">
         {product.name}
       </h3>
-      <div className="mt-1">
-        <p className="text-sm font-semibold text-center text-gray-400">
-          USD {product.price}{" "}
-          {product?.salePrice !== undefined && product.salePrice > 0 && (
-            <span className="line-through">USD {product.salePrice}</span>
+      <div className="mt-1 flex flex-col items-center gap-1.5">
+        <p className="text-sm font-medium text-center text-gray-500">
+          {product?.salePrice !== undefined && product.salePrice > 0 ? (
+            <>
+              <span className="text-red-700/80 mr-2">USD {product.price}</span>
+              <span className="line-through text-muted-foreground text-xs delay-75">
+                USD {product.salePrice}
+              </span>
+            </>
+          ) : (
+            <span>USD {product.price}</span>
           )}
         </p>
-        <p className="text-xs text-center hover:underline">Buy now</p>
+        <span className="opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out text-[10px] md:text-xs uppercase tracking-wider font-semibold border border-gray-300 text-gray-700 rounded-full px-3 py-1 hover:bg-black hover:text-white hover:border-black mt-1">
+          Buy now
+        </span>
       </div>
     </Link>
   );
