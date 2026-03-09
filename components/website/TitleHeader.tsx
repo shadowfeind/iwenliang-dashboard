@@ -12,13 +12,13 @@ const TitleHeader = ({ title, styles, width = "w-32" }: Props) => {
     <>
       <h2
         className={cn(
-          "text-sm font-semibold uppercase tracking-wide pb-1",
-          styles
+          "text-xl md:text-2xl font-serif uppercase tracking-[0.15em] pb-2 text-gray-900",
+          styles,
         )}
       >
         {title}
       </h2>
-      <span className={cn("block h-[2px]  bg-black", width)}></span>
+      <span className={cn("block h-[2px] bg-[#D4AF37]", width)}></span>
     </>
   );
 };

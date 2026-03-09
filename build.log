@@ -1,0 +1,80 @@
+
+> iwenliang-dashboard@0.1.0 build /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard
+> next build
+
+   ▲ Next.js 15.0.5
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
+Error: Cannot apply unknown utility class: border-border
+    at onInvalidCandidate (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:17:297)
+    at ne (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:12:115877)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:17:260
+    at _ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:5:1652)
+    at _ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:5:1930)
+    at $e (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:17:150)
+    at Lr (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:33:724)
+    at async Mr (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/tailwindcss@4.0.9/node_modules/tailwindcss/dist/lib.js:33:977)
+    at async ot (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/@tailwindcss+node@4.0.9/node_modules/@tailwindcss/node/dist/index.js:10:3272)
+    at async p (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/@tailwindcss+postcss@4.0.9/node_modules/@tailwindcss/postcss/dist/index.js:8:3242)
+
+Import trace for requested module:
+./app/globals.css.webpack[javascript/auto]!=!./node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./app/globals.css
+./app/globals.css
+
+./app/globals.css
+Error: Package path ./cursor is not exported from package /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/tailwindcss (see exports field in /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/tailwindcss/package.json)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/ExportsFieldPlugin.js:117:7
+    at Hook.eval [as callAsync] (eval at create (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:9218), <anonymous>:22:1)
+    at Resolver.doResolve (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/Resolver.js:715:16)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:76:17
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:148:13
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/forEachBail.js:39:13
+    at onJson (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:133:6)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:86:7
+    at SyncAsyncFileSystemDecorator.readJson (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/SyncAsyncFileSystemDecorator.js:172:6)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:67:26
+    at tryRunOrWebpackError (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:314951)
+    at __webpack_require_module__ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:131425)
+    at __nested_webpack_require_161179__ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:130863)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:131714
+    at symbolIterator (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:9218), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:6372)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:130584
+    at symbolIterator (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+-- inner error --
+Error: Package path ./cursor is not exported from package /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/tailwindcss (see exports field in /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/tailwindcss/package.json)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/ExportsFieldPlugin.js:117:7
+    at Hook.eval [as callAsync] (eval at create (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:9218), <anonymous>:22:1)
+    at Resolver.doResolve (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/Resolver.js:715:16)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:76:17
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:148:13
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/forEachBail.js:39:13
+    at onJson (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:133:6)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:86:7
+    at SyncAsyncFileSystemDecorator.readJson (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/SyncAsyncFileSystemDecorator.js:172:6)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/enhanced-resolve@5.18.1/node_modules/enhanced-resolve/lib/DescriptionFileUtils.js:67:26
+    at Object.<anonymous> (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/app/globals.css:1:7)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:955544
+    at Hook.eval [as call] (eval at create (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:8996), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:15:6266)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:131458
+    at tryRunOrWebpackError (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:314905)
+    at __webpack_require_module__ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:131425)
+    at __nested_webpack_require_161179__ (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:130863)
+    at /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/webpack/bundle5.js:30:131714
+    at symbolIterator (/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+
+Generated code for /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/node_modules/.pnpm/next@15.0.5_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!/Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard/app/globals.css
+
+Import trace for requested module:
+./app/globals.css
+
+
+> Build failed because of webpack errors
+ ELIFECYCLE  Command failed with exit code 1.

@@ -19,7 +19,7 @@ const ProductsGrid = ({ products, styles }: ProductGridProps) => {
     >
       <div
         className={cn(
-          "grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4  gap-6 transition-all duration-300 ease-in-out",
+          "grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8 transition-all duration-300 ease-in-out",
           styles
         )}
       >

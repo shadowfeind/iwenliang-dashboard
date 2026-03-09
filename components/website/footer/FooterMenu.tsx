@@ -7,24 +7,39 @@ const FooterMenu = () => {
       <div className="w-10/12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Customer Service Column */}
         <div className="space-y-4">
-          <h3 className="font-medium text-sm tracking-wider mb-6 ">
+          <h3 className="font-serif text-[#D4AF37] text-lg tracking-[0.1em] mb-6">
             CUSTOMER SERVICE
           </h3>
           <nav className="flex flex-col space-y-3">
-            <Link href="/contact-us" className="text-sm hover:text-gray-300">
+            <Link
+              href="/contact-us"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               Contact Us
             </Link>
-            <Link href="/faqs" className="text-sm hover:text-gray-300">
+            <Link
+              href="/faqs"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               FAQs
             </Link>
-            <Link href="/measurements" className="text-sm hover:text-gray-300">
+            <Link
+              href="/measurements"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               Measurements
             </Link>
-            <Link href="/bracelets" className="text-sm hover:text-gray-300">
+            <Link
+              href="/bracelets"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               {/* Gift Voucher */}
               Shop
             </Link>
-            <Link href="/blog" className="text-sm hover:text-gray-300">
+            <Link
+              href="/blog"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               Our Blogs
             </Link>
           </nav>
@@ -32,25 +47,31 @@ const FooterMenu = () => {
 
         {/* About Company Column */}
         <div className="space-y-4">
-          <h3 className="font-medium text-sm tracking-wider mb-6">
+          <h3 className="font-serif text-[#D4AF37] text-lg tracking-[0.1em] mb-6">
             ABOUT COMPANY
           </h3>
           <nav className="flex flex-col space-y-3">
-            <Link href="/about-us" className="text-sm hover:text-gray-300">
+            <Link
+              href="/about-us"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               About Us
             </Link>
             <Link
               href="/shipping-guide"
-              className="text-sm hover:text-gray-300"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
             >
               Shipping Guide
             </Link>
-            <Link href="/return-policy" className="text-sm hover:text-gray-300">
+            <Link
+              href="/return-policy"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
               Return Policy
             </Link>
             <Link
               href="/terms-and-conditions"
-              className="text-sm hover:text-gray-300"
+              className="text-sm text-gray-400 transition-colors hover:text-[#D4AF37]"
             >
               Terms & Conditions
             </Link>
@@ -59,16 +80,27 @@ const FooterMenu = () => {
 
         {/* Follow Us Column */}
         <div className="space-y-4">
-          <h3 className="font-medium text-sm tracking-wider mb-6">FOLLOW US</h3>
-          <div className="flex space-x-4">
-            <Link href="https://facebook.com" className="hover:text-gray-300">
-              <FaFacebook className="h-5 w-5" />
+          <h3 className="font-serif text-[#D4AF37] text-lg tracking-[0.1em] mb-6">
+            FOLLOW US
+          </h3>
+          <div className="flex space-x-6">
+            <Link
+              href="https://facebook.com"
+              className="text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
+              <FaFacebook className="h-6 w-6" />
             </Link>
-            <Link href="https://instagram.com" className="hover:text-gray-300">
-              <FaInstagram className="h-5 w-5" />
+            <Link
+              href="https://instagram.com"
+              className="text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
+              <FaInstagram className="h-6 w-6" />
             </Link>
-            <Link href="https://youtube.com" className="hover:text-gray-300">
-              <FaYoutube className="h-5 w-5" />
+            <Link
+              href="https://youtube.com"
+              className="text-gray-400 transition-colors hover:text-[#D4AF37]"
+            >
+              <FaYoutube className="h-6 w-6" />
             </Link>
           </div>
         </div>

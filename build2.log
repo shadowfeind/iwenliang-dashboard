@@ -1,0 +1,100 @@
+
+> iwenliang-dashboard@0.1.0 build /Users/travestroy/Documents/react/iwenliang-v2/iwenliang-dashboard
+> next build
+
+   ▲ Next.js 15.0.5
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/52) ...
+   Generating static pages (13/52) 
+   Generating static pages (26/52) 
+hit
+hit
+   Generating static pages (39/52) 
+ ✓ Generating static pages (52/52)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                    Size     First Load JS
+┌ ƒ /                                          28.4 kB         188 kB
+├ ƒ /_not-found                                206 B           101 kB
+├ ƒ /about-us                                  8.34 kB         154 kB
+├ ƒ /api/auth/[...nextauth]                    206 B           101 kB
+├ ƒ /api/beadSize/[id]                         206 B           101 kB
+├ ƒ /api/bracelet-filters                      206 B           101 kB
+├ ƒ /api/category                              206 B           101 kB
+├ ƒ /api/category/[id]                         206 B           101 kB
+├ ƒ /api/color                                 206 B           101 kB
+├ ƒ /api/color/[id]                            206 B           101 kB
+├ ƒ /api/coupon/[id]                           206 B           101 kB
+├ ƒ /api/customer/[id]                         206 B           101 kB
+├ ƒ /api/dashboard                             206 B           101 kB
+├ ƒ /api/material                              206 B           101 kB
+├ ƒ /api/material/[id]                         206 B           101 kB
+├ ƒ /api/product                               206 B           101 kB
+├ ƒ /api/product/[slug]                        206 B           101 kB
+├ ƒ /api/promo-header/[id]                     206 B           101 kB
+├ ƒ /api/shipping-price                        206 B           101 kB
+├ ƒ /api/user                                  206 B           101 kB
+├ ƒ /blog                                      193 B           115 kB
+├ ƒ /blog/[slug]                               193 B           115 kB
+├ ƒ /bracelets                                 6.49 kB         195 kB
+├ ƒ /bracelets/[slug]                          14.1 kB         177 kB
+├ ƒ /cart                                      4.58 kB         118 kB
+├ ƒ /checkout                                  11 kB           437 kB
+├ ƒ /contact-us                                4.5 kB          173 kB
+├ ƒ /dashboard                                 184 B           110 kB
+├ ƒ /dashboard/beadSize                        3.74 kB         453 kB
+├ ƒ /dashboard/blog                            2.88 kB         166 kB
+├ ƒ /dashboard/blog/[slug]/edit                549 B           234 kB
+├ ƒ /dashboard/blog/add                        212 B           242 kB
+├ ƒ /dashboard/carousel                        3.89 kB         172 kB
+├ ƒ /dashboard/category                        5.43 kB         460 kB
+├ ƒ /dashboard/color                           4.45 kB         454 kB
+├ ƒ /dashboard/coupon                          66.8 kB         523 kB
+├ ƒ /dashboard/customer                        4.69 kB         162 kB
+├ ƒ /dashboard/material                        3.75 kB         453 kB
+├ ƒ /dashboard/my-order                        158 B           162 kB
+├ ƒ /dashboard/my-order/[id]                   1.61 kB         361 kB
+├ ƒ /dashboard/my-profile                      4.36 kB         157 kB
+├ ƒ /dashboard/my-shipping                     162 B           166 kB
+├ ƒ /dashboard/my-shipping/[id]                184 B           110 kB
+├ ƒ /dashboard/order                           158 B           162 kB
+├ ƒ /dashboard/order/[id]                      1.61 kB         361 kB
+├ ƒ /dashboard/product                         3.27 kB         166 kB
+├ ƒ /dashboard/product/[slug]                  160 B           175 kB
+├ ƒ /dashboard/product/[slug]/edit             160 B           175 kB
+├ ƒ /dashboard/product/add                     160 B           175 kB
+├ ƒ /dashboard/promo-header                    5.76 kB         455 kB
+├ ƒ /dashboard/promotion                       184 B           110 kB
+├ ƒ /dashboard/shipping                        162 B           166 kB
+├ ƒ /dashboard/shipping-price                  5.95 kB         189 kB
+├ ƒ /dashboard/shipping/[id]/edit              3.95 kB         144 kB
+├ ƒ /dashboard/shipping/add                    3.94 kB         147 kB
+├ ƒ /dashboard/subscriber                      2.31 kB         166 kB
+├ ƒ /dashboard/user                            5.09 kB         198 kB
+├ ƒ /faqs                                      3.85 kB         154 kB
+├ ƒ /forgot-password                           3.46 kB         144 kB
+├ ƒ /forgot-password/[token]/[reset-password]  3.43 kB         135 kB
+├ ○ /icon.png                                  0 B                0 B
+├ ƒ /measurements                              2.79 kB         154 kB
+├ ƒ /return-policy                             3.36 kB         149 kB
+├ ƒ /shipping-guide                            2.8 kB          153 kB
+├ ƒ /sign-in                                   3.7 kB          144 kB
+├ ƒ /sign-up                                   3.81 kB         153 kB
+├ ƒ /sizes                                     839 B           106 kB
+├ ƒ /terms-and-conditions                      6.15 kB         157 kB
+└ ƒ /test/cache                                206 B           101 kB
++ First Load JS shared by all                  100 kB
+  ├ chunks/6927-96771406871d9950.js            45.8 kB
+  ├ chunks/ccf1ed81-2ff332c144976a1b.js        52.5 kB
+  └ other shared chunks (total)                1.94 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

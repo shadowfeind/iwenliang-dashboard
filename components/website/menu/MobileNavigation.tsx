@@ -31,7 +31,7 @@ export const MobileNavigation = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side={"left"} className="p-0">
-        <SheetTitle className="text-center font-bold my-3">
+        <SheetTitle className="text-center font-bold my-4 font-serif text-xl tracking-[0.1em]">
           IWENLIANG
         </SheetTitle>
         <Separator className="mb-4" />
@@ -40,7 +40,12 @@ export const MobileNavigation = () => {
           return (
             <div
               key={item.title}
-              className={cn("py-2 px-6 uppercase ", active && "bg-accent")}
+              className={cn(
+                "py-4 px-6 uppercase text-sm font-medium tracking-wide transition-colors",
+                active
+                  ? "bg-[#D4AF37]/10 text-[#D4AF37] border-l-4 border-[#D4AF37]"
+                  : "text-gray-600 hover:bg-gray-50",
+              )}
             >
               <Link href={item.path}>{item.title}</Link>
             </div>

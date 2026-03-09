@@ -2,12 +2,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme inline {
+@theme {
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
+
+  /* Theme Colors */
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Premium Accents */
+  --color-gold-500: var(--gold-accent);
+  --color-gold-600: var(--gold-accent-hover);
 
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
@@ -55,17 +64,6 @@
   }
 }
 
-@utility container {
-  margin-inline: auto;
-  padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
-    max-width: none;
-  }
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
-}
-
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
@@ -107,8 +105,13 @@
 }
 
   :root {
+    /* Base */
     --background: hsl(0 0% 100%);
     --foreground: hsl(222.2 84% 4.9%);
+
+    /* Premium Accents */
+    --gold-accent: hsl(46, 65%, 52%); /* Elegant gold */
+    --gold-accent-hover: hsl(46, 65%, 45%); /* Deeper gold for hover states */
 
     --card: hsl(0 0% 100%);
     --card-foreground: hsl(222.2 84% 4.9%);
@@ -141,6 +144,10 @@
   .dark {
     --background: hsl(222.2 84% 4.9%);
     --foreground: hsl(210 40% 98%);
+
+    /* Premium Accents Dark Mode */
+    --gold-accent: hsl(46, 75%, 60%); 
+    --gold-accent-hover: hsl(46, 75%, 50%);
 
     --card: hsl(222.2 84% 4.9%);
     --card-foreground: hsl(210 40% 98%);

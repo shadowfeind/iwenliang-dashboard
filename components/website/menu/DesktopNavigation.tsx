@@ -15,11 +15,19 @@ const DesktopNavigation = () => {
           <div
             key={item.title}
             className={cn(
-              "uppercase text-sm font-semibold",
-              active && "underline"
+              "uppercase text-[13px] tracking-widest font-medium transition-all duration-300 relative group",
+              active ? "text-black" : "text-gray-500 hover:text-black",
             )}
           >
-            <Link href={item.path}>{item.title}</Link>
+            <Link href={item.path} className="pb-1 block">
+              {item.title}
+              <span
+                className={cn(
+                  "absolute left-0 bottom-0 w-full h-[2px] bg-[#D4AF37] transition-transform duration-300 origin-left",
+                  active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+                )}
+              />
+            </Link>
           </div>
         );
       })}
