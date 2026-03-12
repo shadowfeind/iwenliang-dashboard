@@ -34,7 +34,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
   return (
     <SlideInLeft>
       <div className="space-y-4">
-        <div className="relative overflow-hidden rounded-[32px] border border-black/8 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.18),_transparent_34%),linear-gradient(180deg,_#f8f4ec_0%,_#f2ebe0_100%)] p-3 shadow-[0_30px_100px_-60px_rgba(15,23,42,0.4)] sm:p-4">
+        <div className="relative overflow-hidden rounded-[32px] border border-black/8 bg-white p-3 shadow-[0_30px_100px_-60px_rgba(15,23,42,0.4)] sm:p-4">
           <div className="absolute left-6 top-6 z-10 rounded-full border border-white/60 bg-white/85 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-800 backdrop-blur-sm">
             {String(currentImage + 1).padStart(2, "0")} /{" "}
             {String(images.length).padStart(2, "0")}
@@ -59,12 +59,12 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               </button>
             </div>
           ) : null}
-          <div className="relative aspect-[4/4.5] overflow-hidden rounded-[26px] bg-white sm:aspect-[4/4.3]">
+          <div className="relative aspect-[4/4.5] overflow-hidden rounded-[26px] bg-[#faf8f2] sm:aspect-[4/4.3]">
             <Image
               src={images[currentImage]}
               alt={`Product image ${currentImage + 1}`}
               fill
-              className="object-cover object-center"
+              className="object-contain object-center p-4 sm:p-6"
               sizes="(min-width: 1280px) 640px, (min-width: 1024px) 50vw, 100vw"
               priority={currentImage === 0}
             />

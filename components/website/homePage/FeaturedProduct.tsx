@@ -61,7 +61,7 @@ const FeaturedProduct = ({ featured }: Props) => {
             <TitleHeader title="Featured Product" />
           </motion.div>
         </div>
-        <motion.div variants={itemVariants} className="overflow-hidden">
+        <motion.div variants={itemVariants} className="overflow-hidden md:mt-16">
           <ProductCarousel products={featured} />
         </motion.div>
       </SpacedContainer>

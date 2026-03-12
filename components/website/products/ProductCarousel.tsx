@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { ProductType } from "@/features/products/product.types";
+import { cn } from "@/lib/utils";
 import {
   Carousel,
   CarouselApi,
@@ -14,9 +15,17 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface ProductCarouselProps {
   products: ProductType[];
+  eyebrow?: string;
+  title?: string;
+  plain?: boolean;
 }
 
-const ProductCarousel = ({ products }: ProductCarouselProps) => {
+const ProductCarousel = ({
+  products,
+  eyebrow = "Featured edit",
+  title = "A rotating selection of our strongest bracelet designs.",
+  plain = false,
+}: ProductCarouselProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -61,14 +70,21 @@ const ProductCarousel = ({ products }: ProductCarouselProps) => {
   }
 
   return (
-    <div className="relative overflow-hidden rounded-[32px] border border-black/8 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.14),_transparent_28%),linear-gradient(180deg,_#fffaf2_0%,_#ffffff_100%)] px-4 py-6 shadow-[0_24px_80px_-56px_rgba(15,23,42,0.45)] md:px-6 md:py-8">
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-[32px] border border-black/8 px-4 py-6 shadow-[0_24px_80px_-56px_rgba(15,23,42,0.45)] md:px-6 md:py-8",
+        plain
+          ? "bg-white"
+          : "bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.14),_transparent_28%),linear-gradient(180deg,_#fffaf2_0%,_#ffffff_100%)]",
+      )}
+    >
       <div className="mb-6 flex items-center justify-between gap-4 px-1 md:mb-8">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-500">
-            Featured edit
+            {eyebrow}
           </p>
           <h3 className="mt-2 font-serif text-2xl text-neutral-950 md:text-3xl">
-            A rotating selection of our strongest bracelet designs.
+            {title}
           </h3>
         </div>
         <div className="hidden items-center gap-2 md:flex">

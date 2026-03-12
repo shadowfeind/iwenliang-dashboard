@@ -1,4 +1,8 @@
-import { getProductBySlugQuery } from "@/features/products/product.query";
+import {
+  getProductBySlugQuery,
+  getProductsForFrontPage,
+} from "@/features/products/product.query";
+import ProductCarousel from "../ProductCarousel";
 import ImageGallery from "./ImageGallery";
 import SingleProductDetails from "./SingleProductDetails";
 
@@ -7,7 +11,10 @@ type Props = {
 };
 
 export default async function SingleProduct({ slug }: Props) {
-  const data = await getProductBySlugQuery(slug);
+  const [data, frontPageProducts] = await Promise.all([
+    getProductBySlugQuery(slug),
+    getProductsForFrontPage(),
+  ]);
 
   if ("error" in data) {
     return (
@@ -15,9 +22,13 @@ export default async function SingleProduct({ slug }: Props) {
     );
   }
 
+  const featuredProducts =
+    "error" in frontPageProducts
+      ? []
+      : frontPageProducts.featured.filter((product) => product.slug !== data.slug);
+
   return (
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-80 bg-[radial-gradient(circle_at_top_left,_rgba(212,175,55,0.12),_transparent_48%)]" />
+    <section>
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)] xl:gap-12">
           <ImageGallery images={data.images} />
@@ -63,6 +74,17 @@ export default async function SingleProduct({ slug }: Props) {
             </p>
           </div>
         </div>
+
+        {featuredProducts.length ? (
+          <div className="mt-16 border-t border-black/8 pt-12">
+            <ProductCarousel
+              products={featuredProducts}
+              plain
+              eyebrow="Featured products"
+              title="Explore more handcrafted bracelets from our featured collection."
+            />
+          </div>
+        ) : null}
       </div>
     </section>
   );
